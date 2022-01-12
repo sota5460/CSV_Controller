@@ -422,6 +422,7 @@ namespace MicosController
             this.button_select_ICB.TabIndex = 2;
             this.button_select_ICB.Text = "在庫csvを選択";
             this.button_select_ICB.UseVisualStyleBackColor = true;
+            this.button_select_ICB.Click += new System.EventHandler(this.button_select_ICB_Click);
             // 
             // button_select_mmb
             // 

@@ -67,9 +67,9 @@ namespace MicosController
                     string[] column_data = parser.ReadFields();
 
                     row = Component_Table_MMB.NewRow();
-                    for (int i = 0; i < column.Length; i++)
+                    for (int i = 0; i < column.Length-1; i++) //MMBファイルの方は一番右の列が列名だけ用意されて要素が存在しないので、-1してある。
                     {
-                        row[i] = column[i];
+                        row[i] = column_data[i];
                     }
                     Component_Table_MMB.Rows.Add(row);
                 }
@@ -93,7 +93,7 @@ namespace MicosController
                 for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                 {
                     Component_Table_ICB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
-                    Console.WriteLine(column[i]);
+                    //Console.WriteLine(column[i]);
                 }
 
                 while (parser.EndOfData == false)       //2行目以降のデータをﾃｰﾌﾞﾙに格納していく。
@@ -101,9 +101,9 @@ namespace MicosController
                     string[] column_data = parser.ReadFields();
 
                     row = Component_Table_ICB.NewRow();
-                    for (int i = 0; i < column.Length; i++)
+                    for (int i = 0; i < column.Length - 1; i++)
                     {
-                        row[i] = column[i];
+                        row[i] = column_data[i];
                     }
                     Component_Table_ICB.Rows.Add(row);
                 }
@@ -212,6 +212,12 @@ namespace MicosController
         {
             init_component_table_MMB();
             textBox_selected_mmb.Text = TheLatest_File_MMB;
+        }
+
+        private void button_select_ICB_Click(object sender, EventArgs e)
+        {
+            init_component_table_ICB();
+            textBox_selected_ICB.Text = TheLatest_File_ICB;
         }
 
         private void MicosController1_btn_Click(object sender, EventArgs e)
