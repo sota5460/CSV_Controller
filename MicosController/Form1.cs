@@ -58,20 +58,20 @@ namespace MicosController
 
                 for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                 {
-                    Component_Table_ICB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
-                    Console.WriteLine(column[i]);
+                    Component_Table_MMB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+                    //Console.WriteLine(column[i]);
                 }
 
                 while (parser.EndOfData == false)       //2行目以降のデータをﾃｰﾌﾞﾙに格納していく。
                 {
                     string[] column_data = parser.ReadFields();
 
-                    row = Component_Table_ICB.NewRow();
+                    row = Component_Table_MMB.NewRow();
                     for (int i = 0; i < column.Length; i++)
                     {
                         row[i] = column[i];
                     }
-                    Component_Table_ICB.Rows.Add(row);
+                    Component_Table_MMB.Rows.Add(row);
                 }
 
                 DS.Tables.Add(Component_Table_MMB);
@@ -167,6 +167,11 @@ namespace MicosController
 
         }
 
+        private void button_create_db_Click(object sender, EventArgs e)
+        {
+            Transport_Form2();
+            form2.read_database_column();
+        }
         private void OpenMicos_btn_Click(object sender, EventArgs e)
         {
             //もしMicosがすでに開いていたら一度消す。
@@ -526,6 +531,7 @@ namespace MicosController
         public void Transport_Form2()
         {
             form2 = new Form2();
+            form2.Show();
             form2.Component_Table_ICB = Component_Table_ICB;
             form2.Component_Table_MMB = Component_Table_MMB;
         }

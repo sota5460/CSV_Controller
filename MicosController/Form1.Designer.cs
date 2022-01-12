@@ -63,11 +63,11 @@ namespace MicosController
             this.button_debug = new System.Windows.Forms.Button();
             this.textBox_dbug = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button_create_db = new System.Windows.Forms.Button();
-            this.button_select_mmb = new System.Windows.Forms.Button();
-            this.button_select_ICB = new System.Windows.Forms.Button();
-            this.textBox_selected_mmb = new System.Windows.Forms.TextBox();
             this.textBox_selected_ICB = new System.Windows.Forms.TextBox();
+            this.textBox_selected_mmb = new System.Windows.Forms.TextBox();
+            this.button_select_ICB = new System.Windows.Forms.Button();
+            this.button_select_mmb = new System.Windows.Forms.Button();
+            this.button_create_db = new System.Windows.Forms.Button();
             this.panel_micos_setting.SuspendLayout();
             this.panel_buhin.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -400,14 +400,28 @@ namespace MicosController
             this.panel1.Size = new System.Drawing.Size(320, 369);
             this.panel1.TabIndex = 28;
             // 
-            // button_create_db
+            // textBox_selected_ICB
             // 
-            this.button_create_db.Location = new System.Drawing.Point(75, 128);
-            this.button_create_db.Name = "button_create_db";
-            this.button_create_db.Size = new System.Drawing.Size(179, 23);
-            this.button_create_db.TabIndex = 0;
-            this.button_create_db.Text = "データベースを作成";
-            this.button_create_db.UseVisualStyleBackColor = true;
+            this.textBox_selected_ICB.Location = new System.Drawing.Point(178, 79);
+            this.textBox_selected_ICB.Name = "textBox_selected_ICB";
+            this.textBox_selected_ICB.Size = new System.Drawing.Size(129, 19);
+            this.textBox_selected_ICB.TabIndex = 4;
+            // 
+            // textBox_selected_mmb
+            // 
+            this.textBox_selected_mmb.Location = new System.Drawing.Point(178, 40);
+            this.textBox_selected_mmb.Name = "textBox_selected_mmb";
+            this.textBox_selected_mmb.Size = new System.Drawing.Size(129, 19);
+            this.textBox_selected_mmb.TabIndex = 3;
+            // 
+            // button_select_ICB
+            // 
+            this.button_select_ICB.Location = new System.Drawing.Point(29, 77);
+            this.button_select_ICB.Name = "button_select_ICB";
+            this.button_select_ICB.Size = new System.Drawing.Size(133, 23);
+            this.button_select_ICB.TabIndex = 2;
+            this.button_select_ICB.Text = "在庫csvを選択";
+            this.button_select_ICB.UseVisualStyleBackColor = true;
             // 
             // button_select_mmb
             // 
@@ -419,28 +433,15 @@ namespace MicosController
             this.button_select_mmb.UseVisualStyleBackColor = true;
             this.button_select_mmb.Click += new System.EventHandler(this.button_select_mmb_Click);
             // 
-            // button_select_ICB
+            // button_create_db
             // 
-            this.button_select_ICB.Location = new System.Drawing.Point(29, 77);
-            this.button_select_ICB.Name = "button_select_ICB";
-            this.button_select_ICB.Size = new System.Drawing.Size(133, 23);
-            this.button_select_ICB.TabIndex = 2;
-            this.button_select_ICB.Text = "在庫csvを選択";
-            this.button_select_ICB.UseVisualStyleBackColor = true;
-            // 
-            // textBox_selected_mmb
-            // 
-            this.textBox_selected_mmb.Location = new System.Drawing.Point(178, 40);
-            this.textBox_selected_mmb.Name = "textBox_selected_mmb";
-            this.textBox_selected_mmb.Size = new System.Drawing.Size(129, 19);
-            this.textBox_selected_mmb.TabIndex = 3;
-            // 
-            // textBox_selected_ICB
-            // 
-            this.textBox_selected_ICB.Location = new System.Drawing.Point(178, 79);
-            this.textBox_selected_ICB.Name = "textBox_selected_ICB";
-            this.textBox_selected_ICB.Size = new System.Drawing.Size(129, 19);
-            this.textBox_selected_ICB.TabIndex = 4;
+            this.button_create_db.Location = new System.Drawing.Point(75, 128);
+            this.button_create_db.Name = "button_create_db";
+            this.button_create_db.Size = new System.Drawing.Size(179, 23);
+            this.button_create_db.TabIndex = 0;
+            this.button_create_db.Text = "データベースを作成";
+            this.button_create_db.UseVisualStyleBackColor = true;
+            this.button_create_db.Click += new System.EventHandler(this.button_create_db_Click);
             // 
             // Form1
             // 

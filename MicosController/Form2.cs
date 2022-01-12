@@ -24,16 +24,27 @@ namespace MicosController
 
         public void read_database_column()
         {
-            foreach (DataColumn column in Component_Table_ICB.Columns)
-            {
-                checkedListBox_display_column.Items.Add(column);
-            }
+            //foreach (DataColumn column in Component_Table_ICB.Columns)
+            //{
+            //    checkedListBox_display_column.Items.Add(column);
+            //    Console.WriteLine(column);
+            //}
 
-            foreach (DataColumn column in Component_Table_MMB.Columns)
-            {
-                checkedListBox_display_column.Items.Add(column);
-            }
+            //foreach (DataColumn column in Component_Table_MMB.Columns)
+            //{
+            //    checkedListBox_display_column.Items.Add(column);
+            //    Console.WriteLine(column);
+            //}
 
+
+                foreach (DataColumn column in Component_Table_MMB.Columns)
+                {
+                    
+                    checkedListBox_display_column.Items.Add(Component_Table_MMB.Rows[0][column]);
+                   
+                }
+            
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
