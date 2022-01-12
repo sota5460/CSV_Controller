@@ -92,7 +92,15 @@ namespace MicosController
 
                 for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                 {
-                    Component_Table_ICB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+
+                    if (i == 10) // 10列目：現在在庫数
+                    {
+                        Component_Table_ICB.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
+                    }
+                    else
+                    {
+                        Component_Table_ICB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+                    }
                     //Console.WriteLine(column[i]);
                 }
 
@@ -103,7 +111,15 @@ namespace MicosController
                     row = Component_Table_ICB.NewRow();
                     for (int i = 0; i < column.Length - 1; i++)
                     {
-                        row[i] = column_data[i];
+                        if(i == 10)
+                        {
+                            row[i] = float.Parse(column_data[i]);
+                        }
+                        else
+                        {
+                            row[i] = column_data[i];
+                        }
+                       
                     }
                     Component_Table_ICB.Rows.Add(row);
                 }
