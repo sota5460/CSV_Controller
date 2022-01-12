@@ -40,7 +40,7 @@ namespace MicosController
                 foreach (DataColumn column in Component_Table_MMB.Columns)
                 {
                     
-                    checkedListBox_display_column.Items.Add(Component_Table_MMB.Rows[0][column]);
+                    checkedListBox_display_column.Items.Add(Component_Table_MMB.Rows[0][column]); //一行目の列名をチェックボックスに反映する。
                    
                 }
             
