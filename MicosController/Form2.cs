@@ -32,6 +32,8 @@ namespace MicosController
         public float zaiko_h=100000000;
 
         public string querry_statement = "[親工程] LIKE '%%'";
+        public string querry_mmb = "";
+        public string querry_icb = "";
 
 
 
@@ -177,7 +179,7 @@ namespace MicosController
             }
             else
             {
-                component_cd = textBox_productcode_tosearch.Text.PadLeft(6, '0'); //7文字で0左詰め
+                component_cd = textBox_productcode_tosearch.Text.PadLeft(6, '0'); //6文字で0左詰め
             }
            
 
@@ -213,9 +215,11 @@ namespace MicosController
             Console.WriteLine("{0}個のデータが見つかりました。", i);
         }
 
-        private void detail_search_notlinq()
+        private void detail_search_byQuerry()
         {
             // init_component_list();
+
+            //品目CDの入力確認と代入
             if (textBox_productcode_tosearch.Text == "")
             {
                 MessageBox.Show("品目CDを入力してください。");
@@ -223,13 +227,27 @@ namespace MicosController
             }
             else
             {
-                component_cd = textBox_productcode_tosearch.Text.PadLeft(6, '0'); //7文字で0左詰め
+                component_cd = textBox_productcode_tosearch.Text.PadLeft(6, '0'); //6文字で0左詰め
+            }
+
+            //クエリの入力確認と代入
+            if(textBox_querry_mmb.Text=="" || textBox_querry_icb.Text == "")
+            {
+                MessageBox.Show("クエリを入力してください。");
+                return;
+            }
+            else
+            {
+                querry_icb = textBox_querry_icb.Text;
+                querry_mmb = textBox_querry_mmb.Text;
+
+                querry_mmb = "選択品目ＣＤ " + "LIKE "+ "'" + component_cd + "'" +" AND "+ querry_mmb;
             }
 
 
-            if (Component_Table_MMB.Select(querry_statement).Length !=0) 
+            if (Component_Table_MMB.Select(querry_mmb).Length !=0) 
             {
-                search_components_detail = Component_Table_MMB.Select(querry_statement).CopyToDataTable();
+                search_components_detail = Component_Table_MMB.Select(querry_mmb).CopyToDataTable();
             }
             else
             {
@@ -241,23 +259,21 @@ namespace MicosController
 
             //Console.WriteLine(search_components_detail.Rows[0][7]);
             //Console.WriteLine(Component_Table_MMB.Rows[0][7].ToString().Length);
-            //    int i = 0;
-            //    foreach (DataRow row in search_components_detail.Rows)
-            //    {
-            //        if (Component_Table_ICB.AsEnumerable().Any(x => (string)x["品目ＣＤ"] == (string)row["子品目コード"] && (string)x["保管場所"] == hokan_basyo && zaiko_l <= (float)x["現在在庫数"] && zaiko_h >= (float)x["現在在庫数"]))//copytodatatable使うときデータが一個も引っかからないとエラーになる。Any（）で存在チェックしてから使うのがテンプレ。
-            //        {
-            //            component_list.Merge((Component_Table_ICB.AsEnumerable()
-            //                .Where(x => (string)x["品目ＣＤ"] == (string)row["子品目コード"] && (string)x["保管場所"] == hokan_basyo && zaiko_l <= (float)x["現在在庫数"] && zaiko_h >= (float)x["現在在庫数"])
-            //                .CopyToDataTable()));
-            //            i++;
-            //        }
-            //    }
-            //    Console.WriteLine("{0}個のデータが見つかりました。", i);
+            int i = 0;
+            foreach (DataRow row in search_components_detail.Rows)
+            {
+                if (Component_Table_ICB.Select(querry_icb).Length!=0)
+                {
+                    component_list.Merge((Component_Table_ICB.Select(querry_icb).CopyToDataTable()));
+                    i++;
+                }
+            }
+            Console.WriteLine("{0}個のデータが見つかりました。", i);
         }
 
         private void button_extract_with_detail_Click(object sender, EventArgs e)
         {
-            detail_search_notlinq();
+            detail_search_byQuerry();
         }
     }
 }
