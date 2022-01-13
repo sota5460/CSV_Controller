@@ -20,6 +20,10 @@ namespace MicosController
 
         public DataTable search_components_detail;
 
+        //重複消去するためオブジェクト　
+        public DataTable notDublicated; //重複を消したﾃｰﾌﾞﾙ
+        public DataView dtView;　// ﾃｰﾌﾞﾙ操作するためのオブジェクト。
+
         //検索条件用の変数
         public string component_cd;
         public string oya_koutei = "???";
@@ -54,13 +58,27 @@ namespace MicosController
 
         public void read_database_column() //データベースを読んで、チェックボックスに項目を追加する。
         {
-
+            //表示列項目の追加
             foreach (DataColumn column in Component_Table_MMB.Columns)
             {
             checkedListBox_display_column.Items.Add(column.ColumnName);　// Component_Table_MMBﾃｰﾌﾞﾙの列名をチェックボックスに反映する。
             }
 
-            Component_Table_MMB.AsEnumerable().GroupBy()
+            //データ抽出設定の親工程項目の追加
+            dtView = new DataView(Component_Table_MMB);
+            notDublicated = dtView.ToTable(true,"親工程"); //DataViewオブジェクトにデータﾃｰﾌﾞﾙを読んで、"親工程"親工程の重複を消去してる。
+
+            foreach (DataRow row in notDublicated.Rows){
+                comboBox_oyakoutei.Items.Add(row["親工程"]);
+            }
+
+            //データ抽出設定の保管場所項目の追加
+            notDublicated = dtView.ToTable(true, "標準出庫保管場所");
+
+            foreach (DataRow row in notDublicated.Rows)
+            {
+                comboBox_hokanbasyo.Items.Add(row["標準出庫保管場所"]);
+            }
 
             init_component_list();
 
