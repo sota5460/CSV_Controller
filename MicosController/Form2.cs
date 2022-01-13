@@ -151,6 +151,7 @@ namespace MicosController
             Console.WriteLine(component_list.Rows[0][7].ToString().Length);
             Console.WriteLine("row num is {0} ", i);
 
+            a();
         }
 
         private void detail_search()
@@ -256,6 +257,17 @@ namespace MicosController
             Console.WriteLine("{0}個のデータが見つかりました。", i);
         }
 
+        public void a()
+        {
+            dataGridView_result.DataSource = component_list;
+        }
+
+        /// <summary>
+        /// ボタンクリック動作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void button_detail_search_Click(object sender, EventArgs e)
         {
             panel_detail_search.Visible = true;
@@ -272,8 +284,6 @@ namespace MicosController
         {
             read_setting_moredetail();
         }
-
-
 
         private void button_extract_with_detail_Click(object sender, EventArgs e)
         {

@@ -38,7 +38,7 @@ namespace MicosController
             this.button_serach_component = new System.Windows.Forms.Button();
             this.textBox_productcode_tosearch = new System.Windows.Forms.TextBox();
             this.textBox_querry_mmb = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_result = new System.Windows.Forms.DataGridView();
             this.label_product_cd = new System.Windows.Forms.Label();
             this.panel_detail_search = new System.Windows.Forms.Panel();
             this.button_extract_detail = new System.Windows.Forms.Button();
@@ -60,7 +60,7 @@ namespace MicosController
             this.button_panel_querry_close = new System.Windows.Forms.Button();
             this.button_extract_with_detail = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_result)).BeginInit();
             this.panel_detail_search.SuspendLayout();
             this.panel_querry_search.SuspendLayout();
             this.SuspendLayout();
@@ -146,14 +146,14 @@ namespace MicosController
             this.textBox_querry_mmb.Size = new System.Drawing.Size(192, 24);
             this.textBox_querry_mmb.TabIndex = 8;
             // 
-            // dataGridView1
+            // dataGridView_result
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(602, 98);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(311, 290);
-            this.dataGridView1.TabIndex = 10;
+            this.dataGridView_result.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_result.Location = new System.Drawing.Point(417, 35);
+            this.dataGridView_result.Name = "dataGridView_result";
+            this.dataGridView_result.RowTemplate.Height = 21;
+            this.dataGridView_result.Size = new System.Drawing.Size(626, 437);
+            this.dataGridView_result.TabIndex = 10;
             // 
             // label_product_cd
             // 
@@ -365,7 +365,7 @@ namespace MicosController
             this.Controls.Add(this.button_detail_search);
             this.Controls.Add(this.panel_detail_search);
             this.Controls.Add(this.label_product_cd);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_result);
             this.Controls.Add(this.textBox_productcode_tosearch);
             this.Controls.Add(this.button_serach_component);
             this.Controls.Add(this.panel1);
@@ -374,7 +374,7 @@ namespace MicosController
             this.Text = "Form2";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_result)).EndInit();
             this.panel_detail_search.ResumeLayout(false);
             this.panel_detail_search.PerformLayout();
             this.panel_querry_search.ResumeLayout(false);
@@ -395,7 +395,7 @@ namespace MicosController
         private System.Windows.Forms.Button button_serach_component;
         private System.Windows.Forms.TextBox textBox_productcode_tosearch;
         private System.Windows.Forms.TextBox textBox_querry_mmb;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_result;
         private System.Windows.Forms.Label label_product_cd;
         private System.Windows.Forms.Panel panel_detail_search;
         private System.Windows.Forms.Label label2;
