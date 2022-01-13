@@ -32,8 +32,6 @@ namespace MicosController
             this.button_csvout = new System.Windows.Forms.Button();
             this.checkedListBox_display_column = new System.Windows.Forms.CheckedListBox();
             this.label_display_column = new System.Windows.Forms.Label();
-            this.checkedListBox_serach_column = new System.Windows.Forms.CheckedListBox();
-            this.label_search_column = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_serach_component = new System.Windows.Forms.Button();
             this.textBox_productcode_tosearch = new System.Windows.Forms.TextBox();
@@ -59,10 +57,13 @@ namespace MicosController
             this.textBox_querry_icb = new System.Windows.Forms.TextBox();
             this.button_panel_querry_close = new System.Windows.Forms.Button();
             this.button_extract_with_detail = new System.Windows.Forms.Button();
+            this.checkedListBox_keihi = new System.Windows.Forms.CheckedListBox();
+            this.panel_table_extract = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_result)).BeginInit();
             this.panel_detail_search.SuspendLayout();
             this.panel_querry_search.SuspendLayout();
+            this.panel_table_extract.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_csvout
@@ -77,48 +78,29 @@ namespace MicosController
             // checkedListBox_display_column
             // 
             this.checkedListBox_display_column.FormattingEnabled = true;
-            this.checkedListBox_display_column.Location = new System.Drawing.Point(12, 85);
+            this.checkedListBox_display_column.Location = new System.Drawing.Point(12, 29);
             this.checkedListBox_display_column.Name = "checkedListBox_display_column";
             this.checkedListBox_display_column.Size = new System.Drawing.Size(120, 130);
             this.checkedListBox_display_column.TabIndex = 1;
+            this.checkedListBox_display_column.SelectedValueChanged += new System.EventHandler(this.checkedListBox_display_column_SelectedValueChanged);
             // 
             // label_display_column
             // 
             this.label_display_column.AutoSize = true;
             this.label_display_column.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_display_column.Location = new System.Drawing.Point(9, 67);
+            this.label_display_column.Location = new System.Drawing.Point(9, 8);
             this.label_display_column.Name = "label_display_column";
             this.label_display_column.Size = new System.Drawing.Size(55, 15);
             this.label_display_column.TabIndex = 2;
             this.label_display_column.Text = "表示列";
             // 
-            // checkedListBox_serach_column
-            // 
-            this.checkedListBox_serach_column.FormattingEnabled = true;
-            this.checkedListBox_serach_column.Location = new System.Drawing.Point(12, 236);
-            this.checkedListBox_serach_column.Name = "checkedListBox_serach_column";
-            this.checkedListBox_serach_column.Size = new System.Drawing.Size(120, 130);
-            this.checkedListBox_serach_column.TabIndex = 3;
-            // 
-            // label_search_column
-            // 
-            this.label_search_column.AutoSize = true;
-            this.label_search_column.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_search_column.Location = new System.Drawing.Point(9, 218);
-            this.label_search_column.Name = "label_search_column";
-            this.label_search_column.Size = new System.Drawing.Size(55, 15);
-            this.label_search_column.TabIndex = 4;
-            this.label_search_column.Text = "検索列";
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.checkedListBox_display_column);
             this.panel1.Controls.Add(this.label_display_column);
-            this.panel1.Controls.Add(this.label_search_column);
-            this.panel1.Controls.Add(this.checkedListBox_serach_column);
-            this.panel1.Location = new System.Drawing.Point(1059, 12);
+            this.panel1.Location = new System.Drawing.Point(1059, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(152, 378);
+            this.panel1.Size = new System.Drawing.Size(152, 178);
             this.panel1.TabIndex = 5;
             // 
             // button_serach_component
@@ -355,11 +337,29 @@ namespace MicosController
             this.button_extract_with_detail.UseVisualStyleBackColor = true;
             this.button_extract_with_detail.Click += new System.EventHandler(this.button_extract_with_detail_Click);
             // 
+            // checkedListBox_keihi
+            // 
+            this.checkedListBox_keihi.FormattingEnabled = true;
+            this.checkedListBox_keihi.Location = new System.Drawing.Point(13, 19);
+            this.checkedListBox_keihi.Name = "checkedListBox_keihi";
+            this.checkedListBox_keihi.Size = new System.Drawing.Size(120, 46);
+            this.checkedListBox_keihi.TabIndex = 3;
+            this.checkedListBox_keihi.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_keihi_SelectedIndexChanged);
+            // 
+            // panel_table_extract
+            // 
+            this.panel_table_extract.Controls.Add(this.checkedListBox_keihi);
+            this.panel_table_extract.Location = new System.Drawing.Point(417, 478);
+            this.panel_table_extract.Name = "panel_table_extract";
+            this.panel_table_extract.Size = new System.Drawing.Size(626, 88);
+            this.panel_table_extract.TabIndex = 17;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 593);
+            this.Controls.Add(this.panel_table_extract);
             this.Controls.Add(this.button_extract_with_detail);
             this.Controls.Add(this.panel_querry_search);
             this.Controls.Add(this.button_detail_search);
@@ -379,6 +379,7 @@ namespace MicosController
             this.panel_detail_search.PerformLayout();
             this.panel_querry_search.ResumeLayout(false);
             this.panel_querry_search.PerformLayout();
+            this.panel_table_extract.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,8 +390,6 @@ namespace MicosController
         private System.Windows.Forms.Button button_csvout;
         private System.Windows.Forms.CheckedListBox checkedListBox_display_column;
         private System.Windows.Forms.Label label_display_column;
-        private System.Windows.Forms.CheckedListBox checkedListBox_serach_column;
-        private System.Windows.Forms.Label label_search_column;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button_serach_component;
         private System.Windows.Forms.TextBox textBox_productcode_tosearch;
@@ -416,5 +415,7 @@ namespace MicosController
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button_extract_detail;
         private System.Windows.Forms.Button button_querry_extract;
+        private System.Windows.Forms.CheckedListBox checkedListBox_keihi;
+        private System.Windows.Forms.Panel panel_table_extract;
     }
 }

@@ -18,25 +18,26 @@ namespace MicosController
 
         public DataTable component_list = new DataTable(); //製品コードから構成部品を抽出し、その在庫を格納。（列名は在庫リストと同じ。）
 
+        public DataTable search_components;
         public DataTable search_components_detail;
 
-        //重複消去するためオブジェクト　
+        //重複消去するためのオブジェクト　
         public DataTable notDublicated; //重複を消したﾃｰﾌﾞﾙ
         public DataView dtView;　// ﾃｰﾌﾞﾙ操作するためのオブジェクト。
 
         //検索条件用の変数
         public string component_cd;
-        public string oya_koutei = "???";
-        public string hokan_basyo = "???????";
+        public string oya_koutei = "";
+        public string hokan_basyo = "";
         public float zaiko_l=0;
         public float zaiko_h=100000000;
 
-        public string querry_statement = "[親工程] LIKE '%%'";
         public string querry_mmb = "";
         public string querry_icb = "";
 
+        
 
-
+ 
         public Form2()
         {
             InitializeComponent();
@@ -52,17 +53,28 @@ namespace MicosController
             panel_querry_search.Visible = false;
             panel_querry_search.Enabled = false;
 
+            panel_table_extract.Visible = false;
+            panel_table_extract.Enabled = false;
 
-            textBox_zaikoh.Text = zaiko_l.ToString();
-            textBox_zaikol.Text = zaiko_h.ToString();
+
+            textBox_zaikoh.Text = zaiko_h.ToString();
+            textBox_zaikol.Text = zaiko_l.ToString();
+
+            checkedListBox_display_column.Visible = false;
+            checkedListBox_display_column.Enabled = false;
         }
 
         public void read_database_column() //データベースを読んで、チェックボックスに項目を追加する。
         {
             //表示列項目の追加
-            foreach (DataColumn column in Component_Table_MMB.Columns)
+            foreach (DataColumn column in Component_Table_ICB.Columns)
             {
             checkedListBox_display_column.Items.Add(column.ColumnName);　// Component_Table_MMBﾃｰﾌﾞﾙの列名をチェックボックスに反映する。
+            }
+
+            for(int i = 0; i < checkedListBox_display_column.Items.Count; i++)
+            {
+                checkedListBox_display_column.SetItemChecked(i, true);
             }
 
             //データ抽出設定の親工程項目の追加
@@ -87,7 +99,7 @@ namespace MicosController
             Console.WriteLine(Component_Table_MMB.Rows[0][0].ToString().Length);
         }
 
-        public void init_component_list() //component_listに列名を追加する。
+        public void init_component_list() //component_list(抽出結果用のﾃｰﾌﾞﾙ)に列名を追加する。
         {
             foreach (DataColumn column in Component_Table_ICB.Columns)  //列の名前を追加する。
             {
@@ -115,6 +127,8 @@ namespace MicosController
         
         private void button_serach_component_Click(object sender, EventArgs e)
         {
+            
+
             if (textBox_productcode_tosearch.Text == "")
             {
                 MessageBox.Show("品目CDを入力してください。");
@@ -126,10 +140,21 @@ namespace MicosController
             }
 
             component_cd = textBox_productcode_tosearch.Text.PadLeft(6,'0'); //6文字で0左詰め
-            DataTable search_components = Component_Table_MMB.AsEnumerable().Where(x => (string)x["選択品目ＣＤ"] == component_cd).CopyToDataTable(); //検索が一個も引っかからないとエラーになる。
 
-            Console.WriteLine(search_components.Rows[0][7]);
-            Console.WriteLine(Component_Table_MMB.Rows[0][7].ToString().Length);
+            if (Component_Table_MMB.AsEnumerable().Any(x => (string)x["選択品目ＣＤ"] == component_cd) == true)
+            {
+                search_components = Component_Table_MMB.AsEnumerable().Where(x => (string)x["選択品目ＣＤ"] == component_cd).CopyToDataTable(); //検索が一個も引っかからないとエラーになる。
+            }
+            else
+            {
+                MessageBox.Show("条件にあうデータがありません。");
+                return;
+            }
+
+           
+
+
+            component_list = new DataTable();
 
             int i = 0;
             foreach (DataRow row in search_components.Rows)
@@ -145,13 +170,14 @@ namespace MicosController
                 
             }
 
-            Console.WriteLine(component_list.Rows[0][1].ToString());
-            Console.WriteLine(component_list.Rows[1][1]);
-            Console.WriteLine("aaa");
-            Console.WriteLine(component_list.Rows[0][7].ToString().Length);
-            Console.WriteLine("row num is {0} ", i);
+            Console.WriteLine("{0}個のデータが見つかりました。", i);
 
-            a();
+            //dataGridViewを表示
+            dataGridView_result.DataSource = component_list;
+            checkedListBox_display_column.Visible = true;
+            checkedListBox_display_column.Enabled = true;
+
+            turn_on_table_extrct_panel();
         }
 
         private void detail_search()
@@ -181,10 +207,8 @@ namespace MicosController
                 return;
             }
 
-            //Component_Table_MMB.Rows["親工程"].
+            component_list = new DataTable();
 
-            //Console.WriteLine(search_components_detail.Rows[0][7]);
-            //Console.WriteLine(Component_Table_MMB.Rows[0][7].ToString().Length);
             int i = 0;
             foreach (DataRow row in search_components_detail.Rows)
             {
@@ -197,6 +221,11 @@ namespace MicosController
                 }
             }
             Console.WriteLine("{0}個のデータが見つかりました。", i);
+
+            //dataGridViewを表示
+            dataGridView_result.DataSource = component_list;
+            checkedListBox_display_column.Visible = true;
+            checkedListBox_display_column.Enabled = true;
         }
 
         private void detail_search_byQuerry()
@@ -239,6 +268,7 @@ namespace MicosController
                 return;
             }
 
+            component_list = new DataTable();
 
             //部品構成リストから抽出した部品の在庫を在庫リスト（icbファイル）から抽出する。
             int i = 0;
@@ -255,12 +285,15 @@ namespace MicosController
                 }
             }
             Console.WriteLine("{0}個のデータが見つかりました。", i);
-        }
 
-        public void a()
-        {
+            //dataGridViewを表示
             dataGridView_result.DataSource = component_list;
+            checkedListBox_display_column.Visible = true;
+            checkedListBox_display_column.Enabled = true;
         }
+        
+
+
 
         /// <summary>
         /// ボタンクリック動作
@@ -305,6 +338,103 @@ namespace MicosController
         private void button_extract_detail_Click(object sender, EventArgs e)
         {
             detail_search();
+        }
+
+        
+
+        /// <summary>
+        /// ﾃｰﾌﾞﾙ操作するための関数
+        /// </summary>
+        /// 
+
+        public void turn_on_table_extrct_panel()
+        {
+            panel_table_extract.Visible = true;
+            panel_table_extract.Enabled = true;
+
+            add_keihi_combobox();
+        }
+        public void add_keihi_combobox()
+        {
+            DataView dtGridView_Organize = new DataView(component_list);
+
+            foreach (DataRow row in dtGridView_Organize.ToTable(true, "経費").Rows) //dtGridView_Organize.ToTable(true, "経費")＝＞経費の重複を取り除いたﾃｰﾌﾞﾙ。
+            {
+                checkedListBox_keihi.Items.Add(row["経費"]);
+            }
+        }
+        public void extract_by_keihi()
+        {
+            DataTable Dispaly_Table;
+
+            int i = 0;
+            string temp_querry = "";
+            foreach (string selected_keihi in checkedListBox_keihi.CheckedItems)
+            {
+                if (i==0)
+                {
+                    temp_querry = querry_maker_fullmatch(0,"経費",selected_keihi,"");
+                }
+                else
+                {
+                    temp_querry = querry_maker_fullmatch(2, "経費", selected_keihi, temp_querry);
+                }
+                i++;
+            }
+
+            Dispaly_Table = component_list.Select(temp_querry).CopyToDataTable();
+            dataGridView_result.DataSource = Dispaly_Table;
+            
+        }
+
+        public string querry_maker_fullmatch(int and_or, string column_name, string target, string combine_querry) // 第一引数 0: 結合なし　1: ANDで結合 2:ORで結合
+        {
+            string Querry = "";
+            switch (and_or)
+            {
+                case (0):
+                    Querry = column_name + " " +"LIKE" + " " + "'" + target + "'";
+                    break;
+                case (1):
+                    Querry =combine_querry + " " + "AND" + " " + column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+                case (2):
+                    Querry = combine_querry + " " + "OR" + " " + column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+            }
+            return Querry;
+        }
+        /// <summary>
+        /// チェックボックスで列を表示にしたり非表示にする。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkedListBox_display_column_SelectedValueChanged(object sender, EventArgs e)
+        {
+            checkedListBox_display_column.Enabled = false;
+            foreach(string column in checkedListBox_display_column.Items)
+            {
+                foreach (string checked_column in checkedListBox_display_column.CheckedItems)
+                {
+                    if(column == checked_column)
+                    {
+                        dataGridView_result.Columns[checked_column].Visible = true;
+                        break;
+                    }
+                    else
+                    {
+                        dataGridView_result.Columns[column].Visible = false;
+                    }
+                }
+            }
+            checkedListBox_display_column.Enabled = true;
+        }
+
+        private void checkedListBox_keihi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            checkedListBox_keihi.Enabled = false;
+            extract_by_keihi();
+            checkedListBox_keihi.Enabled = true;
         }
     }
 }
