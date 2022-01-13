@@ -34,6 +34,7 @@ namespace MicosController
             this.btn_ComponentOut = new System.Windows.Forms.Button();
             this.textBox_username = new System.Windows.Forms.TextBox();
             this.panel_micos_setting = new System.Windows.Forms.Panel();
+            this.button_micossetting_on = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.button_processname = new System.Windows.Forms.Button();
             this.textBox_micosprocess = new System.Windows.Forms.TextBox();
@@ -45,6 +46,7 @@ namespace MicosController
             this.textBox_outputfilepath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel_buhin = new System.Windows.Forms.Panel();
+            this.button_buhinsetting_on = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.button_close_buhin_setting = new System.Windows.Forms.Button();
             this.comboBox_buhin_syubetu = new System.Windows.Forms.ComboBox();
@@ -69,6 +71,7 @@ namespace MicosController
             this.button_create_db = new System.Windows.Forms.Button();
             this.button_buhin_setting = new System.Windows.Forms.Button();
             this.panel_zaikoout_setting = new System.Windows.Forms.Panel();
+            this.button_zaikosetting_on = new System.Windows.Forms.Button();
             this.button_close_zaiko_setting = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -81,9 +84,9 @@ namespace MicosController
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.button_micossetting_on = new System.Windows.Forms.Button();
-            this.button_buhinsetting_on = new System.Windows.Forms.Button();
-            this.button_zaikosetting_on = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.button_create_db_zaiko = new System.Windows.Forms.Button();
+            this.button_TANAOROSHI = new System.Windows.Forms.Button();
             this.panel_micos_setting.SuspendLayout();
             this.panel_buhin.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -151,14 +154,23 @@ namespace MicosController
             this.panel_micos_setting.Size = new System.Drawing.Size(322, 182);
             this.panel_micos_setting.TabIndex = 5;
             // 
+            // button_micossetting_on
+            // 
+            this.button_micossetting_on.Location = new System.Drawing.Point(149, 154);
+            this.button_micossetting_on.Name = "button_micossetting_on";
+            this.button_micossetting_on.Size = new System.Drawing.Size(75, 23);
+            this.button_micossetting_on.TabIndex = 31;
+            this.button_micossetting_on.Text = "設定を反映";
+            this.button_micossetting_on.UseVisualStyleBackColor = true;
+            this.button_micossetting_on.Click += new System.EventHandler(this.button_micossetting_on_Click);
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label12.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label12.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label12.Location = new System.Drawing.Point(16, 13);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(135, 18);
+            this.label12.Size = new System.Drawing.Size(133, 16);
             this.label12.TabIndex = 30;
             this.label12.Text = "Micosの詳細設定";
             // 
@@ -265,14 +277,23 @@ namespace MicosController
             this.panel_buhin.Size = new System.Drawing.Size(447, 180);
             this.panel_buhin.TabIndex = 6;
             // 
+            // button_buhinsetting_on
+            // 
+            this.button_buhinsetting_on.Location = new System.Drawing.Point(278, 152);
+            this.button_buhinsetting_on.Name = "button_buhinsetting_on";
+            this.button_buhinsetting_on.Size = new System.Drawing.Size(75, 23);
+            this.button_buhinsetting_on.TabIndex = 32;
+            this.button_buhinsetting_on.Text = "設定を反映";
+            this.button_buhinsetting_on.UseVisualStyleBackColor = true;
+            this.button_buhinsetting_on.Click += new System.EventHandler(this.button_buhinsetting_on_Click);
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label13.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label13.Location = new System.Drawing.Point(3, 8);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(129, 18);
+            this.label13.Size = new System.Drawing.Size(127, 16);
             this.label13.TabIndex = 31;
             this.label13.Text = "部品構成表設定";
             // 
@@ -424,6 +445,10 @@ namespace MicosController
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button_TANAOROSHI);
+            this.panel1.Controls.Add(this.button_create_db_zaiko);
+            this.panel1.Controls.Add(this.label21);
             this.panel1.Controls.Add(this.textBox_selected_ICB);
             this.panel1.Controls.Add(this.textBox_selected_mmb);
             this.panel1.Controls.Add(this.button_select_ICB);
@@ -436,21 +461,21 @@ namespace MicosController
             // 
             // textBox_selected_ICB
             // 
-            this.textBox_selected_ICB.Location = new System.Drawing.Point(178, 79);
+            this.textBox_selected_ICB.Location = new System.Drawing.Point(178, 77);
             this.textBox_selected_ICB.Name = "textBox_selected_ICB";
             this.textBox_selected_ICB.Size = new System.Drawing.Size(129, 19);
             this.textBox_selected_ICB.TabIndex = 4;
             // 
             // textBox_selected_mmb
             // 
-            this.textBox_selected_mmb.Location = new System.Drawing.Point(178, 40);
+            this.textBox_selected_mmb.Location = new System.Drawing.Point(178, 48);
             this.textBox_selected_mmb.Name = "textBox_selected_mmb";
             this.textBox_selected_mmb.Size = new System.Drawing.Size(129, 19);
             this.textBox_selected_mmb.TabIndex = 3;
             // 
             // button_select_ICB
             // 
-            this.button_select_ICB.Location = new System.Drawing.Point(29, 77);
+            this.button_select_ICB.Location = new System.Drawing.Point(29, 75);
             this.button_select_ICB.Name = "button_select_ICB";
             this.button_select_ICB.Size = new System.Drawing.Size(133, 23);
             this.button_select_ICB.TabIndex = 2;
@@ -460,7 +485,7 @@ namespace MicosController
             // 
             // button_select_mmb
             // 
-            this.button_select_mmb.Location = new System.Drawing.Point(29, 38);
+            this.button_select_mmb.Location = new System.Drawing.Point(29, 46);
             this.button_select_mmb.Name = "button_select_mmb";
             this.button_select_mmb.Size = new System.Drawing.Size(133, 23);
             this.button_select_mmb.TabIndex = 1;
@@ -470,11 +495,11 @@ namespace MicosController
             // 
             // button_create_db
             // 
-            this.button_create_db.Location = new System.Drawing.Point(75, 128);
+            this.button_create_db.Location = new System.Drawing.Point(107, 117);
             this.button_create_db.Name = "button_create_db";
-            this.button_create_db.Size = new System.Drawing.Size(179, 23);
+            this.button_create_db.Size = new System.Drawing.Size(200, 23);
             this.button_create_db.TabIndex = 0;
-            this.button_create_db.Text = "データベースを作成";
+            this.button_create_db.Text = "製品部品在庫データベースを作成";
             this.button_create_db.UseVisualStyleBackColor = true;
             this.button_create_db.Click += new System.EventHandler(this.button_create_db_Click);
             // 
@@ -508,6 +533,16 @@ namespace MicosController
             this.panel_zaikoout_setting.Name = "panel_zaikoout_setting";
             this.panel_zaikoout_setting.Size = new System.Drawing.Size(529, 180);
             this.panel_zaikoout_setting.TabIndex = 30;
+            // 
+            // button_zaikosetting_on
+            // 
+            this.button_zaikosetting_on.Location = new System.Drawing.Point(357, 152);
+            this.button_zaikosetting_on.Name = "button_zaikosetting_on";
+            this.button_zaikosetting_on.Size = new System.Drawing.Size(75, 23);
+            this.button_zaikosetting_on.TabIndex = 33;
+            this.button_zaikosetting_on.Text = "設定を反映";
+            this.button_zaikosetting_on.UseVisualStyleBackColor = true;
+            this.button_zaikosetting_on.Click += new System.EventHandler(this.button_zaikosetting_on_Click);
             // 
             // button_close_zaiko_setting
             // 
@@ -611,11 +646,10 @@ namespace MicosController
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label15.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label15.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label15.Location = new System.Drawing.Point(11, 8);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(152, 18);
+            this.label15.Size = new System.Drawing.Size(150, 16);
             this.label15.TabIndex = 32;
             this.label15.Text = "在庫データ出力設定";
             // 
@@ -629,35 +663,33 @@ namespace MicosController
             this.label14.TabIndex = 32;
             this.label14.Text = "出力区分";
             // 
-            // button_micossetting_on
+            // label21
             // 
-            this.button_micossetting_on.Location = new System.Drawing.Point(149, 154);
-            this.button_micossetting_on.Name = "button_micossetting_on";
-            this.button_micossetting_on.Size = new System.Drawing.Size(75, 23);
-            this.button_micossetting_on.TabIndex = 31;
-            this.button_micossetting_on.Text = "設定を反映";
-            this.button_micossetting_on.UseVisualStyleBackColor = true;
-            this.button_micossetting_on.Click += new System.EventHandler(this.button_micossetting_on_Click);
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label21.Location = new System.Drawing.Point(11, 16);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(151, 16);
+            this.label21.TabIndex = 5;
+            this.label21.Text = "参照csvファイル設定";
             // 
-            // button_buhinsetting_on
+            // button_create_db_zaiko
             // 
-            this.button_buhinsetting_on.Location = new System.Drawing.Point(278, 152);
-            this.button_buhinsetting_on.Name = "button_buhinsetting_on";
-            this.button_buhinsetting_on.Size = new System.Drawing.Size(75, 23);
-            this.button_buhinsetting_on.TabIndex = 32;
-            this.button_buhinsetting_on.Text = "設定を反映";
-            this.button_buhinsetting_on.UseVisualStyleBackColor = true;
-            this.button_buhinsetting_on.Click += new System.EventHandler(this.button_buhinsetting_on_Click);
+            this.button_create_db_zaiko.Location = new System.Drawing.Point(107, 146);
+            this.button_create_db_zaiko.Name = "button_create_db_zaiko";
+            this.button_create_db_zaiko.Size = new System.Drawing.Size(200, 23);
+            this.button_create_db_zaiko.TabIndex = 6;
+            this.button_create_db_zaiko.Text = "在庫データベースを作成";
+            this.button_create_db_zaiko.UseVisualStyleBackColor = true;
             // 
-            // button_zaikosetting_on
+            // button_TANAOROSHI
             // 
-            this.button_zaikosetting_on.Location = new System.Drawing.Point(357, 152);
-            this.button_zaikosetting_on.Name = "button_zaikosetting_on";
-            this.button_zaikosetting_on.Size = new System.Drawing.Size(75, 23);
-            this.button_zaikosetting_on.TabIndex = 33;
-            this.button_zaikosetting_on.Text = "設定を反映";
-            this.button_zaikosetting_on.UseVisualStyleBackColor = true;
-            this.button_zaikosetting_on.Click += new System.EventHandler(this.button_zaikosetting_on_Click);
+            this.button_TANAOROSHI.Location = new System.Drawing.Point(107, 175);
+            this.button_TANAOROSHI.Name = "button_TANAOROSHI";
+            this.button_TANAOROSHI.Size = new System.Drawing.Size(200, 23);
+            this.button_TANAOROSHI.TabIndex = 7;
+            this.button_TANAOROSHI.Text = "棚卸用";
+            this.button_TANAOROSHI.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -745,6 +777,9 @@ namespace MicosController
         private System.Windows.Forms.Button button_micossetting_on;
         private System.Windows.Forms.Button button_buhinsetting_on;
         private System.Windows.Forms.Button button_zaikosetting_on;
+        private System.Windows.Forms.Button button_create_db_zaiko;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button button_TANAOROSHI;
     }
 }
 

@@ -348,6 +348,7 @@ namespace MicosController
             // 
             // panel_table_extract
             // 
+            this.panel_table_extract.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_table_extract.Controls.Add(this.checkedListBox_keihi);
             this.panel_table_extract.Location = new System.Drawing.Point(417, 478);
             this.panel_table_extract.Name = "panel_table_extract";
