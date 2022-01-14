@@ -50,6 +50,7 @@ namespace MicosController
             this.textBox_queeryStatement = new System.Windows.Forms.TextBox();
             this.button_extract_queeryStatement = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_csv_templateOut = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).BeginInit();
@@ -240,11 +241,22 @@ namespace MicosController
             this.panel1.Size = new System.Drawing.Size(200, 100);
             this.panel1.TabIndex = 19;
             // 
+            // button_csv_templateOut
+            // 
+            this.button_csv_templateOut.Location = new System.Drawing.Point(571, 584);
+            this.button_csv_templateOut.Name = "button_csv_templateOut";
+            this.button_csv_templateOut.Size = new System.Drawing.Size(268, 23);
+            this.button_csv_templateOut.TabIndex = 20;
+            this.button_csv_templateOut.Text = "実在庫用テンプレートを出力";
+            this.button_csv_templateOut.UseVisualStyleBackColor = true;
+            this.button_csv_templateOut.Click += new System.EventHandler(this.button_csv_templateOut_Click);
+            // 
             // Tanaoroshi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1257, 640);
+            this.Controls.Add(this.button_csv_templateOut);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_filter_Micos);
             this.Controls.Add(this.checkedListBox_currentMicos_koutei);
@@ -298,5 +310,6 @@ namespace MicosController
         private System.Windows.Forms.TextBox textBox_queeryStatement;
         private System.Windows.Forms.Button button_extract_queeryStatement;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button_csv_templateOut;
     }
 }

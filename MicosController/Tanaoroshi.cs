@@ -87,6 +87,21 @@ namespace MicosController
 
         }
         /// <summary>
+        /// クエリを入力してフィルタをかけるボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_extract_queeryStatement_Click(object sender, EventArgs e)
+        {
+            string queery = textBox_queeryStatement.Text;
+
+            Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(queery).CopyToDataTable();
+
+
+            dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;
+
+        }
+        /// <summary>
         /// 差ﾃｰﾌﾞﾙを表示する。
         /// </summary>
         /// <param name="sender"></param>
@@ -94,6 +109,15 @@ namespace MicosController
         private void button_create_diffrencetable_Click(object sender, EventArgs e)
         {
             create_difference_table();
+        }
+        /// <summary>
+        /// 在庫データ書くとき用のテンプレートcsvファイル出力
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_csv_templateOut_Click(object sender, EventArgs e)
+        {
+            save_templete_csv_file();
         }
 
         /// <summary>
@@ -567,16 +591,30 @@ namespace MicosController
             }
             return Querry;
         }
-
-        private void button_extract_queeryStatement_Click(object sender, EventArgs e)
+        /// <summary>
+        ///実在庫記入用の csvテンプレートファイルを出力する。
+        /// </summary>
+        public void save_templete_csv_file()
         {
-            string queery = textBox_queeryStatement.Text;
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "csvファイル(*.csv)|*.csv";
+            sfd.Title = "保存先のファイル名を指定してください";
 
-            Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(queery).CopyToDataTable();
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter file = new StreamWriter(sfd.FileName, false, Encoding.UTF8);
 
+                foreach(DataColumn column in Micos_Display_Extracted_Table.Columns)
+                {
+                    file.Write(column.ColumnName + ",");
+                }
 
-            dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;
-
+                file.Close();
+            }
         }
+
+
+
+
     }
 }
