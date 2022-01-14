@@ -352,9 +352,9 @@ namespace MicosController
             panel_table_extract.Visible = true;
             panel_table_extract.Enabled = true;
 
-            add_keihi_combobox();
+            add_keihi_checkedbox();
         }
-        public void add_keihi_combobox()
+        public void add_keihi_checkedbox()
         {
             DataView dtGridView_Organize = new DataView(component_list);
 

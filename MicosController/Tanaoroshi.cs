@@ -25,7 +25,8 @@ namespace MicosController
         /// <summary>
         /// 表示されてるデータのﾃｰﾌﾞﾙ。DateGridに渡すデータ。
         /// </summary>
-        public DataTable Current_Micos_Display_Table { get; set; }
+        public DataTable Current_Micos_Display_Table { get; set; } //一番初めに表示されるMicosﾃｰﾌﾞﾙ。保持する用。
+        public DataTable Micos_Display_Extracted_Table { get; set; }　//抽出したときに表示する用ﾃｰﾌﾞﾙ。
         public DataTable Current_Actual_Zaiko_Display_Table { get; set; }
         public DataTable Difference_Table { get; set; }
 
@@ -49,11 +50,15 @@ namespace MicosController
         private void button_fileselect_micos_Click(object sender, EventArgs e)
         {
             read_CurrentMicosData_fromFileOpen();
-            read_database_CurrentMicosZaiko();
+            //read_database_CurrentMicosZaiko();
+            read_database_CurrentMicosZaiko_addCheckbox("経費", 0);
+            read_database_CurrentMicosZaiko_addCheckbox("保管場所", 1);
+            read_database_CurrentMicosZaiko_addCheckbox("工程", 2);
 
             Create_DiplayTable_fromOriginalTable(Current_Micos_Zaiko_Table,Current_Micos_Display_Table,0);
 
             dataGridView_CurrentMicos.DataSource = Current_Micos_Display_Table;
+            Micos_Display_Extracted_Table = Current_Micos_Display_Table;
 
         }
 
@@ -67,6 +72,25 @@ namespace MicosController
             dataGridView_ActualZaiko.DataSource = Current_Actual_Zaiko_Display_Table;
         }
 
+        /// <summary>
+        /// フィルタをかけるボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_filter_Micos_Click(object sender, EventArgs e)
+        {
+            button_filter_Micos.Enabled = false;
+
+            extract_by_keihi_koutei_hokan_kai(0);
+
+            button_filter_Micos.Enabled = true;
+
+        }
+        /// <summary>
+        /// 差ﾃｰﾌﾞﾙを表示する。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_create_diffrencetable_Click(object sender, EventArgs e)
         {
             create_difference_table();
@@ -183,19 +207,56 @@ namespace MicosController
             }
         }
         /// <summary>
-        /// チェックボックスに項目を自動追加する関数
+        /// チェックボックスに項目を自動追加する関数 0経費 1保管場所 2工程
         /// </summary>
-        public void read_database_CurrentMicosZaiko() //Current_Micos_Zaiko_Tableの経費の種類をチェックボックスに追加する。
+        public void read_database_CurrentMicosZaiko_addCheckbox(string column_name, int mode) //Current_Micos_Zaiko_Tableの経費の種類をチェックボックスに追加する。第一引数：カラム名　第二引数：mode 0 経費; 1 保管場所; 2 工程
         {
             DataTable notDoublicated_CurrentMicos;
             DataView dtView_CurrentMicos = new DataView(Current_Micos_Zaiko_Table);
 
-            notDoublicated_CurrentMicos = dtView_CurrentMicos.ToTable(true, "経費"); //"経費"列の重複を取り除く
+            notDoublicated_CurrentMicos = dtView_CurrentMicos.ToTable(true,column_name); //列の重複を取り除く
 
-            foreach (DataRow row in notDoublicated_CurrentMicos.Rows)
+            switch (mode)
             {
-                checkedListBox_CurrentMicos_keihi.Items.Add(row["経費"]); //"経費"列の重複してないものをチェックボックスに追加する。
+                case (0):
+                    foreach (DataRow row in notDoublicated_CurrentMicos.Rows)
+                    {
+                        checkedListBox_CurrentMicos_keihi.Items.Add(row["経費"]); //"経費"列の重複してないものをチェックボックスに追加する。
+                    }
+
+                    for (int i = 0; i < checkedListBox_CurrentMicos_keihi.Items.Count; i++) //すべての項目をチェックする。
+                    {
+                        checkedListBox_CurrentMicos_keihi.SetItemChecked(i, true);
+                    }
+
+                    break;
+                case (1):
+                    foreach (DataRow row in notDoublicated_CurrentMicos.Rows)
+                    {
+                        checkedListBox_currentMicos_hokan.Items.Add(row["保管場所"]); //"保管場所"列の重複してないものをチェックボックスに追加する。
+                    }
+
+                    for (int i = 0; i < checkedListBox_currentMicos_hokan.Items.Count; i++) //すべての項目をチェックする。
+                    {
+                        checkedListBox_currentMicos_hokan.SetItemChecked(i, true);
+                    }
+
+                    break;
+                case (2):
+                    foreach (DataRow row in notDoublicated_CurrentMicos.Rows)
+                    {
+                        checkedListBox_currentMicos_koutei.Items.Add(row["工程"]); //"工程"列の重複してないものをチェックボックスに追加する。
+                    }
+
+                    for (int i = 0; i < checkedListBox_currentMicos_koutei.Items.Count; i++) //すべての項目をチェックする。
+                    {
+                        checkedListBox_currentMicos_koutei.SetItemChecked(i, true);
+                    }
+
+                    break;
             }
+
+
             
         }
 
@@ -295,7 +356,12 @@ namespace MicosController
             dataGridView_Difference_Table.DataSource = Difference_Table;
 
         }
-
+        /// <summary>
+        /// ﾃｰﾌﾞﾙ操作関連関数
+        /// </summary>
+        /// <param name="original_table"></param>
+        /// <param name="display_table"></param>
+        /// <param name="mode"></param>
         public void Create_DiplayTable_fromOriginalTable(DataTable original_table, DataTable display_table, int mode) //diplay用に列数を減らす。コンパクトにする。 0: Micos, 1:Zaiko
         {
             display_table = new DataTable(); //display_tableの初期化
@@ -312,7 +378,7 @@ namespace MicosController
             
             foreach(string column in column_list)
             {
-                if(column != "品目ＣＤ" && column != "品名" && column != "現在在庫数"){　//displayする列のみ残す。
+                if(column != "品目ＣＤ" && column != "品名" && column != "現在在庫数"　&& column!="保管場所" && column != "工程"　&& column !="経費"){　//displayする列のみ残す。
                     display_table_temp.Columns.Remove(column);
                 }
             }
@@ -328,6 +394,189 @@ namespace MicosController
             }
         }
 
+        public void extract_by_keihi_koutei_hokan(int mode)
+        {
 
+            Micos_Display_Extracted_Table = new DataTable();
+
+
+            int i = 0;
+            string temp_querry = "";
+
+            switch (mode)
+            {
+                case (0):
+                    foreach (string selected_keihi in checkedListBox_CurrentMicos_keihi.CheckedItems)
+                    {
+                        if (i == 0)
+                        {
+                            temp_querry = querry_maker_fullmatch(0, "経費", selected_keihi, "");
+                        }
+                        else
+                        {
+                            temp_querry = querry_maker_fullmatch(2, "経費", selected_keihi, temp_querry);
+                        }
+                        i++;
+                    }
+                    break;
+                case (1):
+                    foreach (string selected_keihi in checkedListBox_currentMicos_hokan.CheckedItems)
+                    {
+                        if (i == 0)
+                        {
+                            temp_querry = querry_maker_fullmatch(0, "保管場所", selected_keihi, "");
+                        }
+                        else
+                        {
+                            temp_querry = querry_maker_fullmatch(2, "保管場所", selected_keihi, temp_querry);
+                        }
+                        i++;
+                    }
+                    break;
+                case (2):
+                    foreach (string selected_keihi in checkedListBox_currentMicos_koutei.CheckedItems)
+                    {
+                        if (i == 0)
+                        {
+                            temp_querry = querry_maker_fullmatch(0, "工程", selected_keihi, "");
+                        }
+                        else
+                        {
+                            temp_querry = querry_maker_fullmatch(2, "工程", selected_keihi, temp_querry);
+                        }
+                        i++;
+                    }
+                    break;
+            }
+
+            if (temp_querry != "")
+            {
+                Micos_Display_Extracted_Table =Current_Micos_Display_Table.Select(temp_querry).CopyToDataTable();
+               // Current_Micos_Display_Table.Merge(temp_Datatable.Select(temp_querry).CopyToDataTable());
+            }
+            else
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+
+            }
+
+            dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;
+
+        }
+
+        public void extract_by_keihi_koutei_hokan_kai(int mode) //チェックボックス抽出処理最終版。チェックボックス３つを監視して、チェックあるやつだけグリッドに表示する。
+        {
+
+            Micos_Display_Extracted_Table = new DataTable();
+
+
+            int i = 0;
+
+            string temp_querry_keihi = "";
+            string temp_querry_hokan = "";
+            string temp_querry_koutei = "";
+
+
+            foreach (string selected_keihi in checkedListBox_CurrentMicos_keihi.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    temp_querry_keihi = querry_maker_fullmatch(0, "経費", selected_keihi, "");
+                }
+                else
+                {
+                    temp_querry_keihi = querry_maker_fullmatch(2, "経費", selected_keihi, temp_querry_keihi);
+                }
+                i++;
+            }
+
+            if (temp_querry_keihi == "")
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+            }
+
+            Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(temp_querry_keihi).CopyToDataTable();
+
+            i = 0;
+
+            foreach (string selected_keihi in checkedListBox_currentMicos_hokan.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    temp_querry_hokan = querry_maker_fullmatch(0, "保管場所", selected_keihi, "");
+                }
+                else
+                {
+                    temp_querry_hokan = querry_maker_fullmatch(2, "保管場所", selected_keihi, temp_querry_hokan);
+                }
+                i++;
+            }
+
+            if (temp_querry_hokan == "")
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+            }
+
+            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_keihi).CopyToDataTable();
+
+            i = 0;
+
+            foreach (string selected_keihi in checkedListBox_currentMicos_koutei.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    temp_querry_koutei = querry_maker_fullmatch(0, "工程", selected_keihi, "");
+                }
+                else
+                {
+                    temp_querry_koutei = querry_maker_fullmatch(2, "工程", selected_keihi, temp_querry_koutei);
+                }
+                i++;
+            }
+
+            if (temp_querry_koutei == "")
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+            }
+
+            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_koutei).CopyToDataTable();
+
+
+            dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;
+
+        }
+
+        public string querry_maker_fullmatch(int and_or, string column_name, string target, string combine_querry) //querry作成関数。 第一引数 0: 結合なし　1: ANDで結合 2:ORで結合
+        {
+            string Querry = "";
+            switch (and_or)
+            {
+                case (0):
+                    Querry = column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+                case (1):
+                    Querry = combine_querry + " " + "AND" + " " + column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+                case (2):
+                    Querry = combine_querry + " " + "OR" + " " + column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+            }
+            return Querry;
+        }
+
+        private void button_extract_queeryStatement_Click(object sender, EventArgs e)
+        {
+            string queery = textBox_queeryStatement.Text;
+
+            Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(queery).CopyToDataTable();
+
+
+            dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;
+
+        }
     }
 }
