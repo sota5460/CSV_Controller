@@ -60,6 +60,7 @@ namespace MicosController
         public bool first_file_flag = true;
 
         public Form2 form2;
+        public Tanaoroshi tanaoroshi_form;
 
        
        
@@ -317,11 +318,21 @@ namespace MicosController
             init_component_table_multi_ICB();
            
         }
-
+        /// <summary>
+        /// 別フォームを開くクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_create_db_Click(object sender, EventArgs e)
         {
             Transport_Form2();
             form2.read_database_column();
+        }
+
+        private void button_TANAOROSHI_Click(object sender, EventArgs e)
+        {
+            Transport_tanaoroshi_form();
+
         }
         private void CSV_Extract()
         {
@@ -829,7 +840,13 @@ namespace MicosController
             }
         }
 
-
-
+        /// <summary>
+        /// 棚卸関連
+        /// </summary>
+        public void Transport_tanaoroshi_form()
+        {
+            tanaoroshi_form = new Tanaoroshi();
+            tanaoroshi_form.Show();
+        }
     }
 }

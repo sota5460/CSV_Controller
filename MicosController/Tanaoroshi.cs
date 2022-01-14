@@ -41,21 +41,46 @@ namespace MicosController
             InitializeComponent();
         }
 
-        public void add_columns_datatable()
+        /// <summary>
+        /// ファイル読み込みボタンクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_fileselect_micos_Click(object sender, EventArgs e)
         {
+            read_CurrentMicosData_fromFileOpen();
+            read_database_CurrentMicosZaiko();
+
+            Create_DiplayTable_fromOriginalTable(Current_Micos_Zaiko_Table,Current_Micos_Display_Table,0);
+
+            dataGridView_CurrentMicos.DataSource = Current_Micos_Display_Table;
 
         }
 
+        private void button_fileselect_zaiko_Click(object sender, EventArgs e)
+        {
+            read_ActualZaikoData_fromFileOpen();
+            read_database_ActualZaiko();
+
+            Create_DiplayTable_fromOriginalTable(Current_Actual_Zaiko_Table,Current_Actual_Zaiko_Display_Table,1);
+
+            dataGridView_ActualZaiko.DataSource = Current_Actual_Zaiko_Display_Table;
+        }
+
+        /// <summary>
+        /// ダイアログボックスからファイルを読んでデータﾃｰﾌﾞﾙを作成する関数
+        /// </summary>
         public void read_CurrentMicosData_fromFileOpen()
         {
             openFileDialog1.Multiselect = true;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                foreach (string filename_icb in openFileDialog1.FileNames)
+                Current_Micos_Zaiko_Table = new DataTable("Micos現在在庫データ");
+                foreach (string filename_currentmicos_icb in openFileDialog1.FileNames)
                 {
 
 
-                    TextFieldParser parser = new TextFieldParser(filename_icb, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
+                    TextFieldParser parser = new TextFieldParser(filename_currentmicos_icb, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
                     parser.TextFieldType = FieldType.Delimited;
                     parser.SetDelimiters(",");// ","区切り
 
@@ -93,9 +118,62 @@ namespace MicosController
                         }
                        Current_Micos_Zaiko_Table.Rows.Add(row);
                     }
-                    //textBox_selected_ICB.AppendText(filename_icb + " , ");
+                    textBox_filepath_micos.AppendText(filename_currentmicos_icb + "\n");
                 }
-               // DS.Tables.Add(Component_Table_ICB);
+                first_file_flag = true;
+            }
+        }
+        public void read_ActualZaikoData_fromFileOpen()
+        {
+            openFileDialog1.Multiselect = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Current_Actual_Zaiko_Table = new DataTable("実際の在庫データ");
+                foreach (string filename_currentmicos_icb in openFileDialog1.FileNames)
+                {
+
+
+                    TextFieldParser parser = new TextFieldParser(filename_currentmicos_icb, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");// ","区切り
+
+
+                    string[] column = parser.ReadFields();    //一行ずつcolumnに配列で格納されるっぽい。行のカーソルは呼び出す度にインクリメント。
+                    DataRow row;
+
+                    if (first_file_flag) //一つ目のファイルのときだけ列の名前を取得する。
+                    {
+                        for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
+                        {
+
+                            if (i == 10) // 10列目：現在在庫数
+                            {
+                                Current_Actual_Zaiko_Table.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
+                            }
+                            else
+                            {
+                                Current_Actual_Zaiko_Table.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+                            }
+                        }
+
+                        first_file_flag = false;
+                    }
+
+
+                    while (parser.EndOfData == false)       //2行目以降のデータをﾃｰﾌﾞﾙに格納していく。
+                    {
+                        string[] column_data = parser.ReadFields();
+
+                        row = Current_Actual_Zaiko_Table.NewRow();
+                        for (int i = 0; i < column.Length - 1; i++) //MMBファイルの方は一番右の列が列名だけ用意されて要素が存在しないので、-1してある。
+                        {
+                            row[i] = column_data[i];
+                        }
+                        Current_Actual_Zaiko_Table.Rows.Add(row);
+                    }
+                    textBox_filepath_zaiko.AppendText(filename_currentmicos_icb + "\n");
+                }
+
                 first_file_flag = true;
             }
         }
@@ -190,8 +268,39 @@ namespace MicosController
             dataGridView_Difference_Table.DataSource = Difference_Table;
 
         }
-        
 
-        
+        public void Create_DiplayTable_fromOriginalTable(DataTable original_table, DataTable display_table, int mode) //diplay用に列数を減らす。コンパクトにする。 0: Micos, 1:Zaiko
+        {
+            display_table = new DataTable(); //display_tableの初期化
+
+            DataTable display_table_temp = new DataTable();　//一時オリジナルﾃｰﾌﾞﾙ保存用ﾃｰﾌﾞﾙ宣言
+
+            display_table_temp = original_table;　//オリジナルデータを一時ﾃｰﾌﾞﾙにコピー
+            var column_list = new List<string>();
+
+            foreach(DataColumn column in display_table_temp.Columns)　// カラム名のリストを作成
+            {
+                column_list.Add(column.ColumnName);
+            }
+            
+            foreach(string column in column_list)
+            {
+                if(column != "品目ＣＤ" && column != "品名" && column != "現在在庫数"){　//displayする列のみ残す。
+                    display_table_temp.Columns.Remove(column);
+                }
+            }
+
+            switch (mode)
+            {
+                case (0):
+                    Current_Micos_Display_Table = display_table_temp;
+                    break;
+                case (1):
+                    Current_Actual_Zaiko_Display_Table = display_table_temp;
+                    break;
+            }
+        }
+
+
     }
 }

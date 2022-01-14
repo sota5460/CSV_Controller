@@ -29,8 +29,8 @@ namespace MicosController
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_CurrentMicos = new System.Windows.Forms.DataGridView();
+            this.dataGridView_ActualZaiko = new System.Windows.Forms.DataGridView();
             this.dataGridView_Difference_Table = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,28 +39,32 @@ namespace MicosController
             this.checkedListBox_CurrentMicos_keihi = new System.Windows.Forms.CheckedListBox();
             this.checkedListBox_ActualZaiko_keihi = new System.Windows.Forms.CheckedListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.textBox_filepath_micos = new System.Windows.Forms.TextBox();
+            this.button_fileselect_micos = new System.Windows.Forms.Button();
+            this.textBox_filepath_zaiko = new System.Windows.Forms.TextBox();
+            this.button_fileselect_zaiko = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridView_CurrentMicos
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(69, 50);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(199, 367);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView_CurrentMicos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_CurrentMicos.Location = new System.Drawing.Point(69, 50);
+            this.dataGridView_CurrentMicos.Name = "dataGridView_CurrentMicos";
+            this.dataGridView_CurrentMicos.RowTemplate.Height = 21;
+            this.dataGridView_CurrentMicos.Size = new System.Drawing.Size(199, 367);
+            this.dataGridView_CurrentMicos.TabIndex = 0;
             // 
-            // dataGridView2
+            // dataGridView_ActualZaiko
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(319, 50);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 21;
-            this.dataGridView2.Size = new System.Drawing.Size(199, 367);
-            this.dataGridView2.TabIndex = 1;
+            this.dataGridView_ActualZaiko.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_ActualZaiko.Location = new System.Drawing.Point(319, 50);
+            this.dataGridView_ActualZaiko.Name = "dataGridView_ActualZaiko";
+            this.dataGridView_ActualZaiko.RowTemplate.Height = 21;
+            this.dataGridView_ActualZaiko.Size = new System.Drawing.Size(199, 367);
+            this.dataGridView_ActualZaiko.TabIndex = 1;
             // 
             // dataGridView_Difference_Table
             // 
@@ -115,7 +119,7 @@ namespace MicosController
             this.checkedListBox_CurrentMicos_keihi.FormattingEnabled = true;
             this.checkedListBox_CurrentMicos_keihi.Location = new System.Drawing.Point(69, 433);
             this.checkedListBox_CurrentMicos_keihi.Name = "checkedListBox_CurrentMicos_keihi";
-            this.checkedListBox_CurrentMicos_keihi.Size = new System.Drawing.Size(120, 88);
+            this.checkedListBox_CurrentMicos_keihi.Size = new System.Drawing.Size(199, 46);
             this.checkedListBox_CurrentMicos_keihi.TabIndex = 7;
             // 
             // checkedListBox_ActualZaiko_keihi
@@ -123,18 +127,58 @@ namespace MicosController
             this.checkedListBox_ActualZaiko_keihi.FormattingEnabled = true;
             this.checkedListBox_ActualZaiko_keihi.Location = new System.Drawing.Point(319, 433);
             this.checkedListBox_ActualZaiko_keihi.Name = "checkedListBox_ActualZaiko_keihi";
-            this.checkedListBox_ActualZaiko_keihi.Size = new System.Drawing.Size(120, 88);
+            this.checkedListBox_ActualZaiko_keihi.Size = new System.Drawing.Size(199, 46);
             this.checkedListBox_ActualZaiko_keihi.TabIndex = 8;
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // textBox_filepath_micos
+            // 
+            this.textBox_filepath_micos.Location = new System.Drawing.Point(157, 486);
+            this.textBox_filepath_micos.Multiline = true;
+            this.textBox_filepath_micos.Name = "textBox_filepath_micos";
+            this.textBox_filepath_micos.Size = new System.Drawing.Size(111, 45);
+            this.textBox_filepath_micos.TabIndex = 9;
+            // 
+            // button_fileselect_micos
+            // 
+            this.button_fileselect_micos.Location = new System.Drawing.Point(69, 485);
+            this.button_fileselect_micos.Name = "button_fileselect_micos";
+            this.button_fileselect_micos.Size = new System.Drawing.Size(75, 36);
+            this.button_fileselect_micos.TabIndex = 10;
+            this.button_fileselect_micos.Text = "ファイルを選択する";
+            this.button_fileselect_micos.UseVisualStyleBackColor = true;
+            this.button_fileselect_micos.Click += new System.EventHandler(this.button_fileselect_micos_Click);
+            // 
+            // textBox_filepath_zaiko
+            // 
+            this.textBox_filepath_zaiko.Location = new System.Drawing.Point(407, 485);
+            this.textBox_filepath_zaiko.Multiline = true;
+            this.textBox_filepath_zaiko.Name = "textBox_filepath_zaiko";
+            this.textBox_filepath_zaiko.Size = new System.Drawing.Size(111, 45);
+            this.textBox_filepath_zaiko.TabIndex = 11;
+            // 
+            // button_fileselect_zaiko
+            // 
+            this.button_fileselect_zaiko.Location = new System.Drawing.Point(319, 486);
+            this.button_fileselect_zaiko.Name = "button_fileselect_zaiko";
+            this.button_fileselect_zaiko.Size = new System.Drawing.Size(75, 36);
+            this.button_fileselect_zaiko.TabIndex = 12;
+            this.button_fileselect_zaiko.Text = "ファイルを選択する";
+            this.button_fileselect_zaiko.UseVisualStyleBackColor = true;
+            this.button_fileselect_zaiko.Click += new System.EventHandler(this.button_fileselect_zaiko_Click);
+            // 
             // Tanaoroshi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1015, 525);
+            this.ClientSize = new System.Drawing.Size(1015, 543);
+            this.Controls.Add(this.button_fileselect_zaiko);
+            this.Controls.Add(this.textBox_filepath_zaiko);
+            this.Controls.Add(this.button_fileselect_micos);
+            this.Controls.Add(this.textBox_filepath_micos);
             this.Controls.Add(this.checkedListBox_ActualZaiko_keihi);
             this.Controls.Add(this.checkedListBox_CurrentMicos_keihi);
             this.Controls.Add(this.button1);
@@ -142,12 +186,12 @@ namespace MicosController
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView_Difference_Table);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_ActualZaiko);
+            this.Controls.Add(this.dataGridView_CurrentMicos);
             this.Name = "Tanaoroshi";
             this.Text = "Tanaoroshi";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -156,8 +200,8 @@ namespace MicosController
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridView_CurrentMicos;
+        private System.Windows.Forms.DataGridView dataGridView_ActualZaiko;
         private System.Windows.Forms.DataGridView dataGridView_Difference_Table;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -166,5 +210,9 @@ namespace MicosController
         private System.Windows.Forms.CheckedListBox checkedListBox_CurrentMicos_keihi;
         private System.Windows.Forms.CheckedListBox checkedListBox_ActualZaiko_keihi;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox textBox_filepath_micos;
+        private System.Windows.Forms.Button button_fileselect_micos;
+        private System.Windows.Forms.TextBox textBox_filepath_zaiko;
+        private System.Windows.Forms.Button button_fileselect_zaiko;
     }
 }
