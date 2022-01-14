@@ -67,6 +67,11 @@ namespace MicosController
             dataGridView_ActualZaiko.DataSource = Current_Actual_Zaiko_Display_Table;
         }
 
+        private void button_create_diffrencetable_Click(object sender, EventArgs e)
+        {
+            create_difference_table();
+        }
+
         /// <summary>
         /// ダイアログボックスからファイルを読んでデータﾃｰﾌﾞﾙを作成する関数
         /// </summary>
@@ -211,35 +216,57 @@ namespace MicosController
         {
 
             ///Difference Tableの列名を追加する。
-            for(int i = 0; i < Current_Micos_Display_Table.Columns.Count;i++)
-            {
-                if(Current_Micos_Display_Table.Columns[i].ColumnName == "現在在庫数")
-                {
-                    Difference_Table.Columns.Add(Current_Micos_Display_Table.Columns[i].ColumnName, typeof(float));
-                }
-                else
-                {
-                    Difference_Table.Columns.Add(Current_Micos_Display_Table.Columns[i].ColumnName, typeof(string));
-                }
-               
-            }
-            
-
-
-            //DataRow row_difference;
-            //foreach(DataRow row_micos in Current_Micos_Display_Table.Rows)
+            //for(int i = 0; i < Current_Micos_Display_Table.Columns.Count;i++)
             //{
-            //    foreach(DataRow row_actualZaiko in Current_Actual_Zaiko_Display_Table.Rows)
+            //    if(Current_Micos_Display_Table.Columns[i].ColumnName == "現在在庫数")
             //    {
-            //        if (row_micos["品目ＣＤ"].ToString() == row_actualZaiko["品目ＣＤ"].ToString())
-            //        {
-            //            row_difference = Difference_Table.NewRow();
-            //            row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
-            //            row_difference["現在在庫数"] = row_actualZaiko["現在在庫数"] - row_micos["現在在庫数"];
-
-            //        }
+            //        Difference_Table.Columns.Add(Current_Micos_Display_Table.Columns[i].ColumnName, typeof(float));
             //    }
+            //    else
+            //    {
+            //        Difference_Table.Columns.Add(Current_Micos_Display_Table.Columns[i].ColumnName, typeof(string));
+            //    }
+
             //}
+
+            Difference_Table = new DataTable();
+
+            foreach(DataColumn column in Current_Micos_Display_Table.Columns)
+            {
+                Difference_Table.Columns.Add(column.ColumnName, column.DataType);
+            }
+
+            //var zaiko_dic = Current_Micos_Display_Table.AsEnumerable().ToDictionary(row => new Tuple<string,string>(row[],row[]), row => row["現在在庫数"]);
+
+            //var dic = new Dictionary<Tuple<string, string>, float>();
+            //foreach(DataRow row in Current_Micos_Display_Table.Rows)
+            //{
+            //    float f_value = (float)row["現在在庫数"];
+            //    dic.Add(new Tuple<string, string>(row["品目ＣＤ"].ToString(), row["品名"].ToString()), f_value);
+                
+            //}
+
+
+
+
+            DataRow row_difference;
+            foreach (DataRow row_micos in Current_Micos_Display_Table.Rows)
+            {
+                foreach (DataRow row_actualZaiko in Current_Actual_Zaiko_Display_Table.Rows)
+                {
+                    if (row_micos["品目ＣＤ"].ToString() == row_actualZaiko["品目ＣＤ"].ToString())
+                    {
+                        float row_micos_zaiko = (float)row_micos["現在在庫数"]; //なぜか一回フロート型の変数に明示的に型指定して、取り出さないと計算できなかった。
+                        float row_actual_zaiko = (float)row_actualZaiko["現在在庫数"];
+
+                        row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
+                        row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
+                        row_difference["現在在庫数"] = row_micos_zaiko - row_actual_zaiko;
+
+                        Difference_Table.Rows.Add(row_difference);
+                    }
+                }
+            }
 
             ////表示されているﾃｰﾌﾞﾙ二つを合体
             //Difference_Table.Merge(Current_Actual_Zaiko_Display_Table);
@@ -257,12 +284,12 @@ namespace MicosController
 
 
             //　 Current_Micos_Display_Table　と　Current_Actual_Zaiko_Display_Table の差を抽出して、Difference_Tableに格納する。
-            var Difference_var = Current_Micos_Display_Table.AsEnumerable().Except(Current_Actual_Zaiko_Display_Table.AsEnumerable(), DataRowComparer.Default);
+            //var Difference_var = Current_Micos_Display_Table.AsEnumerable().Except(Current_Actual_Zaiko_Display_Table.AsEnumerable(), DataRowComparer.Default);
 
-            if (Difference_var.Any())
-            {
-                Difference_Table = Difference_var.CopyToDataTable();
-            }
+            //if (Difference_var.Any())
+            //{
+            //    Difference_Table = Difference_var.CopyToDataTable();
+            //}
 
 
             dataGridView_Difference_Table.DataSource = Difference_Table;

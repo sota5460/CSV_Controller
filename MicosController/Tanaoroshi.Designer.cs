@@ -43,6 +43,7 @@ namespace MicosController
             this.button_fileselect_micos = new System.Windows.Forms.Button();
             this.textBox_filepath_zaiko = new System.Windows.Forms.TextBox();
             this.button_fileselect_zaiko = new System.Windows.Forms.Button();
+            this.button_create_diffrencetable = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).BeginInit();
@@ -170,11 +171,22 @@ namespace MicosController
             this.button_fileselect_zaiko.UseVisualStyleBackColor = true;
             this.button_fileselect_zaiko.Click += new System.EventHandler(this.button_fileselect_zaiko_Click);
             // 
+            // button_create_diffrencetable
+            // 
+            this.button_create_diffrencetable.Location = new System.Drawing.Point(541, 225);
+            this.button_create_diffrencetable.Name = "button_create_diffrencetable";
+            this.button_create_diffrencetable.Size = new System.Drawing.Size(75, 23);
+            this.button_create_diffrencetable.TabIndex = 13;
+            this.button_create_diffrencetable.Text = "在庫の差異";
+            this.button_create_diffrencetable.UseVisualStyleBackColor = true;
+            this.button_create_diffrencetable.Click += new System.EventHandler(this.button_create_diffrencetable_Click);
+            // 
             // Tanaoroshi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1015, 543);
+            this.Controls.Add(this.button_create_diffrencetable);
             this.Controls.Add(this.button_fileselect_zaiko);
             this.Controls.Add(this.textBox_filepath_zaiko);
             this.Controls.Add(this.button_fileselect_micos);
@@ -214,5 +226,6 @@ namespace MicosController
         private System.Windows.Forms.Button button_fileselect_micos;
         private System.Windows.Forms.TextBox textBox_filepath_zaiko;
         private System.Windows.Forms.Button button_fileselect_zaiko;
+        private System.Windows.Forms.Button button_create_diffrencetable;
     }
 }
