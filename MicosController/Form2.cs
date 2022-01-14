@@ -82,7 +82,7 @@ namespace MicosController
             notDublicated = dtView.ToTable(true,"親工程"); //DataViewオブジェクトにデータﾃｰﾌﾞﾙを読んで、"親工程"親工程の重複を消去してる。
 
             foreach (DataRow row in notDublicated.Rows){
-                comboBox_oyakoutei.Items.Add(row["親工程"]);
+                comboBox_oyakoutei.Items.Add(row["親工程"]); 
             }
 
             //データ抽出設定の保管場所項目の追加
