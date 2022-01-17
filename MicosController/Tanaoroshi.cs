@@ -361,11 +361,13 @@ namespace MicosController
                         break;
                     }
 
-                    if(zaiko_data_num_cnt == Current_Actual_Zaiko_Display_Table.Rows.Count)
+                    zaiko_data_num_cnt++;
+
+                    if (zaiko_data_num_cnt == Current_Actual_Zaiko_Display_Table.Rows.Count)
                     {
                         row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
                         row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
-                        row_difference["現在在庫数"] = row_micos["現在在庫数"];
+                        row_difference["現在在庫数"] = (float) 0;　//在庫データに存在しないので、Micosをゼロにする。
 
                         row_difference["工程"] = row_micos["工程"];
                         row_difference["経費"] = row_micos["経費"];
@@ -373,10 +375,10 @@ namespace MicosController
 
                         Difference_Table.Rows.Add(row_difference);
 
-                        Console.WriteLine("{0}は在庫データに存在しません。", row_micos["品目ＣＤ"]);
+                        Console.WriteLine("{0}は在庫データに存在しません。", row_micos["品目ＣＤ"]);　
                     }
 
-                    zaiko_data_num_cnt++;
+                   
 
                 }
             }
@@ -394,6 +396,8 @@ namespace MicosController
                         break;
                     }
 
+                    micos_data_num_cnt++;
+
                     if (micos_data_num_cnt == Micos_Display_Extracted_Table.Rows.Count)
                     {
                         row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
@@ -410,7 +414,7 @@ namespace MicosController
                         Console.WriteLine("{0}はMicosデータに存在しません。", row_actualZaiko["品目ＣＤ"]);
                     }
 
-                    micos_data_num_cnt++;
+                    
                 }
             }
 
