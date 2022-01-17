@@ -173,36 +173,7 @@ namespace MicosController
         }
         private void btn_ZaikoOut_Click(object sender, EventArgs e)
         {
-            OpenMicos_btn.Enabled = false;
-            btn_ZaikoOut.Enabled = false;
-            btn_ComponentOut.Enabled = false;
 
-            if (File_Creaging_flag == 1)
-            {
-                return;
-            }
-
-            Activate_MicosWindow();
-
-            if(Micos_Open_Flag == 0)
-            {
-                return;
-            }
-
-            EnterCommand_Micos(username);
-
-            Export_ZaikoData(syuturyoku, syuukei, keihi_l, keihi_r);
-
-            File_Exisist_Check(Output_file_path, 0);
-
-
-        }
-
-        private void btn_ComponentOut_Click(object sender, EventArgs e)
-        {
-            OpenMicos_btn.Enabled = false;
-            btn_ZaikoOut.Enabled = false;
-            btn_ComponentOut.Enabled = false;
 
             if (File_Creaging_flag == 1)
             {
@@ -215,6 +186,41 @@ namespace MicosController
             {
                 return;
             }
+
+            OpenMicos_btn.Enabled = false;
+            btn_ZaikoOut.Enabled = false;
+            btn_ComponentOut.Enabled = false;
+
+
+            EnterCommand_Micos(username);
+
+            Export_ZaikoData(syuturyoku, syuukei, keihi_l, keihi_r);
+
+            File_Exisist_Check(Output_file_path, 0);
+
+
+        }
+
+        private void btn_ComponentOut_Click(object sender, EventArgs e)
+        {
+
+
+            if (File_Creaging_flag == 1)
+            {
+                return;
+            }
+
+            Activate_MicosWindow();
+            if (Micos_Open_Flag == 0)
+            {
+                return;
+            }
+
+            OpenMicos_btn.Enabled = false;
+            btn_ZaikoOut.Enabled = false;
+            btn_ComponentOut.Enabled = false;
+
+
 
             EnterCommand_Micos(username);
 
@@ -847,6 +853,11 @@ namespace MicosController
         {
             tanaoroshi_form = new Tanaoroshi();
             tanaoroshi_form.Show();
+
+            //Micos関連変数代入。
+            tanaoroshi_form.username = username;
+            tanaoroshi_form.Micos_file_name = Micos_file_name;
+            tanaoroshi_form.Micos_process_name = Micos_process_name;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 using System.IO;
 using Microsoft.VisualBasic;
@@ -35,11 +36,47 @@ namespace MicosController
         public string Filepath_Current_Actual_Zaiko { get; set; }
 
         bool first_file_flag = true;
-       
+
+
+        /// <summary>
+        /// Micos操作するための変数。
+        /// </summary>
+        public string Micos_file_name { get; set; }
+        public string Micos_process_name { get; set; }
+        public string username { get; set; }
+        public int Micos_Open_Flag =0;
+        public int page_counter = 0;
+        public int Micos_Enter_flag = 0;
+ 
+        //public string Micos_file_name = @"C:\Users\e33230-user3\OneDrive - hqhamamatsu.onmicrosoft.com\デスクトップ\PCPPC.hod";
+        //public string Micos_process_name = "acslaunch_win-64";
+
 
         public Tanaoroshi()
         {
             InitializeComponent();
+
+            init_form();
+        }
+
+        public void init_form()
+        {
+
+            //Micosデータを選ぶまでフィルタ関連をdisable
+            checkedListBox_currentMicos_hokan.Enabled = false;
+            checkedListBox_CurrentMicos_keihi.Enabled = false;
+            checkedListBox_currentMicos_koutei.Enabled = false;
+            button_filter_Micos.Enabled = false;
+            textBox_queeryStatement.Enabled = false;
+            button_extract_queeryStatement.Enabled = false;
+
+            //在庫データを選ぶまでフィルタ関連をdisable
+            checkedListBox_ActualZaiko_keihi.Enabled = false;
+
+            //差ﾃｰﾌﾞﾙ出すまでmicosの調整パネルdisable
+            //panel_adjust_micos.Enabled = false;
+
+
         }
 
         /// <summary>
@@ -59,6 +96,14 @@ namespace MicosController
 
             dataGridView_CurrentMicos.DataSource = Current_Micos_Display_Table;
             Micos_Display_Extracted_Table = Current_Micos_Display_Table;
+
+            //チェックボックスを有効化
+            checkedListBox_currentMicos_hokan.Enabled = true;
+            checkedListBox_CurrentMicos_keihi.Enabled = true;
+            checkedListBox_currentMicos_koutei.Enabled = true;
+            button_filter_Micos.Enabled = true;
+            textBox_queeryStatement.Enabled = true;
+            button_extract_queeryStatement.Enabled = true;
 
         }
 
@@ -108,7 +153,34 @@ namespace MicosController
         /// <param name="e"></param>
         private void button_create_diffrencetable_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (Current_Micos_Display_Table.Rows.Count == 0 || Current_Actual_Zaiko_Display_Table.Rows.Count == 0)
+                {
+                    MessageBox.Show("ファイルを選択してください。");
+                    return;
+                }
+            }
+            catch(NullReferenceException aa)
+            {
+                MessageBox.Show("ファイルを選択してください。");
+                return;
+            }
+
             create_difference_table();
+
+            //差ﾃｰﾌﾞﾙの保管場所をチェックボックスに加える。
+            DataTable notDoublicated_differenceTable;
+            DataView dtView_differenceTable = new DataView(Difference_Table);
+
+            notDoublicated_differenceTable = dtView_differenceTable.ToTable(true, "保管場所"); //"経費"列の重複を取り除く
+
+            foreach (DataRow row in notDoublicated_differenceTable.Rows)
+            {
+                checkedListBox_adjust_hokanbasyo.Items.Add(row["保管場所"]); //"経費"列の重複してないものをチェックボックスに追加する。
+            }
+
+
         }
         /// <summary>
         /// 在庫データ書くとき用のテンプレートcsvファイル出力
@@ -318,7 +390,7 @@ namespace MicosController
 
             Difference_Table = new DataTable();　//差ﾃｰﾌﾞﾙの初期化
 
-            foreach(DataColumn column in Current_Micos_Display_Table.Columns)　//Micosﾃｰﾌﾞﾙと同じ列を追加する。
+            foreach(DataColumn column in Micos_Display_Extracted_Table.Columns)　//Micosﾃｰﾌﾞﾙと同じ列を追加する。
             {
                 Difference_Table.Columns.Add(column.ColumnName, column.DataType);
             }
@@ -352,7 +424,7 @@ namespace MicosController
                         row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
                         row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
                         row_difference["現在在庫数"] = row_micos_zaiko - row_actual_zaiko;
-
+                        row_difference["保管場所"] = row_micos["保管場所"];
                         row_difference["工程"] = row_micos["工程"];
                         row_difference["経費"] = row_micos["経費"];
 
@@ -367,8 +439,8 @@ namespace MicosController
                     {
                         row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
                         row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
-                        row_difference["現在在庫数"] = (float) 0;　//在庫データに存在しないので、Micosをゼロにする。
-
+                        row_difference["現在在庫数"] = (float) 0; //在庫データに存在しないので、Micosをゼロにする。
+                        row_difference["保管場所"] = row_micos["保管場所"];
                         row_difference["工程"] = row_micos["工程"];
                         row_difference["経費"] = row_micos["経費"];
 
@@ -403,7 +475,7 @@ namespace MicosController
                         row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
                         row_difference["品目ＣＤ"] = row_actualZaiko["品目ＣＤ"];
                         row_difference["現在在庫数"] = row_actualZaiko["現在在庫数"];
-
+                        row_difference["保管場所"] = row_actualZaiko["保管場所"];
                         row_difference["工程"] = row_actualZaiko["工程"];
                         row_difference["経費"] = row_actualZaiko["経費"];
 
@@ -418,7 +490,7 @@ namespace MicosController
                 }
             }
 
-            Difference_Table.Columns["現在在庫数"].ColumnName = "実在庫との差";  //列名変更
+            Difference_Table.Columns["現在在庫数"].ColumnName = "在庫との差(Micos - 在庫)";  //列名変更
 
             ////表示されているﾃｰﾌﾞﾙ二つを合体
             //Difference_Table.Merge(Current_Actual_Zaiko_Display_Table);
@@ -671,17 +743,227 @@ namespace MicosController
             {
                 StreamWriter file = new StreamWriter(sfd.FileName, false, Encoding.UTF8);
 
-                foreach(DataColumn column in Micos_Display_Extracted_Table.Columns)
+                try
                 {
-                    file.Write(column.ColumnName + ",");
+                    foreach (DataColumn column in Micos_Display_Extracted_Table.Columns)
+                    {
+                        file.Write(column.ColumnName + ",");
+                    }
+
+                }
+                catch (NullReferenceException error) {
+                    MessageBox.Show("テンプレ参照用のMicosデータがロードされていません。");
+                }
+
+                
+
+
+                file.Close();
+            }
+        }
+
+        public void save_micos_display_data()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "csvファイル(*.csv)|*.csv";
+            sfd.Title = "保存先のファイル名を指定してください";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter file = new StreamWriter(sfd.FileName, false, Encoding.UTF8);
+
+                try
+                {
+                    foreach (DataColumn column in Micos_Display_Extracted_Table.Columns)
+                    {
+                        file.Write(column.ColumnName + ",");
+                    }
+                    file.Write("\n");
+                    foreach (DataRow row in Micos_Display_Extracted_Table.Rows)
+                    {
+                        for (int i = 0; i < Micos_Display_Extracted_Table.Columns.Count; i++)
+                        {
+                            file.Write("{0},",row[i]);
+                        }
+                        file.Write("\n");
+                    }
+
+
+
+                }
+                catch (NullReferenceException error)
+                {
+                    MessageBox.Show("Micosデータが存在しません。");
                 }
 
                 file.Close();
             }
         }
 
+        /// <summary>
+        /// Micos調整する関連。51->11使用仕損で保管場所入力
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenMicos_btn_Click(object sender, EventArgs e)
+        {
+            //もしMicosがすでに開いていたら一度消す。
+            Close_MicosWindow();
+
+            //Micosを開く。
+            Open_Micos();
+
+            this.Activate();
+        }
+
+        private void Close_MicosWindow()
+        {
+            //すでにmicosが開いていないかチェックして、開いていたら消す。
+            System.Diagnostics.Process[] ps =
+                System.Diagnostics.Process.GetProcessesByName(Micos_process_name);
+            if (0 < ps.Length)
+            {
+                //見つかった時は消す。
+                //ps[0].Close();
+                ps[0].Kill();
+            }
+        }
+
+        private void Open_Micos()
+        {
+            //micosを開く。
+            Process pt = new Process();
+            //ps.StartInfo.FileName = @"C:\Users\e33230-user3\OneDrive - hqhamamatsu.onmicrosoft.com\デスクトップ\PCPPC.hod";
+            pt.StartInfo.FileName = Micos_file_name;
+            pt.Start();
+
+            Micos_Open_Flag = 1;
+            page_counter = 0;
+        }
+        private void EnterCommand_Micos(string username)
+        {
+            if (Micos_Enter_flag == 0)
+            {
+                SendKeys.SendWait("{F3}");
+
+                SendKeys.SendWait(username);
+                SendKeys.SendWait(username);
+
+                SendKeys.SendWait("{ENTER}");
+
+                Micos_Enter_flag = 1;
+            }
+        }
+
+        private void Activate_MicosWindow()
+        {
+            //micosのプロセスを探す
+            System.Diagnostics.Process[] ps =
+                System.Diagnostics.Process.GetProcessesByName(Micos_process_name);
+            if (0 < ps.Length)
+            {
+                //見つかった時は、アクティブにする
+                Microsoft.VisualBasic.Interaction.AppActivate(ps[0].Id);
+            }
+            else
+            {
+                MessageBox.Show("Micosが開かれていません。");
+                Micos_Open_Flag = 0;
+            }
+        }
+
+        private void Go_to_AdjustingMenu()
+        {
+            Activate_MicosWindow();
+
+            if (page_counter > 0)
+            {
+                for (int i = 0; i < page_counter; i++)
+                {
+                    SendKeys.SendWait("{F3}");
+                }
+            }
 
 
 
+            SendKeys.SendWait("51");
+            SendKeys.SendWait("{ENTER}");
+            page_counter++;
+
+            SendKeys.SendWait("11");
+            SendKeys.SendWait("{ENTER}");
+            page_counter++;
+        }
+
+        private void Adjust_Micos() //保管場所毎にMicos数を合わせる。
+        {
+            SendKeys.SendWait("{DOWN}");
+            SendKeys.SendWait("{DOWN}");
+
+            //保管場所入力
+            //Difference_Table.
+            //string[] hokanbasyo_list = checkedListBox_adjust_hokanbasyo.CheckedItems;
+            foreach (string hokanbasyo in checkedListBox_adjust_hokanbasyo.CheckedItems)
+            {
+                SendKeys.SendWait("{DOWN}");
+                SendKeys.SendWait("{DOWN}");
+
+                SendKeys.SendWait(hokanbasyo);
+
+                SendKeys.SendWait("{ENTER}");
+
+                string string_clipboard ="";
+                DataTable hokanbasyo_zaiko;
+                int rows_cnt = 0;
+
+                hokanbasyo_zaiko = Difference_Table.AsEnumerable().Where(x => (string)x["保管場所"] == hokanbasyo).CopyToDataTable();
+                
+                foreach(DataRow row in hokanbasyo_zaiko.Rows)
+                {
+                    string_clipboard +=((string)row["品目ＣＤ"] + "                                " + (string)row["在庫との差(Micos - 在庫)"]+"\n");
+                    rows_cnt++;
+
+                    if (rows_cnt == 8)
+                    {
+                        Clipboard.SetDataObject(string_clipboard);
+                        SendKeys.SendWait("^v");
+                        SendKeys.SendWait("{F5}");
+                        rows_cnt = 0;
+                    }
+                }
+
+                Clipboard.SetDataObject(string_clipboard);
+                SendKeys.SendWait("^v");
+                SendKeys.SendWait("{F5}");
+
+                //Clipboard.SetDataObject(string_clipboard);
+
+                //SendKeys.SendWait("^v");
+
+
+                SendKeys.SendWait("{F12}");
+
+            }
+
+            //int total_data_num = Difference_Table.Rows.Count;
+        }
+
+        private void button_Micos_csv_Click(object sender, EventArgs e)
+        {
+            save_micos_display_data();
+        }
+
+        private void button_zaiko_adjust_screen_Click(object sender, EventArgs e)
+        {
+            Activate_MicosWindow();
+            EnterCommand_Micos(username);
+            Go_to_AdjustingMenu();
+        }
+
+        private void button_adjust_micos_Click(object sender, EventArgs e)
+        {
+            Activate_MicosWindow();
+            Adjust_Micos();
+        }
     }
 }

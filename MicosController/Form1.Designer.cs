@@ -149,9 +149,9 @@ namespace MicosController
             this.panel_micos_setting.Controls.Add(this.textBox_outputfilepath);
             this.panel_micos_setting.Controls.Add(this.label1);
             this.panel_micos_setting.Controls.Add(this.textBox_username);
-            this.panel_micos_setting.Location = new System.Drawing.Point(476, 32);
+            this.panel_micos_setting.Location = new System.Drawing.Point(488, 16);
             this.panel_micos_setting.Name = "panel_micos_setting";
-            this.panel_micos_setting.Size = new System.Drawing.Size(322, 182);
+            this.panel_micos_setting.Size = new System.Drawing.Size(322, 199);
             this.panel_micos_setting.TabIndex = 5;
             // 
             // button_micossetting_on
