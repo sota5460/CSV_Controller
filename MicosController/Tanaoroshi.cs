@@ -199,9 +199,9 @@ namespace MicosController
                         for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                         {
 
-                            if (i == 10) // 10列目：現在在庫数
+                            if (column[i] == "現在在庫数") // 10列目：現在在庫数
                             {
-                                Current_Actual_Zaiko_Table.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
+                                Current_Actual_Zaiko_Table.Columns.Add(column[i], typeof(float)); //現在在庫数だけfloat型
                             }
                             else
                             {
@@ -296,7 +296,9 @@ namespace MicosController
                 checkedListBox_ActualZaiko_keihi.Items.Add(row["経費"]); //"経費"列の重複してないものをチェックボックスに追加する。
             }
         }
-
+        /// <summary>
+        /// ﾃｰﾌﾞﾙ比較して差を求めたﾃｰﾌﾞﾙを作成する。
+        /// </summary>
         public void create_difference_table() //在庫を比較して差を求めて、ﾃｰﾌﾞﾙを作る。
         {
 
@@ -314,9 +316,9 @@ namespace MicosController
 
             //}
 
-            Difference_Table = new DataTable();
+            Difference_Table = new DataTable();　//差ﾃｰﾌﾞﾙの初期化
 
-            foreach(DataColumn column in Current_Micos_Display_Table.Columns)
+            foreach(DataColumn column in Current_Micos_Display_Table.Columns)　//Micosﾃｰﾌﾞﾙと同じ列を追加する。
             {
                 Difference_Table.Columns.Add(column.ColumnName, column.DataType);
             }
@@ -332,14 +334,17 @@ namespace MicosController
             //}
 
 
+            ///Micosﾃｰﾌﾞﾙ、在庫ﾃｰﾌﾞﾙで同じ品目ＣＤが二つ存在してはいけない。（EEC3928のデータが二つとか存在するとダメ。ユニークにしないといけない。）
 
 
             DataRow row_difference;
-            foreach (DataRow row_micos in Current_Micos_Display_Table.Rows)
+            int zaiko_data_num_cnt = 0;
+            foreach (DataRow row_micos in Micos_Display_Extracted_Table.Rows)
             {
+                zaiko_data_num_cnt = 0;
                 foreach (DataRow row_actualZaiko in Current_Actual_Zaiko_Display_Table.Rows)
                 {
-                    if (row_micos["品目ＣＤ"].ToString() == row_actualZaiko["品目ＣＤ"].ToString())
+                    if (row_micos["品目ＣＤ"].ToString() == row_actualZaiko["品目ＣＤ"].ToString())　//&& row_micos["保管場所"].ToString() == row_actualZaiko["保管場所"] で保管場所も条件に入れられる。
                     {
                         float row_micos_zaiko = (float)row_micos["現在在庫数"]; //なぜか一回フロート型の変数に明示的に型指定して、取り出さないと計算できなかった。
                         float row_actual_zaiko = (float)row_actualZaiko["現在在庫数"];
@@ -348,10 +353,68 @@ namespace MicosController
                         row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
                         row_difference["現在在庫数"] = row_micos_zaiko - row_actual_zaiko;
 
+                        row_difference["工程"] = row_micos["工程"];
+                        row_difference["経費"] = row_micos["経費"];
+
+
                         Difference_Table.Rows.Add(row_difference);
+                        break;
                     }
+
+                    if(zaiko_data_num_cnt == Current_Actual_Zaiko_Display_Table.Rows.Count)
+                    {
+                        row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
+                        row_difference["品目ＣＤ"] = row_micos["品目ＣＤ"];
+                        row_difference["現在在庫数"] = row_micos["現在在庫数"];
+
+                        row_difference["工程"] = row_micos["工程"];
+                        row_difference["経費"] = row_micos["経費"];
+
+
+                        Difference_Table.Rows.Add(row_difference);
+
+                        Console.WriteLine("{0}は在庫データに存在しません。", row_micos["品目ＣＤ"]);
+                    }
+
+                    zaiko_data_num_cnt++;
+
                 }
             }
+
+
+            int micos_data_num_cnt = 0;
+
+            foreach(DataRow row_actualZaiko in Current_Actual_Zaiko_Display_Table.Rows)
+            {
+                micos_data_num_cnt = 0;
+                foreach(DataRow row_micos in Micos_Display_Extracted_Table.Rows)
+                {
+                    if (row_actualZaiko["品目ＣＤ"].ToString()== row_micos["品目ＣＤ"].ToString())
+                    {
+                        break;
+                    }
+
+                    if (micos_data_num_cnt == Micos_Display_Extracted_Table.Rows.Count)
+                    {
+                        row_difference = Difference_Table.NewRow();　//この時点でカラムは追加されてる。
+                        row_difference["品目ＣＤ"] = row_actualZaiko["品目ＣＤ"];
+                        row_difference["現在在庫数"] = row_actualZaiko["現在在庫数"];
+
+                        row_difference["工程"] = row_actualZaiko["工程"];
+                        row_difference["経費"] = row_actualZaiko["経費"];
+
+
+                        Difference_Table.Rows.Add(row_difference);
+
+
+                        Console.WriteLine("{0}はMicosデータに存在しません。", row_actualZaiko["品目ＣＤ"]);
+                    }
+
+                    micos_data_num_cnt++;
+                }
+            }
+
+            Difference_Table.Columns["現在在庫数"].ColumnName = "実在庫との差";  //列名変更
 
             ////表示されているﾃｰﾌﾞﾙ二つを合体
             //Difference_Table.Merge(Current_Actual_Zaiko_Display_Table);
