@@ -27,6 +27,7 @@ namespace MicosController
         public string username = "5460";
         public string Output_file_path = @"\\den3\IC\FROMAS400\5460";
 
+        public bool Micos_Setting_flag = false;
         public long Micos_Open_Flag = 0;
         public long Micos_Enter_flag = 0;
         public long File_Creaging_flag = 0;
@@ -95,10 +96,19 @@ namespace MicosController
         public Form1()
         {
             InitializeComponent();
-
+            read_default();
             Init_forms();
         }
 
+        public void read_default()
+        {
+            username = Properties.Settings.Default.username;
+            Micos_file_name = Properties.Settings.Default.MicosFile_Path;
+            Micos_process_name = Properties.Settings.Default.Micos_ProcessName;
+            Micos_Window_Title = Properties.Settings.Default.Micos_WindowName;
+            Output_file_path = Properties.Settings.Default.Micos_OutPutPath;
+
+        }
         public void Init_forms()
         {
             panel_micos_setting.Visible = false;
@@ -135,6 +145,8 @@ namespace MicosController
             textBox_keihi_r.Text = keihi_r;
 
         }
+
+        
 
        
  
@@ -282,6 +294,8 @@ namespace MicosController
             username = textBox_username.Text;
             Micos_process_name = textBox_micosprocess.Text;
             Micos_Window_Title = textBox_MicosWindow.Text;
+
+            Micos_Setting_flag = true;
         }
         private void button_buhinsetting_on_Click(object sender, EventArgs e)
         {
@@ -887,6 +901,38 @@ namespace MicosController
             tanaoroshi_form.Micos_file_name = Micos_file_name;
             tanaoroshi_form.Micos_process_name = Micos_process_name;
             tanaoroshi_form.Micos_Window_Title = Micos_Window_Title;
+        }
+        /// <summary>
+        /// 設定変更したときに、変更値を保存する。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Micos_Setting_flag)
+            {
+                DialogResult result = MessageBox.Show("変更したユーザー情報を保存しますか？", "ユーザーデータの更新", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.Yes)
+                {
+                    Properties.Settings.Default.username = username;
+                    Properties.Settings.Default.MicosFile_Path = Micos_file_name;
+                    Properties.Settings.Default.Micos_ProcessName = Micos_process_name;
+                    Properties.Settings.Default.Micos_WindowName = Micos_Window_Title;
+                    Properties.Settings.Default.Micos_OutPutPath = Output_file_path;
+
+                    Properties.Settings.Default.Save();
+                }
+                else if (result == DialogResult.No)
+                {
+                    return;
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            
         }
     }
 }

@@ -34,6 +34,8 @@ namespace MicosController
             this.btn_ComponentOut = new System.Windows.Forms.Button();
             this.textBox_username = new System.Windows.Forms.TextBox();
             this.panel_micos_setting = new System.Windows.Forms.Panel();
+            this.textBox_MicosWindow = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.button_micossetting_on = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.button_processname = new System.Windows.Forms.Button();
@@ -87,8 +89,6 @@ namespace MicosController
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.textBox_MicosWindow = new System.Windows.Forms.TextBox();
             this.panel_micos_setting.SuspendLayout();
             this.panel_buhin.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -157,6 +157,23 @@ namespace MicosController
             this.panel_micos_setting.Name = "panel_micos_setting";
             this.panel_micos_setting.Size = new System.Drawing.Size(322, 226);
             this.panel_micos_setting.TabIndex = 5;
+            // 
+            // textBox_MicosWindow
+            // 
+            this.textBox_MicosWindow.Location = new System.Drawing.Point(208, 104);
+            this.textBox_MicosWindow.Name = "textBox_MicosWindow";
+            this.textBox_MicosWindow.Size = new System.Drawing.Size(100, 19);
+            this.textBox_MicosWindow.TabIndex = 33;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label22.Location = new System.Drawing.Point(6, 108);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(114, 15);
+            this.label22.TabIndex = 32;
+            this.label22.Text = "Micosウインドウ名";
             // 
             // button_micossetting_on
             // 
@@ -696,23 +713,6 @@ namespace MicosController
             this.label14.TabIndex = 32;
             this.label14.Text = "出力区分";
             // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label22.Location = new System.Drawing.Point(6, 108);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(114, 15);
-            this.label22.TabIndex = 32;
-            this.label22.Text = "Micosウインドウ名";
-            // 
-            // textBox_MicosWindow
-            // 
-            this.textBox_MicosWindow.Location = new System.Drawing.Point(208, 104);
-            this.textBox_MicosWindow.Name = "textBox_MicosWindow";
-            this.textBox_MicosWindow.Size = new System.Drawing.Size(100, 19);
-            this.textBox_MicosWindow.TabIndex = 33;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -730,6 +730,7 @@ namespace MicosController
             this.Controls.Add(this.OpenMicos_btn);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel_micos_setting.ResumeLayout(false);
             this.panel_micos_setting.PerformLayout();
             this.panel_buhin.ResumeLayout(false);

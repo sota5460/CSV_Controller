@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MicosController.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="username" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5460</Value>
+    </Setting>
+    <Setting Name="MicosFile_Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\e33230-user3\OneDrive - hqhamamatsu.onmicrosoft.com\デスクトップ\PCPPC.hod</Value>
+    </Setting>
+    <Setting Name="Micos_ProcessName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">acslaunch_win-64</Value>
+    </Setting>
+    <Setting Name="Micos_WindowName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A - 5250 ディスプレイ</Value>
+    </Setting>
+    <Setting Name="Micos_OutPutPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\den3\IC\FROMAS400\5460</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
