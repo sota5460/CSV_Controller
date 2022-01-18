@@ -23,6 +23,7 @@ namespace MicosController
 
         public string Micos_file_name = @"C:\Users\e33230-user3\OneDrive - hqhamamatsu.onmicrosoft.com\デスクトップ\PCPPC.hod";
         public string Micos_process_name = "acslaunch_win-64";
+        public string Micos_Window_Title = "A - 5250 ディスプレイ";
         public string username = "5460";
         public string Output_file_path = @"\\den3\IC\FROMAS400\5460";
 
@@ -117,6 +118,7 @@ namespace MicosController
             //テキストボックス　デフォルト入力
             textBox_micos_filepath.Text = Micos_file_name;
             textBox_micosprocess.Text = Micos_process_name;
+            textBox_MicosWindow.Text = Micos_Window_Title;
             textBox_username.Text = username;
             textBox_outputfilepath.Text = Output_file_path;
 
@@ -279,6 +281,7 @@ namespace MicosController
             Output_file_path = textBox_outputfilepath.Text;
             username = textBox_username.Text;
             Micos_process_name = textBox_micosprocess.Text;
+            Micos_Window_Title = textBox_MicosWindow.Text;
         }
         private void button_buhinsetting_on_Click(object sender, EventArgs e)
         {
@@ -602,11 +605,13 @@ namespace MicosController
                 if (p.MainWindowTitle.Length != 0)
                 {
                     messagebox += ("プロセス名:" + p.ProcessName + "\n");
+
                     messagebox += ("タイトル名:" + p.MainWindowTitle + "\n");
                 }
             }
 
             MessageBox.Show(messagebox);
+            Console.Write(messagebox);
         }
 
         private void Activate_MicosWindow()
@@ -648,7 +653,30 @@ namespace MicosController
             pt.Start();
 
             Micos_Open_Flag = 1;
+            Micos_Enter_flag = 0;
             page_counter = 0;
+
+            Detect_Micos_On_Window(Micos_Window_Title);
+        }
+
+        async private void Detect_Micos_On_Window(string Micos_Window_Title) //0.1秒毎に100回（合計10秒）Micosのスタートウインドウがあるか確認する。
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                {
+                    if (p.MainWindowTitle == Micos_Window_Title)
+                    {
+                        this.Activate();
+                        MessageBox.Show("Micosがスタート画面になっているのを確認してください。");
+                        return;
+                    }
+                }
+                await Task.Delay(100);
+            }
+            this.Activate();
+            MessageBox.Show("Micosのスタート画面が認識されません。");
+
         }
 
         /// <summary>
@@ -858,6 +886,7 @@ namespace MicosController
             tanaoroshi_form.username = username;
             tanaoroshi_form.Micos_file_name = Micos_file_name;
             tanaoroshi_form.Micos_process_name = Micos_process_name;
+            tanaoroshi_form.Micos_Window_Title = Micos_Window_Title;
         }
     }
 }

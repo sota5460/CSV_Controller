@@ -44,6 +44,8 @@ namespace MicosController
         public string Micos_file_name { get; set; }
         public string Micos_process_name { get; set; }
         public string username { get; set; }
+        public string Micos_Window_Title { get; set; }
+
         public int Micos_Open_Flag =0;
         public int page_counter = 0;
         public int Micos_Enter_flag = 0;
@@ -70,11 +72,14 @@ namespace MicosController
             textBox_queeryStatement.Enabled = false;
             button_extract_queeryStatement.Enabled = false;
 
+            button_csv_templateOut.Enabled = false;
+            button_Micos_csv.Enabled = false;
+
             //在庫データを選ぶまでフィルタ関連をdisable
             checkedListBox_ActualZaiko_keihi.Enabled = false;
 
             //差ﾃｰﾌﾞﾙ出すまでmicosの調整パネルdisable
-            //panel_adjust_micos.Enabled = false;
+            panel_adjust_micos.Enabled = false;
 
 
         }
@@ -87,6 +92,12 @@ namespace MicosController
         private void button_fileselect_micos_Click(object sender, EventArgs e)
         {
             read_CurrentMicosData_fromFileOpen();
+
+            if(Current_Micos_Zaiko_Table== null) //ファイル開いたけど何も選択されなかった場合
+            {
+                return;
+            }
+
             //read_database_CurrentMicosZaiko();
             read_database_CurrentMicosZaiko_addCheckbox("経費", 0);
             read_database_CurrentMicosZaiko_addCheckbox("保管場所", 1);
@@ -105,11 +116,20 @@ namespace MicosController
             textBox_queeryStatement.Enabled = true;
             button_extract_queeryStatement.Enabled = true;
 
+            //ファイルを選択したあとにボタンを有効化
+            button_csv_templateOut.Enabled = true;
+            button_Micos_csv.Enabled = true;
+
         }
 
         private void button_fileselect_zaiko_Click(object sender, EventArgs e)
         {
             read_ActualZaikoData_fromFileOpen();
+            if(Current_Actual_Zaiko_Table == null) //ダイアログボックス開いたけど、ファイルを選択しなかった場合。
+            {
+                return;
+            }
+
             read_database_ActualZaiko();
 
             Create_DiplayTable_fromOriginalTable(Current_Actual_Zaiko_Table,Current_Actual_Zaiko_Display_Table,1);
@@ -180,6 +200,7 @@ namespace MicosController
                 checkedListBox_adjust_hokanbasyo.Items.Add(row["保管場所"]); //"経費"列の重複してないものをチェックボックスに追加する。
             }
 
+            panel_adjust_micos.Enabled = true;
 
         }
         /// <summary>
@@ -218,7 +239,7 @@ namespace MicosController
                         for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                         {
 
-                            if (i == 10) // 10列目：現在在庫数
+                            if (column[i] == "現在在庫数") // 列名が現在在庫数のとき
                             {
                                Current_Micos_Zaiko_Table.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
                             }
@@ -664,15 +685,15 @@ namespace MicosController
 
             i = 0;
 
-            foreach (string selected_keihi in checkedListBox_currentMicos_hokan.CheckedItems)
+            foreach (string selected_hokan in checkedListBox_currentMicos_hokan.CheckedItems)
             {
                 if (i == 0)
                 {
-                    temp_querry_hokan = querry_maker_fullmatch(0, "保管場所", selected_keihi, "");
+                    temp_querry_hokan = querry_maker_fullmatch(0, "保管場所", selected_hokan, "");
                 }
                 else
                 {
-                    temp_querry_hokan = querry_maker_fullmatch(2, "保管場所", selected_keihi, temp_querry_hokan);
+                    temp_querry_hokan = querry_maker_fullmatch(2, "保管場所", selected_hokan, temp_querry_hokan);
                 }
                 i++;
             }
@@ -683,19 +704,19 @@ namespace MicosController
                 return;
             }
 
-            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_keihi).CopyToDataTable();
+            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_hokan).CopyToDataTable();
 
             i = 0;
 
-            foreach (string selected_keihi in checkedListBox_currentMicos_koutei.CheckedItems)
+            foreach (string selected_koutei in checkedListBox_currentMicos_koutei.CheckedItems)
             {
                 if (i == 0)
                 {
-                    temp_querry_koutei = querry_maker_fullmatch(0, "工程", selected_keihi, "");
+                    temp_querry_koutei = querry_maker_fullmatch(0, "工程", selected_koutei, "");
                 }
                 else
                 {
-                    temp_querry_koutei = querry_maker_fullmatch(2, "工程", selected_keihi, temp_querry_koutei);
+                    temp_querry_koutei = querry_maker_fullmatch(2, "工程", selected_koutei, temp_querry_koutei);
                 }
                 i++;
             }
@@ -838,7 +859,10 @@ namespace MicosController
             pt.Start();
 
             Micos_Open_Flag = 1;
+            Micos_Enter_flag = 0;
             page_counter = 0;
+
+            Detect_Micos_On_Window(Micos_Window_Title);
         }
         private void EnterCommand_Micos(string username)
         {
@@ -872,6 +896,26 @@ namespace MicosController
             }
         }
 
+        async private void Detect_Micos_On_Window(string Micos_Window_Title) //0.1秒毎に100回（合計10秒）Micosのスタートウインドウがあるか確認する。
+        {
+            for(int i = 0; i < 100; i++) 
+            {
+                foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                {
+                    if (p.MainWindowTitle == Micos_Window_Title)
+                    {
+                        this.Activate();
+                        MessageBox.Show("Micosがスタート画面になっているのを確認してください。");
+                        return;
+                    }
+                }
+                await Task.Delay(100);
+            }
+            this.Activate();
+            MessageBox.Show("Micosのスタート画面が認識されません。");
+
+        }
+
         private void Go_to_AdjustingMenu()
         {
             Activate_MicosWindow();
@@ -893,12 +937,14 @@ namespace MicosController
             SendKeys.SendWait("11");
             SendKeys.SendWait("{ENTER}");
             page_counter++;
+
+            this.Activate();
         }
 
         private void Adjust_Micos() //保管場所毎にMicos数を合わせる。
         {
-            SendKeys.SendWait("{DOWN}");
-            SendKeys.SendWait("{DOWN}");
+            //SendKeys.SendWait("{DOWN}");
+            //SendKeys.SendWait("{DOWN}");
 
             //保管場所入力
             //Difference_Table.
@@ -920,7 +966,7 @@ namespace MicosController
                 
                 foreach(DataRow row in hokanbasyo_zaiko.Rows)
                 {
-                    string_clipboard +=((string)row["品目ＣＤ"] + "                                " + (string)row["在庫との差(Micos - 在庫)"]+"\n");
+                    string_clipboard += ((string)row["品目ＣＤ"] + "                                " + row["在庫との差(Micos - 在庫)"].ToString() + "\n");
                     rows_cnt++;
 
                     if (rows_cnt == 8)
@@ -939,9 +985,24 @@ namespace MicosController
                 //Clipboard.SetDataObject(string_clipboard);
 
                 //SendKeys.SendWait("^v");
+                this.Activate();
+                DialogResult result = MessageBox.Show("入力したMicosデータに間違いはありませんか？", "最終確認", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
 
+                if (result == DialogResult.Yes)
+                {
+                    Activate_MicosWindow();
+                    SendKeys.SendWait("{ENTER}");
+                    SendKeys.SendWait("{ENTER}");
+                }
+                else if (result == DialogResult.No){
+                    return;
 
-                SendKeys.SendWait("{F12}");
+                }else if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                SendKeys.SendWait("{F12}"); //在庫入力画面から戻るボタン。
 
             }
 

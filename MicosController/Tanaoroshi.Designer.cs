@@ -48,19 +48,17 @@ namespace MicosController
             this.button_filter_Micos = new System.Windows.Forms.Button();
             this.textBox_queeryStatement = new System.Windows.Forms.TextBox();
             this.button_extract_queeryStatement = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.button_csv_templateOut = new System.Windows.Forms.Button();
             this.panel_adjust_micos = new System.Windows.Forms.Panel();
+            this.checkedListBox_adjust_hokanbasyo = new System.Windows.Forms.CheckedListBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.button_adjust_micos = new System.Windows.Forms.Button();
             this.button_zaiko_adjust_screen = new System.Windows.Forms.Button();
             this.OpenMicos_btn = new System.Windows.Forms.Button();
             this.button_Micos_csv = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.checkedListBox_adjust_hokanbasyo = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).BeginInit();
-            this.panel1.SuspendLayout();
             this.panel_adjust_micos.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,38 +141,42 @@ namespace MicosController
             // 
             // textBox_filepath_micos
             // 
-            this.textBox_filepath_micos.Location = new System.Drawing.Point(301, 437);
+            this.textBox_filepath_micos.Location = new System.Drawing.Point(241, 437);
             this.textBox_filepath_micos.Multiline = true;
             this.textBox_filepath_micos.Name = "textBox_filepath_micos";
-            this.textBox_filepath_micos.Size = new System.Drawing.Size(111, 45);
+            this.textBox_filepath_micos.Size = new System.Drawing.Size(170, 45);
             this.textBox_filepath_micos.TabIndex = 9;
             // 
             // button_fileselect_micos
             // 
-            this.button_fileselect_micos.Location = new System.Drawing.Point(301, 488);
+            this.button_fileselect_micos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button_fileselect_micos.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_fileselect_micos.Location = new System.Drawing.Point(241, 488);
             this.button_fileselect_micos.Name = "button_fileselect_micos";
-            this.button_fileselect_micos.Size = new System.Drawing.Size(111, 36);
+            this.button_fileselect_micos.Size = new System.Drawing.Size(170, 35);
             this.button_fileselect_micos.TabIndex = 10;
-            this.button_fileselect_micos.Text = "ファイルを選択する";
-            this.button_fileselect_micos.UseVisualStyleBackColor = true;
+            this.button_fileselect_micos.Text = "Micos在庫ファイルを選択する";
+            this.button_fileselect_micos.UseVisualStyleBackColor = false;
             this.button_fileselect_micos.Click += new System.EventHandler(this.button_fileselect_micos_Click);
             // 
             // textBox_filepath_zaiko
             // 
-            this.textBox_filepath_zaiko.Location = new System.Drawing.Point(728, 437);
+            this.textBox_filepath_zaiko.Location = new System.Drawing.Point(669, 437);
             this.textBox_filepath_zaiko.Multiline = true;
             this.textBox_filepath_zaiko.Name = "textBox_filepath_zaiko";
-            this.textBox_filepath_zaiko.Size = new System.Drawing.Size(111, 45);
+            this.textBox_filepath_zaiko.Size = new System.Drawing.Size(170, 45);
             this.textBox_filepath_zaiko.TabIndex = 11;
             // 
             // button_fileselect_zaiko
             // 
-            this.button_fileselect_zaiko.Location = new System.Drawing.Point(728, 488);
+            this.button_fileselect_zaiko.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button_fileselect_zaiko.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_fileselect_zaiko.Location = new System.Drawing.Point(669, 488);
             this.button_fileselect_zaiko.Name = "button_fileselect_zaiko";
-            this.button_fileselect_zaiko.Size = new System.Drawing.Size(111, 36);
+            this.button_fileselect_zaiko.Size = new System.Drawing.Size(170, 35);
             this.button_fileselect_zaiko.TabIndex = 12;
-            this.button_fileselect_zaiko.Text = "ファイルを選択する";
-            this.button_fileselect_zaiko.UseVisualStyleBackColor = true;
+            this.button_fileselect_zaiko.Text = "実在庫ファイルを選択する";
+            this.button_fileselect_zaiko.UseVisualStyleBackColor = false;
             this.button_fileselect_zaiko.Click += new System.EventHandler(this.button_fileselect_zaiko_Click);
             // 
             // button_create_diffrencetable
@@ -205,24 +207,25 @@ namespace MicosController
             // 
             // button_filter_Micos
             // 
-            this.button_filter_Micos.Location = new System.Drawing.Point(12, 603);
+            this.button_filter_Micos.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_filter_Micos.Location = new System.Drawing.Point(12, 592);
             this.button_filter_Micos.Name = "button_filter_Micos";
-            this.button_filter_Micos.Size = new System.Drawing.Size(136, 23);
+            this.button_filter_Micos.Size = new System.Drawing.Size(199, 34);
             this.button_filter_Micos.TabIndex = 16;
-            this.button_filter_Micos.Text = "フィルタをかける";
+            this.button_filter_Micos.Text = "フィルタで抽出";
             this.button_filter_Micos.UseVisualStyleBackColor = true;
             this.button_filter_Micos.Click += new System.EventHandler(this.button_filter_Micos_Click);
             // 
             // textBox_queeryStatement
             // 
-            this.textBox_queeryStatement.Location = new System.Drawing.Point(10, 48);
+            this.textBox_queeryStatement.Location = new System.Drawing.Point(225, 580);
             this.textBox_queeryStatement.Name = "textBox_queeryStatement";
             this.textBox_queeryStatement.Size = new System.Drawing.Size(187, 19);
             this.textBox_queeryStatement.TabIndex = 17;
             // 
             // button_extract_queeryStatement
             // 
-            this.button_extract_queeryStatement.Location = new System.Drawing.Point(61, 73);
+            this.button_extract_queeryStatement.Location = new System.Drawing.Point(225, 605);
             this.button_extract_queeryStatement.Name = "button_extract_queeryStatement";
             this.button_extract_queeryStatement.Size = new System.Drawing.Size(136, 23);
             this.button_extract_queeryStatement.TabIndex = 18;
@@ -230,18 +233,9 @@ namespace MicosController
             this.button_extract_queeryStatement.UseVisualStyleBackColor = true;
             this.button_extract_queeryStatement.Click += new System.EventHandler(this.button_extract_queeryStatement_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.textBox_queeryStatement);
-            this.panel1.Controls.Add(this.button_extract_queeryStatement);
-            this.panel1.Location = new System.Drawing.Point(231, 530);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
-            this.panel1.TabIndex = 19;
-            // 
             // button_csv_templateOut
             // 
-            this.button_csv_templateOut.Location = new System.Drawing.Point(439, 551);
+            this.button_csv_templateOut.Location = new System.Drawing.Point(455, 603);
             this.button_csv_templateOut.Name = "button_csv_templateOut";
             this.button_csv_templateOut.Size = new System.Drawing.Size(268, 23);
             this.button_csv_templateOut.TabIndex = 20;
@@ -261,6 +255,24 @@ namespace MicosController
             this.panel_adjust_micos.Name = "panel_adjust_micos";
             this.panel_adjust_micos.Size = new System.Drawing.Size(300, 151);
             this.panel_adjust_micos.TabIndex = 21;
+            // 
+            // checkedListBox_adjust_hokanbasyo
+            // 
+            this.checkedListBox_adjust_hokanbasyo.FormattingEnabled = true;
+            this.checkedListBox_adjust_hokanbasyo.Location = new System.Drawing.Point(187, 42);
+            this.checkedListBox_adjust_hokanbasyo.Name = "checkedListBox_adjust_hokanbasyo";
+            this.checkedListBox_adjust_hokanbasyo.Size = new System.Drawing.Size(108, 88);
+            this.checkedListBox_adjust_hokanbasyo.TabIndex = 23;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Location = new System.Drawing.Point(3, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(238, 16);
+            this.label4.TabIndex = 3;
+            this.label4.Text = " Micosの数を在庫数に合わせる。";
             // 
             // button_adjust_micos
             // 
@@ -294,41 +306,24 @@ namespace MicosController
             // 
             // button_Micos_csv
             // 
-            this.button_Micos_csv.Location = new System.Drawing.Point(439, 499);
+            this.button_Micos_csv.Location = new System.Drawing.Point(455, 551);
             this.button_Micos_csv.Name = "button_Micos_csv";
-            this.button_Micos_csv.Size = new System.Drawing.Size(172, 46);
+            this.button_Micos_csv.Size = new System.Drawing.Size(268, 46);
             this.button_Micos_csv.TabIndex = 22;
-            this.button_Micos_csv.Text = "MicosデータをCSV出力";
+            this.button_Micos_csv.Text = "抽出したMicosデータをCSV出力";
             this.button_Micos_csv.UseVisualStyleBackColor = true;
             this.button_Micos_csv.Click += new System.EventHandler(this.button_Micos_csv_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(3, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(238, 16);
-            this.label4.TabIndex = 3;
-            this.label4.Text = " Micosの数を在庫数に合わせる。";
-            // 
-            // checkedListBox_adjust_hokanbasyo
-            // 
-            this.checkedListBox_adjust_hokanbasyo.FormattingEnabled = true;
-            this.checkedListBox_adjust_hokanbasyo.Location = new System.Drawing.Point(187, 42);
-            this.checkedListBox_adjust_hokanbasyo.Name = "checkedListBox_adjust_hokanbasyo";
-            this.checkedListBox_adjust_hokanbasyo.Size = new System.Drawing.Size(108, 88);
-            this.checkedListBox_adjust_hokanbasyo.TabIndex = 23;
             // 
             // Tanaoroshi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1257, 640);
+            this.Controls.Add(this.button_extract_queeryStatement);
+            this.Controls.Add(this.textBox_queeryStatement);
             this.Controls.Add(this.button_Micos_csv);
             this.Controls.Add(this.panel_adjust_micos);
             this.Controls.Add(this.button_csv_templateOut);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_filter_Micos);
             this.Controls.Add(this.checkedListBox_currentMicos_koutei);
             this.Controls.Add(this.checkedListBox_currentMicos_hokan);
@@ -350,8 +345,6 @@ namespace MicosController
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel_adjust_micos.ResumeLayout(false);
             this.panel_adjust_micos.PerformLayout();
             this.ResumeLayout(false);
@@ -380,7 +373,6 @@ namespace MicosController
         private System.Windows.Forms.Button button_filter_Micos;
         private System.Windows.Forms.TextBox textBox_queeryStatement;
         private System.Windows.Forms.Button button_extract_queeryStatement;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button_csv_templateOut;
         private System.Windows.Forms.Panel panel_adjust_micos;
         private System.Windows.Forms.Button button_adjust_micos;
