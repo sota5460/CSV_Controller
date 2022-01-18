@@ -67,6 +67,12 @@
     <Compile Include="Tanaoroshi.Designer.cs">
       <DependentUpon>Tanaoroshi.cs</DependentUpon>
     </Compile>
+    <Compile Include="部品在庫管理.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="部品在庫管理.Designer.cs">
+      <DependentUpon>部品在庫管理.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -84,6 +90,9 @@
     </Compile>
     <EmbeddedResource Include="Tanaoroshi.resx">
       <DependentUpon>Tanaoroshi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="部品在庫管理.resx">
+      <DependentUpon>部品在庫管理.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

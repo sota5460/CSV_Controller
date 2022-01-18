@@ -58,6 +58,12 @@ namespace MicosController
             this.OpenMicos_btn = new System.Windows.Forms.Button();
             this.button_Micos_csv = new System.Windows.Forms.Button();
             this.textBox_howtoquerry = new System.Windows.Forms.TextBox();
+            this.button_allcheck_keihi = new System.Windows.Forms.Button();
+            this.button_alluncheck_keihi = new System.Windows.Forms.Button();
+            this.button_allcheck_hokan = new System.Windows.Forms.Button();
+            this.button_allcheck_koutei = new System.Windows.Forms.Button();
+            this.button_alluncheck_hokan = new System.Windows.Forms.Button();
+            this.button_alluncheck_koutei = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).BeginInit();
@@ -143,21 +149,21 @@ namespace MicosController
             // 
             // textBox_filepath_micos
             // 
-            this.textBox_filepath_micos.Location = new System.Drawing.Point(241, 437);
+            this.textBox_filepath_micos.Location = new System.Drawing.Point(262, 437);
             this.textBox_filepath_micos.Multiline = true;
             this.textBox_filepath_micos.Name = "textBox_filepath_micos";
-            this.textBox_filepath_micos.Size = new System.Drawing.Size(170, 45);
+            this.textBox_filepath_micos.Size = new System.Drawing.Size(150, 45);
             this.textBox_filepath_micos.TabIndex = 9;
             // 
             // button_fileselect_micos
             // 
             this.button_fileselect_micos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.button_fileselect_micos.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button_fileselect_micos.Location = new System.Drawing.Point(241, 488);
+            this.button_fileselect_micos.Location = new System.Drawing.Point(262, 488);
             this.button_fileselect_micos.Name = "button_fileselect_micos";
-            this.button_fileselect_micos.Size = new System.Drawing.Size(170, 35);
+            this.button_fileselect_micos.Size = new System.Drawing.Size(149, 46);
             this.button_fileselect_micos.TabIndex = 10;
-            this.button_fileselect_micos.Text = "Micos在庫ファイルを選択する";
+            this.button_fileselect_micos.Text = "Micos在庫ファイルを\r\n選択する";
             this.button_fileselect_micos.UseVisualStyleBackColor = false;
             this.button_fileselect_micos.Click += new System.EventHandler(this.button_fileselect_micos_Click);
             // 
@@ -221,7 +227,7 @@ namespace MicosController
             // 
             // textBox_queeryStatement
             // 
-            this.textBox_queeryStatement.Location = new System.Drawing.Point(225, 580);
+            this.textBox_queeryStatement.Location = new System.Drawing.Point(225, 589);
             this.textBox_queeryStatement.Name = "textBox_queeryStatement";
             this.textBox_queeryStatement.Size = new System.Drawing.Size(187, 19);
             this.textBox_queeryStatement.TabIndex = 17;
@@ -229,7 +235,7 @@ namespace MicosController
             // 
             // button_extract_queeryStatement
             // 
-            this.button_extract_queeryStatement.Location = new System.Drawing.Point(225, 605);
+            this.button_extract_queeryStatement.Location = new System.Drawing.Point(225, 614);
             this.button_extract_queeryStatement.Name = "button_extract_queeryStatement";
             this.button_extract_queeryStatement.Size = new System.Drawing.Size(136, 23);
             this.button_extract_queeryStatement.TabIndex = 18;
@@ -327,11 +333,77 @@ namespace MicosController
             this.textBox_howtoquerry.TabIndex = 23;
             this.textBox_howtoquerry.Text = resources.GetString("textBox_howtoquerry.Text");
             // 
+            // button_allcheck_keihi
+            // 
+            this.button_allcheck_keihi.BackColor = System.Drawing.Color.Red;
+            this.button_allcheck_keihi.Location = new System.Drawing.Point(217, 434);
+            this.button_allcheck_keihi.Name = "button_allcheck_keihi";
+            this.button_allcheck_keihi.Size = new System.Drawing.Size(20, 20);
+            this.button_allcheck_keihi.TabIndex = 24;
+            this.button_allcheck_keihi.UseVisualStyleBackColor = false;
+            this.button_allcheck_keihi.Click += new System.EventHandler(this.button_allcheck_keihi_Click);
+            // 
+            // button_alluncheck_keihi
+            // 
+            this.button_alluncheck_keihi.BackColor = System.Drawing.Color.Blue;
+            this.button_alluncheck_keihi.Location = new System.Drawing.Point(217, 458);
+            this.button_alluncheck_keihi.Name = "button_alluncheck_keihi";
+            this.button_alluncheck_keihi.Size = new System.Drawing.Size(20, 20);
+            this.button_alluncheck_keihi.TabIndex = 25;
+            this.button_alluncheck_keihi.UseVisualStyleBackColor = false;
+            this.button_alluncheck_keihi.Click += new System.EventHandler(this.button_alluncheck_keihi_Click);
+            // 
+            // button_allcheck_hokan
+            // 
+            this.button_allcheck_hokan.BackColor = System.Drawing.Color.Red;
+            this.button_allcheck_hokan.Location = new System.Drawing.Point(217, 492);
+            this.button_allcheck_hokan.Name = "button_allcheck_hokan";
+            this.button_allcheck_hokan.Size = new System.Drawing.Size(20, 20);
+            this.button_allcheck_hokan.TabIndex = 26;
+            this.button_allcheck_hokan.UseVisualStyleBackColor = false;
+            this.button_allcheck_hokan.Click += new System.EventHandler(this.button_allcheck_hokan_Click);
+            // 
+            // button_allcheck_koutei
+            // 
+            this.button_allcheck_koutei.BackColor = System.Drawing.Color.Red;
+            this.button_allcheck_koutei.Location = new System.Drawing.Point(217, 540);
+            this.button_allcheck_koutei.Name = "button_allcheck_koutei";
+            this.button_allcheck_koutei.Size = new System.Drawing.Size(20, 20);
+            this.button_allcheck_koutei.TabIndex = 27;
+            this.button_allcheck_koutei.UseVisualStyleBackColor = false;
+            this.button_allcheck_koutei.Click += new System.EventHandler(this.button_allcheck_koutei_Click);
+            // 
+            // button_alluncheck_hokan
+            // 
+            this.button_alluncheck_hokan.BackColor = System.Drawing.Color.Blue;
+            this.button_alluncheck_hokan.Location = new System.Drawing.Point(217, 514);
+            this.button_alluncheck_hokan.Name = "button_alluncheck_hokan";
+            this.button_alluncheck_hokan.Size = new System.Drawing.Size(20, 20);
+            this.button_alluncheck_hokan.TabIndex = 28;
+            this.button_alluncheck_hokan.UseVisualStyleBackColor = false;
+            this.button_alluncheck_hokan.Click += new System.EventHandler(this.button_alluncheck_hokan_Click);
+            // 
+            // button_alluncheck_koutei
+            // 
+            this.button_alluncheck_koutei.BackColor = System.Drawing.Color.Blue;
+            this.button_alluncheck_koutei.Location = new System.Drawing.Point(217, 564);
+            this.button_alluncheck_koutei.Name = "button_alluncheck_koutei";
+            this.button_alluncheck_koutei.Size = new System.Drawing.Size(20, 20);
+            this.button_alluncheck_koutei.TabIndex = 29;
+            this.button_alluncheck_koutei.UseVisualStyleBackColor = false;
+            this.button_alluncheck_koutei.Click += new System.EventHandler(this.button_alluncheck_koutei_Click);
+            // 
             // Tanaoroshi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1381, 649);
+            this.Controls.Add(this.button_alluncheck_koutei);
+            this.Controls.Add(this.button_alluncheck_hokan);
+            this.Controls.Add(this.button_allcheck_koutei);
+            this.Controls.Add(this.button_allcheck_hokan);
+            this.Controls.Add(this.button_alluncheck_keihi);
+            this.Controls.Add(this.button_allcheck_keihi);
             this.Controls.Add(this.textBox_howtoquerry);
             this.Controls.Add(this.button_extract_queeryStatement);
             this.Controls.Add(this.textBox_queeryStatement);
@@ -396,5 +468,11 @@ namespace MicosController
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckedListBox checkedListBox_adjust_hokanbasyo;
         private System.Windows.Forms.TextBox textBox_howtoquerry;
+        private System.Windows.Forms.Button button_allcheck_keihi;
+        private System.Windows.Forms.Button button_alluncheck_keihi;
+        private System.Windows.Forms.Button button_allcheck_hokan;
+        private System.Windows.Forms.Button button_allcheck_koutei;
+        private System.Windows.Forms.Button button_alluncheck_hokan;
+        private System.Windows.Forms.Button button_alluncheck_koutei;
     }
 }

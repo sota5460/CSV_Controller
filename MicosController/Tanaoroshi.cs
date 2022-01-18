@@ -164,7 +164,7 @@ namespace MicosController
         {
             string queery = textBox_queeryStatement.Text;
 
-            Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(queery).CopyToDataTable();
+            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(queery).CopyToDataTable();
 
 
             dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;
@@ -1056,6 +1056,57 @@ namespace MicosController
             Adjust_Micos();
         }
 
+        /// <summary>
+        /// チェックボックスにチェックするボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_allcheck_keihi_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_CurrentMicos_keihi.Items.Count; i++) //すべての項目をチェックする。
+            {
+                checkedListBox_CurrentMicos_keihi.SetItemChecked(i, true);
+            }
+        }
 
+        private void button_alluncheck_keihi_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_CurrentMicos_keihi.Items.Count; i++) //すべての項目をチェックする。
+            {
+                checkedListBox_CurrentMicos_keihi.SetItemChecked(i, false);
+            }
+        }
+
+        private void button_allcheck_hokan_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_currentMicos_hokan.Items.Count; i++) //すべての項目をチェックする。
+            {
+                checkedListBox_currentMicos_hokan.SetItemChecked(i, true);
+            }
+        }
+
+        private void button_alluncheck_hokan_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_currentMicos_hokan.Items.Count; i++) //すべての項目をチェックする。
+            {
+                checkedListBox_currentMicos_hokan.SetItemChecked(i, false);
+            }
+        }
+
+        private void button_allcheck_koutei_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_currentMicos_koutei.Items.Count; i++) //すべての項目をチェックする。
+            {
+                checkedListBox_currentMicos_koutei.SetItemChecked(i, true);
+            }
+        }
+
+        private void button_alluncheck_koutei_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_currentMicos_koutei.Items.Count; i++) //すべての項目をチェックする。
+            {
+                checkedListBox_currentMicos_koutei.SetItemChecked(i, false);
+            }
+        }
     }
 }
