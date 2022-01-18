@@ -120,6 +120,20 @@
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="textBox_howtoquerry.Text" xml:space="preserve">
+    <value>列名 LIKE 'a' 　⇒　文字列aと完全一致
+列名 LIKE '%aa'　⇒　後半の-aaだけ一致
+列名 LIKE 'EE%'　⇒　前半aa-だけ一致　
+列名 LIKE 'EE%' AND 列名 LIKE '%70'
+列名 LIKE 'EE%' OR 列名 LIKE '%70'
+
+ex) 
+品目ＣＤ LIKE 'EE%' AND 保管場所 LIKE '%70'　
+⇒EE～(品目ＣＤ)かつ～70(保管場所)の材料が抽出される。 
+
+品目ＣＤ LIKE 'EE%' OR 保管場所 LIKE '%70'
+⇒EE～(品目ＣＤ)あるいは～70(保管場所)の材料が抽出される。 </value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>31</value>
   </metadata>

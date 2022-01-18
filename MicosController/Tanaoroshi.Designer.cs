@@ -29,6 +29,7 @@ namespace MicosController
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tanaoroshi));
             this.dataGridView_CurrentMicos = new System.Windows.Forms.DataGridView();
             this.dataGridView_ActualZaiko = new System.Windows.Forms.DataGridView();
             this.dataGridView_Difference_Table = new System.Windows.Forms.DataGridView();
@@ -56,6 +57,7 @@ namespace MicosController
             this.button_zaiko_adjust_screen = new System.Windows.Forms.Button();
             this.OpenMicos_btn = new System.Windows.Forms.Button();
             this.button_Micos_csv = new System.Windows.Forms.Button();
+            this.textBox_howtoquerry = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_CurrentMicos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ActualZaiko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Difference_Table)).BeginInit();
@@ -83,7 +85,7 @@ namespace MicosController
             // dataGridView_Difference_Table
             // 
             this.dataGridView_Difference_Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Difference_Table.Location = new System.Drawing.Point(945, 50);
+            this.dataGridView_Difference_Table.Location = new System.Drawing.Point(1065, 50);
             this.dataGridView_Difference_Table.Name = "dataGridView_Difference_Table";
             this.dataGridView_Difference_Table.RowTemplate.Height = 21;
             this.dataGridView_Difference_Table.Size = new System.Drawing.Size(300, 380);
@@ -113,7 +115,7 @@ namespace MicosController
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("MS UI Gothic", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(941, 18);
+            this.label3.Location = new System.Drawing.Point(1061, 18);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(198, 20);
             this.label3.TabIndex = 5;
@@ -181,11 +183,12 @@ namespace MicosController
             // 
             // button_create_diffrencetable
             // 
-            this.button_create_diffrencetable.Location = new System.Drawing.Point(854, 215);
+            this.button_create_diffrencetable.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_create_diffrencetable.Location = new System.Drawing.Point(855, 212);
             this.button_create_diffrencetable.Name = "button_create_diffrencetable";
-            this.button_create_diffrencetable.Size = new System.Drawing.Size(75, 23);
+            this.button_create_diffrencetable.Size = new System.Drawing.Size(204, 71);
             this.button_create_diffrencetable.TabIndex = 13;
-            this.button_create_diffrencetable.Text = "在庫の差異";
+            this.button_create_diffrencetable.Text = "Micosと実在庫の差を表示";
             this.button_create_diffrencetable.UseVisualStyleBackColor = true;
             this.button_create_diffrencetable.Click += new System.EventHandler(this.button_create_diffrencetable_Click);
             // 
@@ -222,6 +225,7 @@ namespace MicosController
             this.textBox_queeryStatement.Name = "textBox_queeryStatement";
             this.textBox_queeryStatement.Size = new System.Drawing.Size(187, 19);
             this.textBox_queeryStatement.TabIndex = 17;
+            this.textBox_queeryStatement.MouseHover += new System.EventHandler(this.textBox_queeryStatement_MouseHover);
             // 
             // button_extract_queeryStatement
             // 
@@ -251,7 +255,7 @@ namespace MicosController
             this.panel_adjust_micos.Controls.Add(this.button_adjust_micos);
             this.panel_adjust_micos.Controls.Add(this.button_zaiko_adjust_screen);
             this.panel_adjust_micos.Controls.Add(this.OpenMicos_btn);
-            this.panel_adjust_micos.Location = new System.Drawing.Point(945, 456);
+            this.panel_adjust_micos.Location = new System.Drawing.Point(1065, 448);
             this.panel_adjust_micos.Name = "panel_adjust_micos";
             this.panel_adjust_micos.Size = new System.Drawing.Size(300, 151);
             this.panel_adjust_micos.TabIndex = 21;
@@ -314,11 +318,21 @@ namespace MicosController
             this.button_Micos_csv.UseVisualStyleBackColor = true;
             this.button_Micos_csv.Click += new System.EventHandler(this.button_Micos_csv_Click);
             // 
+            // textBox_howtoquerry
+            // 
+            this.textBox_howtoquerry.Location = new System.Drawing.Point(439, 488);
+            this.textBox_howtoquerry.Multiline = true;
+            this.textBox_howtoquerry.Name = "textBox_howtoquerry";
+            this.textBox_howtoquerry.Size = new System.Drawing.Size(332, 151);
+            this.textBox_howtoquerry.TabIndex = 23;
+            this.textBox_howtoquerry.Text = resources.GetString("textBox_howtoquerry.Text");
+            // 
             // Tanaoroshi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1257, 640);
+            this.ClientSize = new System.Drawing.Size(1381, 649);
+            this.Controls.Add(this.textBox_howtoquerry);
             this.Controls.Add(this.button_extract_queeryStatement);
             this.Controls.Add(this.textBox_queeryStatement);
             this.Controls.Add(this.button_Micos_csv);
@@ -381,5 +395,6 @@ namespace MicosController
         private System.Windows.Forms.Button button_Micos_csv;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckedListBox checkedListBox_adjust_hokanbasyo;
+        private System.Windows.Forms.TextBox textBox_howtoquerry;
     }
 }

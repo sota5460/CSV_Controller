@@ -81,6 +81,10 @@ namespace MicosController
             //差ﾃｰﾌﾞﾙ出すまでmicosの調整パネルdisable
             panel_adjust_micos.Enabled = false;
 
+            //クエリ文の書き方ボックスを消す
+            textBox_howtoquerry.Enabled = false;
+            textBox_howtoquerry.Visible = false;
+
 
         }
 
@@ -437,7 +441,7 @@ namespace MicosController
                 zaiko_data_num_cnt = 0;
                 foreach (DataRow row_actualZaiko in Current_Actual_Zaiko_Display_Table.Rows)
                 {
-                    if (row_micos["品目ＣＤ"].ToString() == row_actualZaiko["品目ＣＤ"].ToString())　//&& row_micos["保管場所"].ToString() == row_actualZaiko["保管場所"] で保管場所も条件に入れられる。
+                    if (row_micos["品目ＣＤ"].ToString() == row_actualZaiko["品目ＣＤ"].ToString() && row_micos["保管場所"].ToString() == row_actualZaiko["保管場所"].ToString())　//&& row_micos["保管場所"].ToString() == row_actualZaiko["保管場所"].ToString() で保管場所も条件に入れられる。
                     {
                         float row_micos_zaiko = (float)row_micos["現在在庫数"]; //なぜか一回フロート型の変数に明示的に型指定して、取り出さないと計算できなかった。
                         float row_actual_zaiko = (float)row_actualZaiko["現在在庫数"];
@@ -448,6 +452,7 @@ namespace MicosController
                         row_difference["保管場所"] = row_micos["保管場所"];
                         row_difference["工程"] = row_micos["工程"];
                         row_difference["経費"] = row_micos["経費"];
+                        row_difference["品名"] = row_micos["品名"];
 
 
                         Difference_Table.Rows.Add(row_difference);
@@ -464,7 +469,7 @@ namespace MicosController
                         row_difference["保管場所"] = row_micos["保管場所"];
                         row_difference["工程"] = row_micos["工程"];
                         row_difference["経費"] = row_micos["経費"];
-
+                        row_difference["品名"] = row_micos["品名"];
 
                         Difference_Table.Rows.Add(row_difference);
 
@@ -484,7 +489,7 @@ namespace MicosController
                 micos_data_num_cnt = 0;
                 foreach(DataRow row_micos in Micos_Display_Extracted_Table.Rows)
                 {
-                    if (row_actualZaiko["品目ＣＤ"].ToString()== row_micos["品目ＣＤ"].ToString())
+                    if (row_actualZaiko["品目ＣＤ"].ToString()== row_micos["品目ＣＤ"].ToString() && row_micos["保管場所"].ToString() == row_actualZaiko["保管場所"].ToString())
                     {
                         break;
                     }
@@ -499,6 +504,7 @@ namespace MicosController
                         row_difference["保管場所"] = row_actualZaiko["保管場所"];
                         row_difference["工程"] = row_actualZaiko["工程"];
                         row_difference["経費"] = row_actualZaiko["経費"];
+                        row_difference["品名"] = row_actualZaiko["品名"];
 
 
                         Difference_Table.Rows.Add(row_difference);
@@ -822,6 +828,29 @@ namespace MicosController
         }
 
         /// <summary>
+        /// クエリボタンhoverしたときに説明表示。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox_queeryStatement_MouseHover(object sender, EventArgs e)
+        {
+            if(textBox_howtoquerry.Visible == false)
+            {
+                textBox_howtoquerry.Visible = true;
+                textBox_howtoquerry.Enabled = true;
+                disable_textbox_queeryHowto();
+            }
+
+        }
+
+        async public void disable_textbox_queeryHowto()
+        {
+            await Task.Delay(6000);
+            textBox_howtoquerry.Visible = false;
+            textBox_howtoquerry.Enabled = false;
+        }
+
+        /// <summary>
         /// Micos調整する関連。51->11使用仕損で保管場所入力
         /// </summary>
         /// <param name="sender"></param>
@@ -1026,5 +1055,7 @@ namespace MicosController
             Activate_MicosWindow();
             Adjust_Micos();
         }
+
+
     }
 }
