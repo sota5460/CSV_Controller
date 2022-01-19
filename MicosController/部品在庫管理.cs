@@ -116,7 +116,7 @@ namespace MicosController
             dataGridView_ZaikoComponentList.DataSource = Zaiko_ComponentList_Table;
         }
 
-        public DataTable Sum_and_DeleteDoublicated_Table(DataTable TargetTable,string groupby_col, string sum_col_name,int sum_col_num, string doublicated_col) //TargetTableを指定した列（groupby_col）で分けたあとで、sum_col_name列の重複を消して、合計値を代わりにだす。計算値はfloat
+        public DataTable Sum_and_DeleteDoublicated_Table(DataTable TargetTable,string groupby_col, string sum_col_name,int sum_col_num, string doublicated_col,string doublicated_col2) //TargetTableを指定した列（groupby_col）で分けたあとで、sum_col_name列の重複を消して、合計値を代わりにだす。計算値はfloat
         {
             DataTable ReturnTable = new DataTable();
 
@@ -155,11 +155,11 @@ namespace MicosController
                 {
                     each_list_table_modified.Columns.Add(column.ColumnName, column.DataType);
                 }
-                
+
 
                 //DataRow DistinctComponent_Row;
-                bool first_flag = true;
-                bool doublicated_flag = false;
+                //bool first_flag = true;
+                int doublicated_cnt = 0;
                 float sum = 0;
 
                 foreach(DataRow row1 in each_list_table.Rows)
@@ -167,22 +167,26 @@ namespace MicosController
                     DataRow DistinctComponent_Row = each_list_table_modified.NewRow();
                     foreach (DataRow row2 in each_list_table.Rows)
                     {
-                        if (row1[doublicated_col].ToString() == row2[doublicated_col].ToString()) //もし重複項目二つあればここに追加する。 && row1[doublicated_col2].ToString() == row2[doublicated_col2].ToString()
+                        if (row1[doublicated_col].ToString() == row2[doublicated_col].ToString() && row1[doublicated_col2].ToString() == row2[doublicated_col2].ToString()) //もし重複項目二つあればここに追加する。 && row1[doublicated_col2].ToString() == row2[doublicated_col2].ToString()
                         {
-                            if (first_flag==false)
-                            {
-                                sum += (float)row2[sum_col_name];
-                                doublicated_flag = true;
-                            }
+                            //if (first_flag==false)
+                            //{
+                            //    sum += (float)row2[sum_col_name];
+                            //    //doublicated_flag = true;
+                            //}
 
-                            if(first_flag) //初回の重複はフラグを立てて、初期値を代入する。
-                            {
-                                first_flag = false;
-                                sum += (float)row2[sum_col_name];
-                            }
+                            //if(first_flag) //初回の重複はフラグを立てて、初期値を代入する。
+                            //{
+                            //    first_flag = false;
+                            //    sum += (float)row2[sum_col_name];
+                            //}
+                            
+                            sum += (float)row2[sum_col_name];
+                            doublicated_cnt++;
 
                         }
                     }
+                    //first_flag = true;
 
                     //if(doublicated_flag == false)
                     //{
@@ -235,13 +239,50 @@ namespace MicosController
 
                     }
 
-                    each_list_table_modified.Rows.Add(DistinctComponent_Row); //とりあえず重複しているデータもデータﾃｰﾌﾞﾙに格納する。
+                    bool already_exist = false;
+
+                    foreach(DataRow row in each_list_table_modified.Rows)
+                    {
+                        if(row[doublicated_col].ToString()==DistinctComponent_Row[doublicated_col].ToString() && row[doublicated_col2].ToString() == DistinctComponent_Row[doublicated_col2].ToString())//今作成したrowがすでにeach_list_table_modifiedに存在するかチェックする。
+                        {
+                            already_exist = true;
+                        }
+                    }
+
+                    if(already_exist == false)
+                    {
+                        each_list_table_modified.Rows.Add(DistinctComponent_Row);
+                    }
+
+                    already_exist = false;
+
+                    //each_list_table_modified.Rows.Add(DistinctComponent_Row); //とりあえず重複しているデータもデータﾃｰﾌﾞﾙに格納する。
                     //each_list_table_modified.
 
                 }
 
-                DataView dt = new DataView(each_list_table_modified);
-                each_list_table_modified = dt.ToTable(true, doublicated_col); //重複列を消去する。
+                
+
+                //DataView dt = new DataView(each_list_table_modified);
+                //each_list_table_modified = dt.ToTable(true, doublicated_col,doublicated_col2); //重複列を消去する。
+                //each_list_table_modified = dt.ToTable(true, doublicated_col); //重複列を消去する。
+
+                //DataTable newDT = new DataTable();
+                //foreach (DataColumn column in TargetTable.Columns) //ReturnTableに列名だけ加えておく。
+                //{
+                //    newDT.Columns.Add(column.ColumnName, column.DataType);
+                //}
+
+                //newDT = each_list_table_modified.AsEnumerable()
+                //    .GroupBy(filter => new {fil_col1 = filter.Field<string>(doublicated_col),fil_col2 = filter.Field<string>(doublicated_col2)})
+                //    .Select(x =>
+                //    {
+                //        DataRow row = newDT.NewRow();
+                //        for(int j =0; j < newDT.Columns.Count; j++)
+                //        {
+                //            row[i] = x
+                //        }
+                //    })
 
                 ReturnTable.Merge(each_list_table_modified);
 
@@ -275,7 +316,7 @@ namespace MicosController
 
         private void button_create_ZaikoComponentListTable_Click(object sender, EventArgs e)
         {
-            notDoublicated_Component_Table = Sum_and_DeleteDoublicated_Table(Component_Data_Original_Table, "選択品目ＣＤ", "数量",10 ,"子品目コード");
+            notDoublicated_Component_Table = Sum_and_DeleteDoublicated_Table(Component_Data_Original_Table, "選択品目ＣＤ", "数量",10 ,"子品目コード", "標準出庫保管場所");
             
             create_Zaiko_ComponentList_Table();
         }
