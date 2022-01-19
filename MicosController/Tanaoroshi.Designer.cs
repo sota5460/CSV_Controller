@@ -154,6 +154,7 @@ namespace MicosController
             this.textBox_filepath_micos.Name = "textBox_filepath_micos";
             this.textBox_filepath_micos.Size = new System.Drawing.Size(150, 45);
             this.textBox_filepath_micos.TabIndex = 9;
+          
             // 
             // button_fileselect_micos
             // 

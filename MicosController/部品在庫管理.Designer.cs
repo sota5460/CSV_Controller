@@ -29,10 +29,13 @@ namespace MicosController
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_ZaikoDataDisplayTable = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_ZaikoComponentList = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkedListBox_ZaikoOrigin_koutei = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox_ZaikoOrigin_hokan = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox_ZaikoOrigin_keihi = new System.Windows.Forms.CheckedListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -42,34 +45,34 @@ namespace MicosController
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.checkedListBox_ZaikoOrigin_keihi = new System.Windows.Forms.CheckedListBox();
-            this.checkedListBox_ZaikoOrigin_hokan = new System.Windows.Forms.CheckedListBox();
-            this.checkedListBox_ZaikoOrigin_koutei = new System.Windows.Forms.CheckedListBox();
-            this.button_ExtractedProduct_Display = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button_create_ZaikoComponentListTable = new System.Windows.Forms.Button();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.label13 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDataDisplayTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridView_ZaikoDataDisplayTable
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 44);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(250, 425);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView_ZaikoDataDisplayTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_ZaikoDataDisplayTable.Location = new System.Drawing.Point(12, 44);
+            this.dataGridView_ZaikoDataDisplayTable.Name = "dataGridView_ZaikoDataDisplayTable";
+            this.dataGridView_ZaikoDataDisplayTable.RowTemplate.Height = 21;
+            this.dataGridView_ZaikoDataDisplayTable.Size = new System.Drawing.Size(250, 425);
+            this.dataGridView_ZaikoDataDisplayTable.TabIndex = 0;
             // 
             // label1
             // 
@@ -81,14 +84,14 @@ namespace MicosController
             this.label1.TabIndex = 1;
             this.label1.Text = "対象の在庫";
             // 
-            // dataGridView2
+            // dataGridView_ZaikoComponentList
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(340, 44);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 21;
-            this.dataGridView2.Size = new System.Drawing.Size(455, 425);
-            this.dataGridView2.TabIndex = 2;
+            this.dataGridView_ZaikoComponentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_ZaikoComponentList.Location = new System.Drawing.Point(340, 44);
+            this.dataGridView_ZaikoComponentList.Name = "dataGridView_ZaikoComponentList";
+            this.dataGridView_ZaikoComponentList.RowTemplate.Height = 21;
+            this.dataGridView_ZaikoComponentList.Size = new System.Drawing.Size(455, 425);
+            this.dataGridView_ZaikoComponentList.TabIndex = 2;
             // 
             // panel1
             // 
@@ -100,6 +103,30 @@ namespace MicosController
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(326, 311);
             this.panel1.TabIndex = 3;
+            // 
+            // checkedListBox_ZaikoOrigin_koutei
+            // 
+            this.checkedListBox_ZaikoOrigin_koutei.FormattingEnabled = true;
+            this.checkedListBox_ZaikoOrigin_koutei.Location = new System.Drawing.Point(212, 31);
+            this.checkedListBox_ZaikoOrigin_koutei.Name = "checkedListBox_ZaikoOrigin_koutei";
+            this.checkedListBox_ZaikoOrigin_koutei.Size = new System.Drawing.Size(90, 186);
+            this.checkedListBox_ZaikoOrigin_koutei.TabIndex = 3;
+            // 
+            // checkedListBox_ZaikoOrigin_hokan
+            // 
+            this.checkedListBox_ZaikoOrigin_hokan.FormattingEnabled = true;
+            this.checkedListBox_ZaikoOrigin_hokan.Location = new System.Drawing.Point(116, 31);
+            this.checkedListBox_ZaikoOrigin_hokan.Name = "checkedListBox_ZaikoOrigin_hokan";
+            this.checkedListBox_ZaikoOrigin_hokan.Size = new System.Drawing.Size(90, 186);
+            this.checkedListBox_ZaikoOrigin_hokan.TabIndex = 2;
+            // 
+            // checkedListBox_ZaikoOrigin_keihi
+            // 
+            this.checkedListBox_ZaikoOrigin_keihi.FormattingEnabled = true;
+            this.checkedListBox_ZaikoOrigin_keihi.Location = new System.Drawing.Point(20, 31);
+            this.checkedListBox_ZaikoOrigin_keihi.Name = "checkedListBox_ZaikoOrigin_keihi";
+            this.checkedListBox_ZaikoOrigin_keihi.Size = new System.Drawing.Size(90, 186);
+            this.checkedListBox_ZaikoOrigin_keihi.TabIndex = 1;
             // 
             // label2
             // 
@@ -132,7 +159,7 @@ namespace MicosController
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(957, 84);
+            this.label5.Location = new System.Drawing.Point(1009, 84);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(311, 24);
             this.label5.TabIndex = 5;
@@ -141,7 +168,7 @@ namespace MicosController
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(887, 205);
+            this.label6.Location = new System.Drawing.Point(1008, 195);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(365, 36);
             this.label6.TabIndex = 6;
@@ -150,7 +177,7 @@ namespace MicosController
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(887, 307);
+            this.label7.Location = new System.Drawing.Point(1097, 298);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(119, 12);
             this.label7.TabIndex = 7;
@@ -185,15 +212,32 @@ namespace MicosController
             this.panel2.Size = new System.Drawing.Size(293, 184);
             this.panel2.TabIndex = 10;
             // 
-            // label8
+            // button3
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(13, 33);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 16);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "出荷製品CD";
+            this.button3.Location = new System.Drawing.Point(143, 121);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(134, 23);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "1つ前に戻る。";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(143, 150);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(134, 23);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "オリジナルに戻す。";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(143, 92);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(134, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "在庫データに反映する。";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -205,32 +249,15 @@ namespace MicosController
             this.label9.TabIndex = 12;
             this.label9.Text = "出荷数";
             // 
-            // button1
+            // label8
             // 
-            this.button1.Location = new System.Drawing.Point(143, 92);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "在庫データに反映する。";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(143, 150);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(134, 23);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "オリジナルに戻す。";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(143, 121);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(134, 23);
-            this.button3.TabIndex = 15;
-            this.button3.Text = "1つ前に戻る。";
-            this.button3.UseVisualStyleBackColor = true;
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label8.Location = new System.Drawing.Point(13, 33);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 16);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "出荷製品CD";
             // 
             // panel3
             // 
@@ -242,14 +269,14 @@ namespace MicosController
             this.panel3.Size = new System.Drawing.Size(301, 211);
             this.panel3.TabIndex = 4;
             // 
-            // label10
+            // label12
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 48);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(69, 12);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "使用製品CD";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(14, 74);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "クエリ入力";
             // 
             // label11
             // 
@@ -260,54 +287,51 @@ namespace MicosController
             this.label11.TabIndex = 1;
             this.label11.Text = "材料CD";
             // 
-            // label12
+            // label10
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(14, 74);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 12);
-            this.label12.TabIndex = 2;
-            this.label12.Text = "クエリ入力";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(14, 48);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(69, 12);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "使用製品CD";
             // 
-            // checkedListBox_ZaikoOrigin_keihi
+            // button_create_ZaikoComponentListTable
             // 
-            this.checkedListBox_ZaikoOrigin_keihi.FormattingEnabled = true;
-            this.checkedListBox_ZaikoOrigin_keihi.Location = new System.Drawing.Point(20, 31);
-            this.checkedListBox_ZaikoOrigin_keihi.Name = "checkedListBox_ZaikoOrigin_keihi";
-            this.checkedListBox_ZaikoOrigin_keihi.Size = new System.Drawing.Size(90, 186);
-            this.checkedListBox_ZaikoOrigin_keihi.TabIndex = 1;
+            this.button_create_ZaikoComponentListTable.Location = new System.Drawing.Point(108, 18);
+            this.button_create_ZaikoComponentListTable.Name = "button_create_ZaikoComponentListTable";
+            this.button_create_ZaikoComponentListTable.Size = new System.Drawing.Size(213, 23);
+            this.button_create_ZaikoComponentListTable.TabIndex = 11;
+            this.button_create_ZaikoComponentListTable.Text = "選択した在庫から使用製品を抽出する。";
+            this.button_create_ZaikoComponentListTable.UseVisualStyleBackColor = true;
+            this.button_create_ZaikoComponentListTable.Click += new System.EventHandler(this.button_create_ZaikoComponentListTable_Click);
             // 
-            // checkedListBox_ZaikoOrigin_hokan
+            // dataGridView3
             // 
-            this.checkedListBox_ZaikoOrigin_hokan.FormattingEnabled = true;
-            this.checkedListBox_ZaikoOrigin_hokan.Location = new System.Drawing.Point(116, 31);
-            this.checkedListBox_ZaikoOrigin_hokan.Name = "checkedListBox_ZaikoOrigin_hokan";
-            this.checkedListBox_ZaikoOrigin_hokan.Size = new System.Drawing.Size(90, 186);
-            this.checkedListBox_ZaikoOrigin_hokan.TabIndex = 2;
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(515, 128);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowTemplate.Height = 21;
+            this.dataGridView3.Size = new System.Drawing.Size(455, 425);
+            this.dataGridView3.TabIndex = 12;
             // 
-            // checkedListBox_ZaikoOrigin_koutei
+            // label13
             // 
-            this.checkedListBox_ZaikoOrigin_koutei.FormattingEnabled = true;
-            this.checkedListBox_ZaikoOrigin_koutei.Location = new System.Drawing.Point(212, 31);
-            this.checkedListBox_ZaikoOrigin_koutei.Name = "checkedListBox_ZaikoOrigin_koutei";
-            this.checkedListBox_ZaikoOrigin_koutei.Size = new System.Drawing.Size(90, 186);
-            this.checkedListBox_ZaikoOrigin_koutei.TabIndex = 3;
-            // 
-            // button_ExtractedProduct_Display
-            // 
-            this.button_ExtractedProduct_Display.Location = new System.Drawing.Point(108, 18);
-            this.button_ExtractedProduct_Display.Name = "button_ExtractedProduct_Display";
-            this.button_ExtractedProduct_Display.Size = new System.Drawing.Size(213, 23);
-            this.button_ExtractedProduct_Display.TabIndex = 11;
-            this.button_ExtractedProduct_Display.Text = "選択した在庫から使用製品を抽出する。";
-            this.button_ExtractedProduct_Display.UseVisualStyleBackColor = true;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(530, 304);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(229, 12);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "製品ＣＤ、現在在庫で生産可能数、使用材料";
             // 
             // 部品在庫管理
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1385, 621);
-            this.Controls.Add(this.button_ExtractedProduct_Display);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.dataGridView3);
+            this.Controls.Add(this.button_create_ZaikoComponentListTable);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label7);
@@ -316,19 +340,20 @@ namespace MicosController
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dataGridView_ZaikoComponentList);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_ZaikoDataDisplayTable);
             this.Name = "部品在庫管理";
             this.Text = "部品在庫管理";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDataDisplayTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -336,9 +361,9 @@ namespace MicosController
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_ZaikoDataDisplayTable;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridView_ZaikoComponentList;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -361,6 +386,8 @@ namespace MicosController
         private System.Windows.Forms.CheckedListBox checkedListBox_ZaikoOrigin_koutei;
         private System.Windows.Forms.CheckedListBox checkedListBox_ZaikoOrigin_hokan;
         private System.Windows.Forms.CheckedListBox checkedListBox_ZaikoOrigin_keihi;
-        private System.Windows.Forms.Button button_ExtractedProduct_Display;
+        private System.Windows.Forms.Button button_create_ZaikoComponentListTable;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.Label label13;
     }
 }

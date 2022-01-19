@@ -63,9 +63,10 @@ namespace MicosController
 
         public Form2 form2;
         public Tanaoroshi tanaoroshi_form;
+        public 部品在庫管理 buhinzaikokanri_form;
 
-       
-       
+
+
         public void init_component_table_fromCSV()
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -356,6 +357,11 @@ namespace MicosController
         {
             Transport_tanaoroshi_form();
 
+        }
+
+        private void button_buhinzaikokanri_Click(object sender, EventArgs e)
+        {
+            Transport_ZaikoKanri_form();
         }
         private void CSV_Extract()
         {
@@ -752,7 +758,7 @@ namespace MicosController
                 for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                 {
 
-                    if (i == 10) // 10列目：現在在庫数
+                    if (column[i] == "現在在庫数") // 10列目：現在在庫数
                     {
                         Component_Table_ICB.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
                     }
@@ -807,8 +813,16 @@ namespace MicosController
                     {
                         for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                         {
-                            Component_Table_MMB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
-                                                                                        //Console.WriteLine(column[i]);
+                            if (column[i]=="数量")
+                            {
+                                Component_Table_MMB.Columns.Add(column[i], typeof(float));
+                            }
+                            else
+                            {
+                                Component_Table_MMB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+                            }
+                           
+                                                                                        
                         }
 
                         first_file_flag = false;
@@ -856,7 +870,7 @@ namespace MicosController
                         for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                         {
 
-                            if (i == 10) // 10列目：現在在庫数
+                            if (column[i] == "現在在庫数") // 10列目：現在在庫数
                             {
                                 Component_Table_ICB.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
                             }
@@ -902,6 +916,19 @@ namespace MicosController
             tanaoroshi_form.Micos_process_name = Micos_process_name;
             tanaoroshi_form.Micos_Window_Title = Micos_Window_Title;
         }
+
+        public void Transport_ZaikoKanri_form()
+        {
+            buhinzaikokanri_form = new 部品在庫管理();
+            buhinzaikokanri_form.Show();
+
+            buhinzaikokanri_form.Zaiko_Data_Original_Table=Component_Table_ICB;
+            buhinzaikokanri_form.Component_Data_Original_Table = Component_Table_MMB;
+
+            buhinzaikokanri_form.init_Zaiko_Data_Display_Table();
+
+
+        }
         /// <summary>
         /// 設定変更したときに、変更値を保存する。
         /// </summary>
@@ -934,5 +961,7 @@ namespace MicosController
             }
             
         }
+
+
     }
 }

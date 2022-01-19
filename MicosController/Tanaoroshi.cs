@@ -1108,5 +1108,7 @@ namespace MicosController
                 checkedListBox_currentMicos_koutei.SetItemChecked(i, false);
             }
         }
+
+
     }
 }

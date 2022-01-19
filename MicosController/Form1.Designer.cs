@@ -89,6 +89,7 @@ namespace MicosController
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.button_buhinzaikokanri = new System.Windows.Forms.Button();
             this.panel_micos_setting.SuspendLayout();
             this.panel_buhin.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -467,6 +468,7 @@ namespace MicosController
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button_buhinzaikokanri);
             this.panel1.Controls.Add(this.button_TANAOROSHI);
             this.panel1.Controls.Add(this.button_create_db_zaiko);
             this.panel1.Controls.Add(this.label21);
@@ -713,6 +715,16 @@ namespace MicosController
             this.label14.TabIndex = 32;
             this.label14.Text = "出力区分";
             // 
+            // button_buhinzaikokanri
+            // 
+            this.button_buhinzaikokanri.Location = new System.Drawing.Point(107, 202);
+            this.button_buhinzaikokanri.Name = "button_buhinzaikokanri";
+            this.button_buhinzaikokanri.Size = new System.Drawing.Size(200, 23);
+            this.button_buhinzaikokanri.TabIndex = 8;
+            this.button_buhinzaikokanri.Text = "部品在庫管理";
+            this.button_buhinzaikokanri.UseVisualStyleBackColor = true;
+            this.button_buhinzaikokanri.Click += new System.EventHandler(this.button_buhinzaikokanri_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -805,6 +817,7 @@ namespace MicosController
         private System.Windows.Forms.Button button_TANAOROSHI;
         private System.Windows.Forms.TextBox textBox_MicosWindow;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Button button_buhinzaikokanri;
     }
 }
 
