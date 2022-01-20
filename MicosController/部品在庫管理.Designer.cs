@@ -483,6 +483,7 @@ namespace MicosController
             // 
             // dataGridView_ProductZaikoList
             // 
+            this.dataGridView_ProductZaikoList.AllowUserToOrderColumns = true;
             this.dataGridView_ProductZaikoList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_ProductZaikoList.Location = new System.Drawing.Point(23, 38);
             this.dataGridView_ProductZaikoList.Name = "dataGridView_ProductZaikoList";

@@ -642,9 +642,9 @@ namespace MicosController
             this.label18.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label18.Location = new System.Drawing.Point(210, 50);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(302, 12);
+            this.label18.Size = new System.Drawing.Size(301, 12);
             this.label18.TabIndex = 32;
-            this.label18.Text = "1:社内在庫 Z:社外在庫 3:別仕掛 4:総在庫 5:現品票別仕掛";
+            this.label18.Text = "1:社内在庫 2:社外在庫 3:別仕掛 4:総在庫 5:現品票別仕掛";
             // 
             // textBox_keihi_r
             // 
