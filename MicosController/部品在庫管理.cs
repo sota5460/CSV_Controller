@@ -36,7 +36,8 @@ namespace MicosController
 
         public struct zaiko_info
         {
-            public string zairyou_name;　//部品構成リスト、在庫リストから抽出
+            public string zairyou_name;　//部品構成リスト、在庫リストから抽出 品目CD
+            public string zairyou_hinmei;
             public float gennzai_zaiko; //在庫リストから抽出
             public float siyou_suu;　//部品構成リストから抽出
             public string tani;      //部品構成リスト、在庫リストから抽出
@@ -46,6 +47,7 @@ namespace MicosController
         public struct zairyou_info //部品構成リストの材料情報格納用。
         {
             public string zairyou_code;
+            public string zairyou_hinmei;
             public string zairyou_hokan_basyo;
             public float zairyou_siyousou;
         }
@@ -54,6 +56,12 @@ namespace MicosController
         {
             public string zairyou_code;
             public string zairyou_hokan_basyo;
+        }
+
+        public struct hinmei_cd_set
+        {
+            public string cd;
+            public string hinmei;
         }
 
         public DataTable notDoublicated_Component_Table { get; set; }
@@ -484,6 +492,7 @@ namespace MicosController
             Product_ZaikoList_Table = new DataTable();
 
             Product_ZaikoList_Table.Columns.Add("選択品目ＣＤ", typeof(string));
+            Product_ZaikoList_Table.Columns.Add("選択品名", typeof(string));
             Product_ZaikoList_Table.Columns.Add("製造可能数", typeof(int));
             Product_ZaikoList_Table.Columns.Add("現在在庫数", typeof(float));
             Product_ZaikoList_Table.Columns.Add("現在仕掛数", typeof(float));
@@ -492,6 +501,8 @@ namespace MicosController
 
             //抽出した在庫を含む製品をコレクションに格納する。
             List<string> Product_List = new List<string>();
+            List<hinmei_cd_set> Product_List_withHinmei = new List<hinmei_cd_set>();
+            //List<distinct_zairyo> Product_List = new List<distinct_zairyo>();
 
             foreach(DataRow row_zaiko in Zaiko_Data_Display_Table.Rows)
             {
@@ -499,9 +510,12 @@ namespace MicosController
                 {
                     if (row_zaiko["品目ＣＤ"].ToString() == row_comp["子品目コード"].ToString() && row_zaiko["保管場所"].ToString() == row_comp["標準出庫保管場所"].ToString())
                     {
+                        
                         if (Product_List.Contains(row_comp["選択品目ＣＤ"]) != true) //もしまだリストに製品ＣＤが存在しなければ追加する。
                         {
                             Product_List.Add(row_comp["選択品目ＣＤ"].ToString());
+                            hinmei_cd_set hinmei_cd = new hinmei_cd_set() { cd = row_comp["選択品目ＣＤ"].ToString(), hinmei = row_comp["選択品名"].ToString() };
+                            Product_List_withHinmei.Add(hinmei_cd);
                         }
                        
                     }
@@ -509,17 +523,26 @@ namespace MicosController
                 
             }
 
-            foreach(string product_name in Product_List)
+            foreach(hinmei_cd_set product_name_cd in Product_List_withHinmei)
             {
                 //それぞれの製品CD毎にDataRowとzaiko_infoを作成していく。
                 DataRow ProductZaiko_row = Product_ZaikoList_Table.NewRow();
-                ProductZaiko_row["選択品目ＣＤ"] = product_name;
+                ProductZaiko_row["選択品目ＣＤ"] = product_name_cd.cd;
+                ProductZaiko_row["選択品名"] = product_name_cd.hinmei;
 
-                string product_name_modified_sixletters = product_name.PadLeft(6,'0'); ;
-                //product_name_modified_sixletters =Text.PadLeft(6, '0');
-                DataTable genzai_zaiko_sikakari = Zaiko_Data_Original_Table.AsEnumerable().Where(x => x["品目ＣＤ"].ToString() == product_name_modified_sixletters).CopyToDataTable();
-                ProductZaiko_row["現在仕掛数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在仕掛数"]; //０行目固定。1つの製品品目CDに二つ以上の行があると適切に動かない。
-                ProductZaiko_row["現在在庫数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在在庫数"];
+                string product_name_modified_sixletters = product_name_cd.cd.PadLeft(6,'0'); ;
+                //在庫数が０だと在庫リストに表示されないから条件分岐する。
+                if(Zaiko_Data_Original_Table.AsEnumerable().Any(x => x["品目ＣＤ"].ToString() == product_name_modified_sixletters) == false) // //product_nameが在庫リストに存在しないパターン
+                {
+                    ProductZaiko_row["現在仕掛数"] = 0;
+                    ProductZaiko_row["現在在庫数"] = 0;
+                } else
+                {
+                    DataTable genzai_zaiko_sikakari = Zaiko_Data_Original_Table.AsEnumerable().Where(x => x["品目ＣＤ"].ToString() == product_name_modified_sixletters).CopyToDataTable();
+                    ProductZaiko_row["現在仕掛数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在仕掛数"]; //０行目固定。1つの製品品目CDに二つ以上の行があると適切に動かない。
+                    ProductZaiko_row["現在在庫数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在在庫数"];
+                }
+                
 
                 ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                 ///使用材料軍列を作成する処理。dic_zairyougun（Dictionay）を作成するための処理
@@ -533,11 +556,12 @@ namespace MicosController
                 {
                    
 
-                    if(product_name == row["選択品目ＣＤ"].ToString())
+                    if(product_name_cd.cd == row["選択品目ＣＤ"].ToString())
                     {
                         //if(Component_List.Contains(item.))
                         zairyou_info zairyou = new zairyou_info();
                         zairyou.zairyou_code = row["子品目コード"].ToString();
+                        zairyou.zairyou_hinmei = row["子品名"].ToString();
                         zairyou.zairyou_hokan_basyo = row["標準出庫保管場所"].ToString();
                         zairyou.zairyou_siyousou = (float)row["数量"];
 
@@ -609,14 +633,13 @@ namespace MicosController
                 foreach(zairyou_info each_zairyou in Component_List_notDoublicated)
                 {
                     zaiko_info z_info = new zaiko_info();
-                    z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数だけ部品構成リストからの情報を使わないといけない。
-
+                    z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数は部品構成リストからの情報を使わないといけない。
+                    z_info.zairyou_hinmei = each_zairyou.zairyou_hinmei; //品名も部品構成リストから取り出さないといけない。在庫数が0のものは在庫リストに表示されないから。
                     foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
                     {
                         if(each_zairyou.zairyou_code == row["品目ＣＤ"].ToString() && each_zairyou.zairyou_hokan_basyo == row["保管場所"].ToString())
                         {
                             z_info.zairyou_name = row["品目ＣＤ"].ToString();
-                           // z_info.tani = row["単位"].ToString();
                             z_info.hokan_basyo = row["保管場所"].ToString();
                             z_info.gennzai_zaiko = (float)row["現在在庫数"];
                            
@@ -647,8 +670,13 @@ namespace MicosController
 
             foreach (zaiko_info each_zaiko in target_dic.Values)
             {
+                if (each_zaiko.gennzai_zaiko < 0 || each_zaiko.siyou_suu < 0)
+                {
+                    break;
+                }
                 if (first_flag)
                 {
+                    
                     max_product_num = each_zaiko.gennzai_zaiko / each_zaiko.siyou_suu;
                     first_flag = false;
                 }
@@ -675,6 +703,7 @@ namespace MicosController
         {
             cell_component_zaiko_table = new DataTable();
             cell_component_zaiko_table.Columns.Add("品目ＣＤ", typeof(string));
+            cell_component_zaiko_table.Columns.Add("品名", typeof(string));
             cell_component_zaiko_table.Columns.Add("現在在庫数", typeof(float));
             cell_component_zaiko_table.Columns.Add("使用数", typeof(float));
             cell_component_zaiko_table.Columns.Add("保管場所", typeof(string));
@@ -684,7 +713,7 @@ namespace MicosController
         private void dataGridView_ProductZaikoList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             init_cell_component_zaiko_table();
-            if (e.ColumnIndex == 4)
+            if (e.ColumnIndex == 5)
             {
                 DataRow select_row = Product_ZaikoList_Table.Rows[e.RowIndex];
                 Dictionary<distinct_zairyo, zaiko_info> dic = (Dictionary<distinct_zairyo, zaiko_info>)select_row["使用材料群"];
@@ -694,6 +723,7 @@ namespace MicosController
                 {
                     DataRow row = cell_component_zaiko_table.NewRow();
                     row["品目ＣＤ"] = kvp.Key.zairyou_code;
+                    row["品名"] = kvp.Value.zairyou_hinmei;
                     row["現在在庫数"] = kvp.Value.gennzai_zaiko;
                     row["使用数"] = kvp.Value.siyou_suu;
                     row["保管場所"] = kvp.Value.hokan_basyo;

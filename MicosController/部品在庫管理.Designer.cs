@@ -80,6 +80,7 @@ namespace MicosController
             this.dataGridView_cellComponentZaikoTable = new System.Windows.Forms.DataGridView();
             this.button_createProductZaikoListTable = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
+            this.textBox_console = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDataDisplayTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).BeginInit();
             this.panel_fitler_zaiko_display.SuspendLayout();
@@ -507,7 +508,6 @@ namespace MicosController
             this.dataGridView_cell_component_table.RowTemplate.Height = 21;
             this.dataGridView_cell_component_table.Size = new System.Drawing.Size(297, 207);
             this.dataGridView_cell_component_table.TabIndex = 14;
-          
             // 
             // button_filter_zaikodisplay_open
             // 
@@ -579,7 +579,6 @@ namespace MicosController
             this.dataGridView_cellComponentZaikoTable.RowTemplate.Height = 21;
             this.dataGridView_cellComponentZaikoTable.Size = new System.Drawing.Size(297, 207);
             this.dataGridView_cellComponentZaikoTable.TabIndex = 18;
-           
             // 
             // button_createProductZaikoListTable
             // 
@@ -601,11 +600,21 @@ namespace MicosController
             this.label15.TabIndex = 14;
             this.label15.Text = "使用材料リスト";
             // 
+            // textBox_console
+            // 
+            this.textBox_console.Location = new System.Drawing.Point(388, 634);
+            this.textBox_console.Multiline = true;
+            this.textBox_console.Name = "textBox_console";
+            this.textBox_console.Size = new System.Drawing.Size(792, 74);
+            this.textBox_console.TabIndex = 19;
+            this.textBox_console.Text = "console";
+            // 
             // 部品在庫管理
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1385, 640);
+            this.ClientSize = new System.Drawing.Size(1385, 718);
+            this.Controls.Add(this.textBox_console);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button_filter_zaikodisplay_open);
             this.Controls.Add(this.button_create_ZaikoComponentListTable);
@@ -693,5 +702,6 @@ namespace MicosController
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button_createProductZaikoListTable;
         private System.Windows.Forms.DataGridView dataGridView_cellComponentZaikoTable;
+        private System.Windows.Forms.TextBox textBox_console;
     }
 }
