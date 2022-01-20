@@ -32,6 +32,22 @@ namespace MicosController
         /// </summary>
         public DataTable Product_ZaikoList_Table { get; set; }
 
+        public struct zaiko_info
+        {
+            public string zairyou_name;　//部品構成リスト、在庫リストから抽出
+            public float gennzai_zaiko; //在庫リストから抽出
+            public float siyou_suu;　//部品構成リストから抽出
+            public string tani;      //部品構成リスト、在庫リストから抽出
+            public string hokan_basyo;　//部品構成リスト、在庫リストから抽出
+        }
+
+        public struct zairyou_info //部品構成リストの材料情報格納用。
+        {
+            public string zairyou_code;
+            public string zairyou_hokan_basyo;
+            public float zairyou_siyousou;
+        }
+
         public DataTable notDoublicated_Component_Table { get; set; }
 
         
@@ -452,7 +468,7 @@ namespace MicosController
         }
         ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         /// <summary>
-        /// 
+        /// 製品とそれに使う材料に関するﾃｰﾌﾞﾙの関数たち
         /// </summary>
         /// aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         public void create_ProductZaikoList()
@@ -462,7 +478,126 @@ namespace MicosController
             Product_ZaikoList_Table.Columns.Add("選択品目ＣＤ", typeof(string));
             Product_ZaikoList_Table.Columns.Add("製造可能数", typeof(int));
             Product_ZaikoList_Table.Columns.Add("現在在庫数", typeof(float));
-            Product_ZaikoList_Table.Columns.Add("使用材料群", typeof(Dictionary<string, float>)); //dictionaryには材料名と現在在庫を入れる。
+            Product_ZaikoList_Table.Columns.Add("現在仕掛数", typeof(float));
+            Product_ZaikoList_Table.Columns.Add("使用材料群", typeof(Dictionary<string, zaiko_info>)); //dictionaryには材料名と材料情報（構造体で型宣言）を入れる。
+            //Product_ZaikoList_Table.Columns.Add("使用材料群", typeof(Dictionary<string, float>)); //dictionaryには材料名と現在在庫を入れる。
+
+            //抽出した在庫を含む製品をコレクションに格納する。
+            List<string> Product_List = new List<string>();
+
+            foreach(DataRow row_zaiko in Zaiko_Data_Display_Table.Rows)
+            {
+                foreach(DataRow row_comp in Component_Data_Original_Table.Rows)
+                {
+                    if (row_zaiko["品目ＣＤ"].ToString() == row_comp["子品目コード"].ToString() && row_zaiko["保管場所"].ToString() == row_comp["標準出庫保管場所"].ToString())
+                    {
+                        if (Product_List.Contains(row_comp["選択品目ＣＤ"]) != true) //もしまだリストに製品ＣＤが存在しなければ追加する。
+                        {
+                            Product_List.Add(row_comp["選択品目ＣＤ"].ToString());
+                        }
+                       
+                    }
+                }
+                
+            }
+
+            foreach(string product_name in Product_List)
+            {
+                //それぞれの製品CD毎にDataRowとzaiko_infoを作成していく。
+                DataRow ProductZaiko_row = Product_ZaikoList_Table.NewRow();
+                ProductZaiko_row["選択品目ＣＤ"] = product_name;
+
+                DataTable genzai_zaiko_sikakari = Zaiko_Data_Original_Table.AsEnumerable().Where(x => x["品目ＣＤ"].ToString() == product_name).CopyToDataTable();
+                ProductZaiko_row["現在仕掛数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在仕掛数"]; //０行目固定。1つの製品品目CDに二つ以上の行があると適切に動かない。
+                ProductZaiko_row["現在在庫数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在在庫数"];
+
+                ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                ///使用材料軍列を作成する処理。dic_zairyougun（Dictionay）を作成するための処理
+                ///
+                Dictionary<string, zaiko_info> dic_zairyougun = new Dictionary<string, zaiko_info>();
+
+                //それぞれの製品が使用する構成部品リストを製品毎に作成する。
+                List<zairyou_info> Component_List = new List<zairyou_info>();
+
+                foreach (DataRow row in Component_Data_Original_Table.Rows)
+                {
+                   
+
+                    if(product_name == row["選択品目ＣＤ"].ToString())
+                    {
+                        zairyou_info zairyou = new zairyou_info();
+                        zairyou.zairyou_code = row["子品目コード"].ToString();
+                        zairyou.zairyou_hokan_basyo = row["標準出庫保管場所"].ToString();
+                        zairyou.zairyou_siyousou = (float)row["数量"];
+
+                        Component_List.Add(zairyou);
+                    }
+                }
+
+                //Dictionaryに格納するためのzaiko_infor構造体を作成巣rための処理。
+
+                foreach(zairyou_info each_zairyou in Component_List)
+                {
+                    zaiko_info z_info = new zaiko_info();
+                    z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数だけ部品構成リストからの情報を使わないといけない。
+
+                    foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
+                    {
+                        if(each_zairyou.zairyou_code == row["品目ＣＤ"].ToString() && each_zairyou.zairyou_hokan_basyo == row["保管場所"].ToString())
+                        {
+                            z_info.zairyou_name = row["品目ＣＤ"].ToString();
+                            z_info.tani = row["単位"].ToString();
+                            z_info.hokan_basyo = row["保管場所"].ToString();
+                            z_info.gennzai_zaiko = (float)row["現在在庫数"];
+                           
+                        }
+                    }
+
+                    //Dictionaryに各対象部品を追加する。
+                    dic_zairyougun.Add(each_zairyou.zairyou_code, z_info);
+                }
+
+                ProductZaiko_row["使用材料軍"] = dic_zairyougun;
+
+                ProductZaiko_row["製造可能数"] = calculate_production_num(dic_zairyougun);
+                
+                Product_ZaikoList_Table.Rows.Add(ProductZaiko_row);
+
+            }
+
+            dataGridView_ProductZaikoList.DataSource = Product_ZaikoList_Table;
+
+        }
+
+        public float calculate_production_num(Dictionary<string, zaiko_info> target_dic)
+        {
+            float max_product_num = 0;
+            bool first_flag = true;
+
+            foreach (zaiko_info each_zaiko in target_dic.Values)
+            {
+                if (first_flag)
+                {
+                    max_product_num = each_zaiko.gennzai_zaiko / each_zaiko.siyou_suu;
+                    first_flag = false;
+                }
+                if(first_flag  == false)
+                {
+                    if (max_product_num > each_zaiko.gennzai_zaiko / each_zaiko.siyou_suu) //注意；最小の値が生産可能最大数になる。
+                    {
+                        max_product_num = each_zaiko.gennzai_zaiko / each_zaiko.siyou_suu;
+                    }
+
+                }
+
+            }
+
+            return max_product_num;
+        }
+
+        private void button_createProductZaikoListTable_Click(object sender, EventArgs e)
+        {
+            create_ProductZaikoList();
         }
     }
 }
