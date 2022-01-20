@@ -17,23 +17,42 @@ namespace MicosController
         public DataTable Component_Data_Original_Table { get; set; }
 
         public DataTable Zaiko_Data_Display_Table { get; set; }
-
+        ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// <summary>
+        /// 各材料に対する使用製品に関するﾃｰﾌﾞﾙ
+        /// </summary>
         public DataTable Zaiko_ComponentList_Table { get; set; }
+        public DataTable Zaiko_ComponentList_Table_afterFilter { get; set; }
+        public DataTable cell_component_table { get; set; }
+
+
+        ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// <summary>
+        /// 各製品に対する材料在庫に関するﾃｰﾌﾞﾙ
+        /// </summary>
+        public DataTable Product_ZaikoList_Table { get; set; }
 
         public DataTable notDoublicated_Component_Table { get; set; }
+
+        
         
 
         public 部品在庫管理()
         {
             InitializeComponent();
+            init_form();
 
             
         }
 
-        private void label7_Click(object sender, EventArgs e)
+        public void init_form()
         {
-
+            //パネルdisable
+            panel_fitler_zaiko_display.Visible = false;
+            panel_fitler_zaiko_display.Enabled = false;
         }
+
+
 
         public void init_Zaiko_Data_Display_Table()
         {
@@ -74,8 +93,11 @@ namespace MicosController
             }
         }
 
-        
-
+        ////aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// <summary>
+        /// 各材料の使用製品リストに関する関数たち
+        /// </summary>
+        ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         public void create_Zaiko_ComponentList_Table()
         {
             Zaiko_ComponentList_Table = new DataTable();
@@ -99,7 +121,7 @@ namespace MicosController
 
                 //foreach (DataRow Componentrow in Component_Data_Original_Table.Rows)
                 foreach (DataRow Componentrow in notDoublicated_Component_Table.Rows)
-                    {
+                {
                     if (Zaikorow["品目ＣＤ"].ToString()==Componentrow["子品目コード"].ToString() && Zaikorow["保管場所"].ToString()==Componentrow["標準出庫保管場所"].ToString())
                     {
                         float suuryou = (float)Componentrow["数量"]; //float型で一度キャストして変数に入れないとうまくいかない。
@@ -113,7 +135,8 @@ namespace MicosController
 
             }
 
-            dataGridView_ZaikoComponentList.DataSource = Zaiko_ComponentList_Table;
+            dataGridView_ZaikoComponentList.DataSource = Zaiko_ComponentList_Table; 
+            Zaiko_ComponentList_Table_afterFilter = Zaiko_ComponentList_Table.Copy();　//オリジナルとフィルター抽出用でﾃｰﾌﾞﾙを分けておく。
         }
 
         public DataTable Sum_and_DeleteDoublicated_Table(DataTable TargetTable,string groupby_col, string sum_col_name,int sum_col_num, string doublicated_col,string doublicated_col2) //TargetTableを指定した列（groupby_col）で分けたあとで、sum_col_name列の重複を消して、合計値を代わりにだす。計算値はfloat
@@ -159,7 +182,7 @@ namespace MicosController
 
                 //DataRow DistinctComponent_Row;
                 //bool first_flag = true;
-                int doublicated_cnt = 0;
+              
                 float sum = 0;
 
                 foreach(DataRow row1 in each_list_table.Rows)
@@ -182,7 +205,6 @@ namespace MicosController
                             //}
                             
                             sum += (float)row2[sum_col_name];
-                            doublicated_cnt++;
 
                         }
                     }
@@ -230,7 +252,9 @@ namespace MicosController
                     {
                         if (i == sum_col_num)
                         {
-                            DistinctComponent_Row[i] = (float)sum;
+                            DistinctComponent_Row[i] = (float)sum; 
+                            sum = 0; //sumを代入したら次のために初期化
+                           
                         }
                         else
                         {
@@ -314,11 +338,131 @@ namespace MicosController
             //}
         }
 
+        public void init_cell_component_table() //セルクリック時のデータﾃｰﾌﾞﾙの列だけ作っとく
+        {
+            cell_component_table = new DataTable();
+            cell_component_table.Columns.Add("選択品目ＣＤ",typeof(string));
+            cell_component_table.Columns.Add("数量",typeof(float));
+        }
         private void button_create_ZaikoComponentListTable_Click(object sender, EventArgs e)
         {
             notDoublicated_Component_Table = Sum_and_DeleteDoublicated_Table(Component_Data_Original_Table, "選択品目ＣＤ", "数量",10 ,"子品目コード", "標準出庫保管場所");
             
             create_Zaiko_ComponentList_Table();
+        }
+
+        private void dataGridView_ZaikoComponentList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            init_cell_component_table();
+            if(e.ColumnIndex == 3)
+            {
+                DataRow select_row =Zaiko_ComponentList_Table_afterFilter.Rows[e.RowIndex];
+                Dictionary<string,float> dic = (Dictionary<string,float>)select_row["使用製品群"];
+
+                foreach(KeyValuePair<string,float> kvp in dic)
+                {
+                    DataRow row = cell_component_table.NewRow();
+                    row["選択品目ＣＤ"] = kvp.Key;
+                    row["数量"] = kvp.Value;
+
+                    cell_component_table.Rows.Add(row);
+                }
+
+            }
+
+            dataGridView_cell_component_table.DataSource = cell_component_table;
+        }
+
+        private void button_filter_zaikodisplay_open_Click(object sender, EventArgs e)
+        {
+            panel_fitler_zaiko_display.Visible = true;
+            panel_fitler_zaiko_display.Enabled = true;
+
+            button_filter_zaikodisplay_open.Enabled = false;
+            button_filter_zaikodisplay_open.Visible = false;
+        }
+
+        private void button_panel_fileter_zaikodisplay_close_Click(object sender, EventArgs e)
+        {
+            panel_fitler_zaiko_display.Visible = false;
+            panel_fitler_zaiko_display.Enabled = false;
+        }
+
+        private void button_querry_zaikodisplay_Click(object sender, EventArgs e)
+        {
+            string queery = textBox_querry_zaikodisplay.Text;
+
+            //select(クエリ)で検索になにも引っかからないとエラーになる。Anyかなんかで条件分岐入れた方がいい。s
+            Zaiko_Data_Display_Table = Zaiko_Data_Display_Table.Select(queery).CopyToDataTable();
+
+            dataGridView_ZaikoDataDisplayTable.DataSource = Zaiko_Data_Display_Table;
+        }
+        /// <summary>
+        /// 材料とそれを使っている製品ﾃｰﾌﾞﾙのフィルターパネル動作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_filter_above_productnum_Click(object sender, EventArgs e)
+        {
+
+            string text = textBox_filter_above_productnum.Text;
+            int filter = int.Parse(text);
+
+            int original_rownum = Zaiko_ComponentList_Table_afterFilter.Rows.Count;
+            int row_cnt = 0;
+            for(int i = 0; i < original_rownum; i ++)  //forループの中でDatatableの行を削除していくので、index番号がずれていく。⇒別に行用のカウンターを作って行を削除したときはカウンターを上げないようにした。
+            {
+                DataRow row = Zaiko_ComponentList_Table_afterFilter.Rows[row_cnt];
+                Dictionary<string, float> dic = (Dictionary<string, float>)row["使用製品群"];
+                if (dic.Count < filter) //使用製品群がfilter(int)よりも大きければ。
+                {
+                    Zaiko_ComponentList_Table_afterFilter.Rows.Remove(row);
+                    row_cnt--;
+                }
+                row_cnt++;
+            }
+
+            dataGridView_ZaikoComponentList.DataSource = Zaiko_ComponentList_Table_afterFilter; 
+        }
+
+        private void button_filter_below_productnum_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_filter_equal_productnum_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_filter_usedproductname_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_querry_ZaikoComponentList_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_release_filter_zaikocomponent_Click(object sender, EventArgs e)
+        {
+            Zaiko_ComponentList_Table_afterFilter = Zaiko_ComponentList_Table.Copy();
+            dataGridView_ZaikoComponentList.DataSource = Zaiko_ComponentList_Table_afterFilter;
+        }
+        ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// <summary>
+        /// 
+        /// </summary>
+        /// aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        public void create_ProductZaikoList()
+        {
+            Product_ZaikoList_Table = new DataTable();
+
+            Product_ZaikoList_Table.Columns.Add("選択品目ＣＤ", typeof(string));
+            Product_ZaikoList_Table.Columns.Add("製造可能数", typeof(int));
+            Product_ZaikoList_Table.Columns.Add("現在在庫数", typeof(float));
+            Product_ZaikoList_Table.Columns.Add("使用材料群", typeof(Dictionary<string, float>)); //dictionaryには材料名と現在在庫を入れる。
         }
     }
 }

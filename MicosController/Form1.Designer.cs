@@ -66,6 +66,7 @@ namespace MicosController
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button_zaikoout_setting = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_buhinzaikokanri = new System.Windows.Forms.Button();
             this.button_TANAOROSHI = new System.Windows.Forms.Button();
             this.button_create_db_zaiko = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
@@ -89,7 +90,6 @@ namespace MicosController
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.button_buhinzaikokanri = new System.Windows.Forms.Button();
             this.panel_micos_setting.SuspendLayout();
             this.panel_buhin.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -156,7 +156,7 @@ namespace MicosController
             this.panel_micos_setting.Controls.Add(this.textBox_username);
             this.panel_micos_setting.Location = new System.Drawing.Point(488, 16);
             this.panel_micos_setting.Name = "panel_micos_setting";
-            this.panel_micos_setting.Size = new System.Drawing.Size(322, 226);
+            this.panel_micos_setting.Size = new System.Drawing.Size(322, 236);
             this.panel_micos_setting.TabIndex = 5;
             // 
             // textBox_MicosWindow
@@ -479,8 +479,18 @@ namespace MicosController
             this.panel1.Controls.Add(this.button_create_db);
             this.panel1.Location = new System.Drawing.Point(855, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(320, 226);
+            this.panel1.Size = new System.Drawing.Size(320, 236);
             this.panel1.TabIndex = 28;
+            // 
+            // button_buhinzaikokanri
+            // 
+            this.button_buhinzaikokanri.Location = new System.Drawing.Point(107, 202);
+            this.button_buhinzaikokanri.Name = "button_buhinzaikokanri";
+            this.button_buhinzaikokanri.Size = new System.Drawing.Size(200, 23);
+            this.button_buhinzaikokanri.TabIndex = 8;
+            this.button_buhinzaikokanri.Text = "部品在庫管理";
+            this.button_buhinzaikokanri.UseVisualStyleBackColor = true;
+            this.button_buhinzaikokanri.Click += new System.EventHandler(this.button_buhinzaikokanri_Click);
             // 
             // button_TANAOROSHI
             // 
@@ -714,16 +724,6 @@ namespace MicosController
             this.label14.Size = new System.Drawing.Size(67, 15);
             this.label14.TabIndex = 32;
             this.label14.Text = "出力区分";
-            // 
-            // button_buhinzaikokanri
-            // 
-            this.button_buhinzaikokanri.Location = new System.Drawing.Point(107, 202);
-            this.button_buhinzaikokanri.Name = "button_buhinzaikokanri";
-            this.button_buhinzaikokanri.Size = new System.Drawing.Size(200, 23);
-            this.button_buhinzaikokanri.TabIndex = 8;
-            this.button_buhinzaikokanri.Text = "部品在庫管理";
-            this.button_buhinzaikokanri.UseVisualStyleBackColor = true;
-            this.button_buhinzaikokanri.Click += new System.EventHandler(this.button_buhinzaikokanri_Click);
             // 
             // Form1
             // 
