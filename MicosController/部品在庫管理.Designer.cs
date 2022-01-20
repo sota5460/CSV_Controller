@@ -77,8 +77,9 @@ namespace MicosController
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
+            this.dataGridView_cellComponentZaikoTable = new System.Windows.Forms.DataGridView();
             this.button_createProductZaikoListTable = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDataDisplayTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).BeginInit();
             this.panel_fitler_zaiko_display.SuspendLayout();
@@ -89,6 +90,7 @@ namespace MicosController
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_cellComponentZaikoTable)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView_ZaikoDataDisplayTable
@@ -486,6 +488,7 @@ namespace MicosController
             this.dataGridView_ProductZaikoList.RowTemplate.Height = 21;
             this.dataGridView_ProductZaikoList.Size = new System.Drawing.Size(455, 422);
             this.dataGridView_ProductZaikoList.TabIndex = 12;
+            this.dataGridView_ProductZaikoList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_ProductZaikoList_CellClick);
             // 
             // label13
             // 
@@ -504,6 +507,7 @@ namespace MicosController
             this.dataGridView_cell_component_table.RowTemplate.Height = 21;
             this.dataGridView_cell_component_table.Size = new System.Drawing.Size(297, 207);
             this.dataGridView_cell_component_table.TabIndex = 14;
+          
             // 
             // button_filter_zaikodisplay_open
             // 
@@ -554,6 +558,7 @@ namespace MicosController
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.dataGridView_cellComponentZaikoTable);
             this.tabPage2.Controls.Add(this.button_createProductZaikoListTable);
             this.tabPage2.Controls.Add(this.label15);
             this.tabPage2.Controls.Add(this.dataGridView_ProductZaikoList);
@@ -566,15 +571,15 @@ namespace MicosController
             this.tabPage2.Text = "各製品の仕様材料リスト";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // label15
+            // dataGridView_cellComponentZaikoTable
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(9, 17);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(111, 16);
-            this.label15.TabIndex = 14;
-            this.label15.Text = "使用材料リスト";
+            this.dataGridView_cellComponentZaikoTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_cellComponentZaikoTable.Location = new System.Drawing.Point(485, 38);
+            this.dataGridView_cellComponentZaikoTable.Name = "dataGridView_cellComponentZaikoTable";
+            this.dataGridView_cellComponentZaikoTable.RowTemplate.Height = 21;
+            this.dataGridView_cellComponentZaikoTable.Size = new System.Drawing.Size(297, 207);
+            this.dataGridView_cellComponentZaikoTable.TabIndex = 18;
+           
             // 
             // button_createProductZaikoListTable
             // 
@@ -585,6 +590,16 @@ namespace MicosController
             this.button_createProductZaikoListTable.Text = "各製品の使用材料リストを作成する。";
             this.button_createProductZaikoListTable.UseVisualStyleBackColor = true;
             this.button_createProductZaikoListTable.Click += new System.EventHandler(this.button_createProductZaikoListTable_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label15.Location = new System.Drawing.Point(9, 17);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(111, 16);
+            this.label15.TabIndex = 14;
+            this.label15.Text = "使用材料リスト";
             // 
             // 部品在庫管理
             // 
@@ -619,6 +634,7 @@ namespace MicosController
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_cellComponentZaikoTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -676,5 +692,6 @@ namespace MicosController
         private System.Windows.Forms.Button button_release_filter_zaikocomponent;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button_createProductZaikoListTable;
+        private System.Windows.Forms.DataGridView dataGridView_cellComponentZaikoTable;
     }
 }

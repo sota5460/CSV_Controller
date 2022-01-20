@@ -873,6 +873,9 @@ namespace MicosController
                             if (column[i] == "現在在庫数") // 10列目：現在在庫数
                             {
                                 Component_Table_ICB.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
+                            }else if (column[i] == "現在仕掛数")
+                            {
+                                Component_Table_ICB.Columns.Add(column[i], typeof(float));
                             }
                             else
                             {
