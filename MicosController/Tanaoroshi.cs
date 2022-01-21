@@ -687,7 +687,16 @@ namespace MicosController
                 return;
             }
 
-            Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(temp_querry_keihi).CopyToDataTable();
+            if (Current_Micos_Display_Table.Select(temp_querry_keihi).Length > 0)
+            {
+                Micos_Display_Extracted_Table = Current_Micos_Display_Table.Select(temp_querry_keihi).CopyToDataTable();
+            }else
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+            }
+
+           
 
             i = 0;
 
@@ -710,7 +719,17 @@ namespace MicosController
                 return;
             }
 
-            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_hokan).CopyToDataTable();
+            if (Micos_Display_Extracted_Table.Select(temp_querry_hokan).Length > 0)
+            {
+                Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_hokan).CopyToDataTable();
+            }
+            else
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+            }
+
+           
 
             i = 0;
 
@@ -733,7 +752,17 @@ namespace MicosController
                 return;
             }
 
-            Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_koutei).CopyToDataTable();
+            if (Micos_Display_Extracted_Table.Select(temp_querry_koutei).Length > 0)
+            {
+                Micos_Display_Extracted_Table = Micos_Display_Extracted_Table.Select(temp_querry_koutei).CopyToDataTable();
+            }
+            else
+            {
+                dataGridView_CurrentMicos.DataSource = null;
+                return;
+            }
+
+            
 
 
             dataGridView_CurrentMicos.DataSource = Micos_Display_Extracted_Table;

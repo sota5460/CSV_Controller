@@ -14,6 +14,7 @@ namespace MicosController
     {
 
         public DataTable Zaiko_Data_Original_Table { get; set; }
+       
         public DataTable Component_Data_Original_Table { get; set; }
 
         public DataTable Zaiko_Data_Display_Table { get; set; }
@@ -31,6 +32,7 @@ namespace MicosController
         /// 各製品に対する材料在庫に関するﾃｰﾌﾞﾙ
         /// </summary>
         public DataTable Product_ZaikoList_Table { get; set; }
+        public DataTable Product_ZaikoList_Table_afterFitler { get; set; }
 
         public DataTable cell_component_zaiko_table { get; set; }
 
@@ -40,7 +42,7 @@ namespace MicosController
             public string zairyou_hinmei;
             public float gennzai_zaiko; //在庫リストから抽出
             public float siyou_suu;　//部品構成リストから抽出
-            public string tani;      //部品構成リスト、在庫リストから抽出
+            public string oyakoutei;      //部品構成リスト、在庫リストから抽出
             public string hokan_basyo;　//部品構成リスト、在庫リストから抽出
         }
 
@@ -50,6 +52,7 @@ namespace MicosController
             public string zairyou_hinmei;
             public string zairyou_hokan_basyo;
             public float zairyou_siyousou;
+            public string zairyou_oyakoutei;
         }
 
         public struct distinct_zairyo
@@ -79,21 +82,27 @@ namespace MicosController
 
         public void init_form()
         {
-            //パネルdisable
-            panel_fitler_zaiko_display.Visible = false;
-            panel_fitler_zaiko_display.Enabled = false;
+            
         }
 
 
-
+        /// <summary>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// 一番左の在庫リストに関する関数
+        /// </summary>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         public void init_Zaiko_Data_Display_Table()
         {
-            Zaiko_Data_Display_Table = Zaiko_Data_Original_Table;
+            Zaiko_Data_Display_Table = Zaiko_Data_Original_Table.Copy();
             dataGridView_ZaikoDataDisplayTable.DataSource = Zaiko_Data_Display_Table;
+            
 
             init_checkbox_filter_ZaikoOrigin();
+            create_checkbox_fromTableColumn(Zaiko_Data_Original_Table, checkedListBox_Display_ZaikoOriginCol);
+
         }
-        public void init_checkbox_filter_ZaikoOrigin()
+        /// <summary>
+        /// フィルター用チェックボックスの生成
+        /// </summary>
+        public void init_checkbox_filter_ZaikoOrigin()　
         {
             DataTable notDoublicated_table;
             DataView dtView = new DataView(Zaiko_Data_Original_Table);
@@ -103,6 +112,11 @@ namespace MicosController
             foreach (DataRow row in notDoublicated_table.Rows)
             {
                 checkedListBox_ZaikoOrigin_hokan.Items.Add(row["保管場所"]); //"保管場所"列の重複してないものをチェックボックスに追加する。
+            }
+
+            for(int i = 0; i < checkedListBox_ZaikoOrigin_hokan.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_hokan.SetItemChecked(i, true);
             }
 
             notDoublicated_table = new DataTable();
@@ -115,6 +129,11 @@ namespace MicosController
                 checkedListBox_ZaikoOrigin_keihi.Items.Add(row["経費"]); //"経費"列の重複してないものをチェックボックスに追加する。
             }
 
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_keihi.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_keihi.SetItemChecked(i, true);
+            }
+
             notDoublicated_table = new DataTable();
             dtView = new DataView(Zaiko_Data_Original_Table);
 
@@ -122,6 +141,205 @@ namespace MicosController
             foreach (DataRow row in notDoublicated_table.Rows)
             {
                 checkedListBox_ZaikoOrigin_koutei.Items.Add(row["工程"]); //"工程"列の重複してないものをチェックボックスに追加する。
+            }
+
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_koutei.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_koutei.SetItemChecked(i, true);
+            }
+        }
+
+        private void button_DisplayZaikoOriginCol_Click(object sender, EventArgs e)
+        {
+            Select_Grid_Column(dataGridView_ZaikoDataDisplayTable,checkedListBox_Display_ZaikoOriginCol);
+        }
+
+        private void button_filter_zaikodisplay_Click(object sender, EventArgs e)
+        {
+            extract_by_keihi_koutei_hokan(0);
+        }
+
+        public void extract_by_keihi_koutei_hokan(int mode) //チェックボックス抽出処理最終版。チェックボックス３つを監視して、チェックあるやつだけグリッドに表示する。
+        {
+
+           Zaiko_Data_Display_Table = new DataTable();
+
+
+            int i = 0;
+
+            string temp_querry_keihi = "";
+            string temp_querry_hokan = "";
+            string temp_querry_koutei = "";
+
+
+            foreach (string selected_keihi in  checkedListBox_ZaikoOrigin_keihi.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    temp_querry_keihi = querry_maker_fullmatch(0, "経費", selected_keihi, "");
+                }
+                else
+                {
+                    temp_querry_keihi = querry_maker_fullmatch(2, "経費", selected_keihi, temp_querry_keihi);
+                }
+                i++;
+            }
+
+            if (temp_querry_keihi == "")
+            {
+                dataGridView_ZaikoDataDisplayTable.DataSource = null;
+                return;
+            }
+
+            if (Zaiko_Data_Original_Table.Select(temp_querry_keihi).Length > 0)
+            {
+                Zaiko_Data_Display_Table = Zaiko_Data_Original_Table.Select(temp_querry_keihi).CopyToDataTable();
+            }
+            else
+            {
+                dataGridView_ZaikoDataDisplayTable.DataSource = null;
+                return;
+            }
+
+             
+
+            i = 0;
+
+            foreach (string selected_hokan in checkedListBox_ZaikoOrigin_hokan.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    temp_querry_hokan = querry_maker_fullmatch(0, "保管場所", selected_hokan, "");
+                }
+                else
+                {
+                    temp_querry_hokan = querry_maker_fullmatch(2, "保管場所", selected_hokan, temp_querry_hokan);
+                }
+                i++;
+            }
+
+            if (temp_querry_hokan == "")
+            {
+                dataGridView_ZaikoDataDisplayTable.DataSource = null;
+                return;
+            }
+            if (Zaiko_Data_Display_Table.Select(temp_querry_hokan).Length>0)
+            {
+                Zaiko_Data_Display_Table = Zaiko_Data_Display_Table.Select(temp_querry_hokan).CopyToDataTable();
+            }
+            else
+            {
+                dataGridView_ZaikoDataDisplayTable.DataSource = null;
+                return;
+            }
+             
+
+            i = 0;
+
+            foreach (string selected_koutei in checkedListBox_ZaikoOrigin_koutei.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    temp_querry_koutei = querry_maker_fullmatch(0, "工程", selected_koutei, "");
+                }
+                else
+                {
+                    temp_querry_koutei = querry_maker_fullmatch(2, "工程", selected_koutei, temp_querry_koutei);
+                }
+                i++;
+            }
+
+            if (temp_querry_koutei == "")
+            {
+                dataGridView_ZaikoDataDisplayTable.DataSource = null;
+                return;
+            }
+
+            if (Zaiko_Data_Display_Table.Select(temp_querry_koutei).Length>0)
+            {
+                Zaiko_Data_Display_Table = Zaiko_Data_Display_Table.Select(temp_querry_koutei).CopyToDataTable();
+            }
+            else
+            {
+                dataGridView_ZaikoDataDisplayTable.DataSource = null;
+                return;
+            }
+
+             
+
+
+            dataGridView_ZaikoDataDisplayTable.DataSource = Zaiko_Data_Display_Table;
+
+        }
+
+        public string querry_maker_fullmatch(int and_or, string column_name, string target, string combine_querry) //querry作成関数。 第一引数 0: 結合なし　1: ANDで結合 2:ORで結合
+        {
+            string Querry = "";
+            switch (and_or)
+            {
+                case (0):
+                    Querry = column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+                case (1):
+                    Querry = combine_querry + " " + "AND" + " " + column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+                case (2):
+                    Querry = combine_querry + " " + "OR" + " " + column_name + " " + "LIKE" + " " + "'" + target + "'";
+                    break;
+            }
+            return Querry;
+        }
+        /// <summary>
+        /// 抽出フィルタのチェックをまとめてつけるボタンまとめ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_ZaikoOrigin_keihi_allcheck_Click(object sender, EventArgs e)
+        {
+            for(int i = 0;i <  checkedListBox_ZaikoOrigin_keihi.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_keihi.SetItemChecked(i, true);
+            }
+            
+        }
+
+        private void button_ZaikoOrigin_keihi_alluncheck_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_keihi.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_keihi.SetItemChecked(i, false);
+            }
+        }
+
+        private void button_ZaikoOrigin_hokan_allcheck_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_hokan.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_hokan.SetItemChecked(i, true);
+            }
+        }
+
+        private void button_ZaikoOrigin_hokan_alluncheck_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_hokan.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_hokan.SetItemChecked(i, false);
+            }
+        }
+
+        private void button_ZaikoOrigin_kouteiallcheck_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_koutei.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_koutei.SetItemChecked(i, true);
+            }
+        }
+
+        private void button_ZaikoOrigin_kouteialluncheck_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox_ZaikoOrigin_koutei.Items.Count; i++)
+            {
+                checkedListBox_ZaikoOrigin_koutei.SetItemChecked(i, false);
             }
         }
 
@@ -405,20 +623,9 @@ namespace MicosController
             dataGridView_cell_component_table.DataSource = cell_component_table;
         }
 
-        private void button_filter_zaikodisplay_open_Click(object sender, EventArgs e)
-        {
-            panel_fitler_zaiko_display.Visible = true;
-            panel_fitler_zaiko_display.Enabled = true;
 
-            button_filter_zaikodisplay_open.Enabled = false;
-            button_filter_zaikodisplay_open.Visible = false;
-        }
 
-        private void button_panel_fileter_zaikodisplay_close_Click(object sender, EventArgs e)
-        {
-            panel_fitler_zaiko_display.Visible = false;
-            panel_fitler_zaiko_display.Enabled = false;
-        }
+
 
         private void button_querry_zaikodisplay_Click(object sender, EventArgs e)
         {
@@ -565,6 +772,18 @@ namespace MicosController
                         zairyou.zairyou_hokan_basyo = row["標準出庫保管場所"].ToString();
                         zairyou.zairyou_siyousou = (float)row["数量"];
 
+                        if(row["親工程"].ToString() == "")
+                        {
+                            int list_num = Component_List.Count;
+                            zairyou.zairyou_oyakoutei = Component_List[list_num - 1].zairyou_oyakoutei;
+                        }
+                        else
+                        {
+                            zairyou.zairyou_oyakoutei = row["親工程"].ToString();
+                        }
+
+                        
+
                         
 
                         Component_List.Add(zairyou);
@@ -599,6 +818,7 @@ namespace MicosController
                     zairyou_info notDoublicated_zairyou = new zairyou_info();
                     notDoublicated_zairyou = each_zaryou1;
                     notDoublicated_zairyou.zairyou_siyousou = sum;
+                    sum = 0; 
 
                     if (doublicated_flag == false)
                     {
@@ -635,6 +855,7 @@ namespace MicosController
                     zaiko_info z_info = new zaiko_info();
                     z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数は部品構成リストからの情報を使わないといけない。
                     z_info.zairyou_hinmei = each_zairyou.zairyou_hinmei; //品名も部品構成リストから取り出さないといけない。在庫数が0のものは在庫リストに表示されないから。
+                    z_info.oyakoutei = each_zairyou.zairyou_oyakoutei;
                     foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
                     {
                         if(each_zairyou.zairyou_code == row["品目ＣＤ"].ToString() && each_zairyou.zairyou_hokan_basyo == row["保管場所"].ToString())
@@ -660,6 +881,9 @@ namespace MicosController
             }
 
             dataGridView_ProductZaikoList.DataSource = Product_ZaikoList_Table;
+            Product_ZaikoList_Table_afterFitler = Product_ZaikoList_Table.Copy();
+
+            create_checkbox_fromTableColumn(Product_ZaikoList_Table_afterFitler, checkedListBox_Display_ProductCol);
 
         }
 
@@ -704,6 +928,7 @@ namespace MicosController
             cell_component_zaiko_table = new DataTable();
             cell_component_zaiko_table.Columns.Add("品目ＣＤ", typeof(string));
             cell_component_zaiko_table.Columns.Add("品名", typeof(string));
+            cell_component_zaiko_table.Columns.Add("親工程", typeof(string));
             cell_component_zaiko_table.Columns.Add("現在在庫数", typeof(float));
             cell_component_zaiko_table.Columns.Add("使用数", typeof(float));
             cell_component_zaiko_table.Columns.Add("保管場所", typeof(string));
@@ -715,7 +940,7 @@ namespace MicosController
             init_cell_component_zaiko_table();
             if (e.ColumnIndex == 5)
             {
-                DataRow select_row = Product_ZaikoList_Table.Rows[e.RowIndex];
+                DataRow select_row = Product_ZaikoList_Table_afterFitler.Rows[e.RowIndex];
                 Dictionary<distinct_zairyo, zaiko_info> dic = (Dictionary<distinct_zairyo, zaiko_info>)select_row["使用材料群"];
                 //Dictionary<string, float> dic = Dictionary<string, float>)select_row["使用製品群"];
 
@@ -724,6 +949,7 @@ namespace MicosController
                     DataRow row = cell_component_zaiko_table.NewRow();
                     row["品目ＣＤ"] = kvp.Key.zairyou_code;
                     row["品名"] = kvp.Value.zairyou_hinmei;
+                    row["親工程"] = kvp.Value.oyakoutei;
                     row["現在在庫数"] = kvp.Value.gennzai_zaiko;
                     row["使用数"] = kvp.Value.siyou_suu;
                     row["保管場所"] = kvp.Value.hokan_basyo;
@@ -733,7 +959,100 @@ namespace MicosController
 
                 dataGridView_cellComponentZaikoTable.DataSource = cell_component_zaiko_table;
 
+                create_checkbox_fromTableColumn(cell_component_zaiko_table, checkedListBox_Display_ZaikoCol);
+
             }
         }
+        ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// <summary>
+        /// ProductZaikoList　フィルター操作関係
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        private void btn_HinmeiFilter_ProductZaikoList_Click(object sender, EventArgs e)
+        {
+            string target = textBox_ProductZaikoList_HinmeiFilter.Text;
+            string querry = "選択品名" + " " + "LIKE" + " " + "'" + target + "'";
+
+           
+            //検索対象なかったらエラーでるから条件分岐かtry文入れる。
+            if (Product_ZaikoList_Table_afterFitler.Select(querry).Length > 0)
+            {
+                Product_ZaikoList_Table_afterFitler = Product_ZaikoList_Table_afterFitler.Select(querry).CopyToDataTable();
+                dataGridView_ProductZaikoList.DataSource = Product_ZaikoList_Table_afterFitler;
+            }
+            else
+            {
+                MessageBox.Show("選択した品名が見つかりません。");
+            }
+
+ 
+        }
+
+        private void btn_CDFilter_ProductZaikoList_Click(object sender, EventArgs e)
+        {
+            string target = textBox_CDFilter_ProductZaikoList.Text;
+            string querry = "選択品目ＣＤ" + " " + "LIKE" + " " + "'" + target + "'";
+
+
+            //検索対象なかったらエラーでるから条件分岐かtry文入れる。
+            if (Product_ZaikoList_Table_afterFitler.Select(querry).Length > 0)
+            {
+                Product_ZaikoList_Table_afterFitler = Product_ZaikoList_Table_afterFitler.Select(querry).CopyToDataTable();
+                dataGridView_ProductZaikoList.DataSource = Product_ZaikoList_Table_afterFitler;
+            }
+            else
+            {
+                MessageBox.Show("選択した品目ＣＤが見つかりません。");
+            }
+        }
+
+        private void button_FileterClear_ProductZaikoList_Click(object sender, EventArgs e)
+        {
+            Product_ZaikoList_Table_afterFitler = Product_ZaikoList_Table.Copy();
+            dataGridView_ProductZaikoList.DataSource =Product_ZaikoList_Table_afterFitler;
+        }
+        /// <summary>
+        /// データﾃｰﾌﾞﾙとチェックボックスを引数に渡すと、チェックボックスにカラムを追加してくれる。ついでにチェックボックスは全部チェック済みにする。
+        /// </summary>
+        /// <param name="target_table"></param>
+        /// <param name="checkedListBox"></param>
+        public void create_checkbox_fromTableColumn(DataTable target_table, CheckedListBox checkedListBox) 
+        {
+            foreach(DataColumn col in target_table.Columns)
+            {
+                checkedListBox.Items.Add(col.ColumnName);
+            }
+
+            for(int i = 0; i < checkedListBox.Items.Count; i++)
+            {
+                checkedListBox.SetItemChecked(i, true);
+            }
+        }
+
+        public void Select_Grid_Column(DataGridView target_datagridview,CheckedListBox checkedListBox)
+        {
+            for(int i = 0; i < target_datagridview.Columns.Count; i++)
+            {
+                target_datagridview.Columns[i].Visible = false;
+            }
+
+            foreach(string col in checkedListBox.CheckedItems)
+            {
+                target_datagridview.Columns[col].Visible = true;
+            }
+        }
+
+        private void button_DisplayProductCol_Click(object sender, EventArgs e)
+        {
+            Select_Grid_Column(dataGridView_ProductZaikoList, checkedListBox_Display_ProductCol);
+        }
+
+        private void button_DisplayZaikoCol_Click(object sender, EventArgs e)
+        {
+            Select_Grid_Column(dataGridView_cellComponentZaikoTable, checkedListBox_Display_ZaikoCol);
+        }
+
+      
     }
 }

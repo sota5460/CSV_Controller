@@ -550,15 +550,19 @@ namespace MicosController
                 }
             }
 
+            Task.Delay(100);
 
             SendKeys.SendWait("61");
             SendKeys.SendWait("{ENTER}");
             page_counter++;
 
+           Task.Delay(100);
+
             SendKeys.SendWait("9");
             SendKeys.SendWait("{ENTER}");
             page_counter++;
 
+            Task.Delay(100);
 
             SendKeys.SendWait(keihikubun + syubetsu + tenkai + hyouji);
             SendKeys.SendWait("{ENTER}");
@@ -566,7 +570,7 @@ namespace MicosController
             SendKeys.SendWait("{ENTER}");
         }
 
-        private void Export_ZaikoData(string syuturyoku, string syukei, string keihi_l, string keihi_r)
+       private void Export_ZaikoData(string syuturyoku, string syukei, string keihi_l, string keihi_r)
         {
             if (syuturyoku.Length != 1 || syukei.Length != 1 || keihi_l.Length != 5 || keihi_r.Length != 5)
             {
@@ -583,14 +587,19 @@ namespace MicosController
                 }
             }
 
+            Task.Delay(100);
+
             SendKeys.SendWait("11");
             SendKeys.SendWait("{ENTER}");
             page_counter++;
+
+           Task.Delay(100);
 
             SendKeys.SendWait("21");
             SendKeys.SendWait("{ENTER}");
             page_counter++;
 
+            Task.Delay(1000);
 
             SendKeys.SendWait(syuturyoku + syukei + keihi_l + keihi_r);
             SendKeys.SendWait("{ENTER}");
@@ -605,8 +614,12 @@ namespace MicosController
             {
                 SendKeys.SendWait("{F3}");
 
+                Task.Delay(100);
+
                 SendKeys.SendWait(username);
                 SendKeys.SendWait(username);
+
+                Task.Delay(100);
 
                 SendKeys.SendWait("{ENTER}");
 
