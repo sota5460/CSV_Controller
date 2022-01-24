@@ -111,6 +111,7 @@ namespace MicosController
             this.label17 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.checkedListBox_cellComponentZaiko_koutei = new System.Windows.Forms.CheckedListBox();
+            this.button_includeASSYproduct = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDataDisplayTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).BeginInit();
             this.panel2.SuspendLayout();
@@ -587,6 +588,7 @@ namespace MicosController
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button_includeASSYproduct);
             this.tabPage3.Controls.Add(this.button_FileterClear_ProductZaikoList);
             this.tabPage3.Controls.Add(this.btn_CDFilter_ProductZaikoList);
             this.tabPage3.Controls.Add(this.textBox_CDFilter_ProductZaikoList);
@@ -959,6 +961,16 @@ namespace MicosController
             this.checkedListBox_cellComponentZaiko_koutei.Size = new System.Drawing.Size(106, 130);
             this.checkedListBox_cellComponentZaiko_koutei.TabIndex = 23;
             // 
+            // button_includeASSYproduct
+            // 
+            this.button_includeASSYproduct.Location = new System.Drawing.Point(115, 169);
+            this.button_includeASSYproduct.Name = "button_includeASSYproduct";
+            this.button_includeASSYproduct.Size = new System.Drawing.Size(168, 23);
+            this.button_includeASSYproduct.TabIndex = 5;
+            this.button_includeASSYproduct.Text = "ASSY工程を含む製品を抽出";
+            this.button_includeASSYproduct.UseVisualStyleBackColor = true;
+            this.button_includeASSYproduct.Click += new System.EventHandler(this.button_includeASSYproduct_Click);
+            // 
             // 部品在庫管理
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1094,5 +1106,6 @@ namespace MicosController
         private System.Windows.Forms.Button button_ZaikoOrigin_keihi_allcheck;
         private System.Windows.Forms.CheckedListBox checkedListBox_cellComponentZaiko_koutei;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button_includeASSYproduct;
     }
 }

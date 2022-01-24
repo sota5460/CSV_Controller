@@ -750,10 +750,10 @@ namespace MicosController
                     ProductZaiko_row["現在在庫数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在在庫数"];
                 }
 
-                if (product_name_cd.cd == "071419")
-                {
-                    Console.WriteLine("a");
-                }
+                //if (product_name_cd.cd == "071419")
+                //{
+                //    Console.WriteLine("a");
+                //}
 
                 ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                 ///使用材料軍列を作成する処理。dic_zairyougun（Dictionay）を作成するための処理
@@ -785,10 +785,6 @@ namespace MicosController
                         {
                             zairyou.zairyou_oyakoutei = row["親工程"].ToString();
                         }
-
-                        
-
-                        
 
                         Component_List.Add(zairyou);
                     }
@@ -941,7 +937,11 @@ namespace MicosController
             cell_component_zaiko_table.Columns.Add("保管場所", typeof(string));
         }
 
-
+        /// <summary>
+        /// 使用材料群表示用関数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView_ProductZaikoList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             init_cell_component_zaiko_table();
@@ -1082,6 +1082,46 @@ namespace MicosController
             Select_Grid_Column(dataGridView_cellComponentZaikoTable, checkedListBox_Display_ZaikoCol);
         }
 
-      
+        private void button_includeASSYproduct_Click(object sender, EventArgs e)
+        {
+            string[] a = { "750", "751" };
+            filter_Product_Zaiko_Table_koutei(a);
+            dataGridView_ProductZaikoList.DataSource = Product_ZaikoList_Table_afterFitler;
+        }
+
+        private void filter_Product_Zaiko_Table_koutei(string[] selected_koutei)
+        {
+
+
+            int init_row_count = Product_ZaikoList_Table_afterFitler.Rows.Count;
+            int row_cnt = 0;
+
+            for (int i = 0; i < init_row_count; i++)
+            {
+                Dictionary<distinct_zairyo, zaiko_info> dic =(Dictionary<distinct_zairyo, zaiko_info>) Product_ZaikoList_Table_afterFitler.Rows[row_cnt]["使用材料群"]; //一つずつデータﾃｰﾌﾞﾙの使用材料群列にあるDictionaryを取り出して、さらにそのDictionaryを精査する。
+                int dic_cnt = dic.Count;
+                int cnt = 0;
+
+                foreach(KeyValuePair<distinct_zairyo,zaiko_info> kvp in dic)
+                {
+                    cnt++;
+                    if(selected_koutei.Contains(kvp.Value.oyakoutei))
+                    {
+                        break;
+                    }
+                    if(cnt == dic_cnt)
+                    {
+                        Product_ZaikoList_Table_afterFitler.Rows[row_cnt].Delete();
+                        row_cnt--;
+                        break;
+                    }
+                    
+                }
+
+                row_cnt++;
+            }
+
+
+        }
     }
 }
