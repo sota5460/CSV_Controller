@@ -43,13 +43,13 @@ namespace MicosController
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox_sim_productCD = new System.Windows.Forms.TextBox();
+            this.textBox_sell_num = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_simZaiko = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_sim = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -76,12 +76,15 @@ namespace MicosController
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button_includeASSYproduct = new System.Windows.Forms.Button();
             this.button_FileterClear_ProductZaikoList = new System.Windows.Forms.Button();
             this.btn_CDFilter_ProductZaikoList = new System.Windows.Forms.Button();
             this.textBox_CDFilter_ProductZaikoList = new System.Windows.Forms.TextBox();
             this.btn_HinmeiFilter_ProductZaikoList = new System.Windows.Forms.Button();
             this.textBox_ProductZaikoList_HinmeiFilter = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkedListBox_cellComponentZaiko_koutei = new System.Windows.Forms.CheckedListBox();
+            this.button_Filter_ProductZaiko_koutei = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.button_DisplayZaikoCol = new System.Windows.Forms.Button();
             this.button_DisplayProductCol = new System.Windows.Forms.Button();
@@ -109,13 +112,10 @@ namespace MicosController
             this.button_DisplayZaikoOriginCol = new System.Windows.Forms.Button();
             this.checkedListBox_Display_ZaikoOriginCol = new System.Windows.Forms.CheckedListBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.checkedListBox_cellComponentZaiko_koutei = new System.Windows.Forms.CheckedListBox();
-            this.button_includeASSYproduct = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDataDisplayTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_simZaiko)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ProductZaikoList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_cell_component_table)).BeginInit();
@@ -261,43 +261,43 @@ namespace MicosController
             this.label7.TabIndex = 7;
             this.label7.Text = "出荷する製品とその数。\r\n";
             // 
-            // textBox1
+            // textBox_sim_productCD
             // 
-            this.textBox1.Location = new System.Drawing.Point(143, 30);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(134, 19);
-            this.textBox1.TabIndex = 8;
+            this.textBox_sim_productCD.Location = new System.Drawing.Point(143, 30);
+            this.textBox_sim_productCD.Name = "textBox_sim_productCD";
+            this.textBox_sim_productCD.Size = new System.Drawing.Size(134, 19);
+            this.textBox_sim_productCD.TabIndex = 8;
             // 
-            // textBox2
+            // textBox_sell_num
             // 
-            this.textBox2.Location = new System.Drawing.Point(143, 56);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(134, 19);
-            this.textBox2.TabIndex = 9;
+            this.textBox_sell_num.Location = new System.Drawing.Point(143, 56);
+            this.textBox_sell_num.Name = "textBox_sell_num";
+            this.textBox_sell_num.Size = new System.Drawing.Size(134, 19);
+            this.textBox_sell_num.TabIndex = 9;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.dataGridView1);
+            this.panel2.Controls.Add(this.dataGridView_simZaiko);
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button2);
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.button_sim);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.textBox1);
-            this.panel2.Controls.Add(this.textBox2);
+            this.panel2.Controls.Add(this.textBox_sim_productCD);
+            this.panel2.Controls.Add(this.textBox_sell_num);
             this.panel2.Location = new System.Drawing.Point(1195, 220);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(293, 408);
             this.panel2.TabIndex = 10;
             // 
-            // dataGridView1
+            // dataGridView_simZaiko
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(16, 193);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(261, 181);
-            this.dataGridView1.TabIndex = 16;
+            this.dataGridView_simZaiko.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_simZaiko.Location = new System.Drawing.Point(16, 193);
+            this.dataGridView_simZaiko.Name = "dataGridView_simZaiko";
+            this.dataGridView_simZaiko.RowTemplate.Height = 21;
+            this.dataGridView_simZaiko.Size = new System.Drawing.Size(261, 181);
+            this.dataGridView_simZaiko.TabIndex = 16;
             // 
             // button3
             // 
@@ -317,14 +317,15 @@ namespace MicosController
             this.button2.Text = "オリジナルに戻す。";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // button_sim
             // 
-            this.button1.Location = new System.Drawing.Point(143, 92);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "在庫データに反映する。";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_sim.Location = new System.Drawing.Point(143, 92);
+            this.button_sim.Name = "button_sim";
+            this.button_sim.Size = new System.Drawing.Size(134, 23);
+            this.button_sim.TabIndex = 13;
+            this.button_sim.Text = "在庫データに反映する。";
+            this.button_sim.UseVisualStyleBackColor = true;
+            this.button_sim.Click += new System.EventHandler(this.button_sim_Click);
             // 
             // label9
             // 
@@ -602,6 +603,16 @@ namespace MicosController
             this.tabPage3.Text = "製品を抽出";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // button_includeASSYproduct
+            // 
+            this.button_includeASSYproduct.Location = new System.Drawing.Point(115, 169);
+            this.button_includeASSYproduct.Name = "button_includeASSYproduct";
+            this.button_includeASSYproduct.Size = new System.Drawing.Size(168, 23);
+            this.button_includeASSYproduct.TabIndex = 5;
+            this.button_includeASSYproduct.Text = "ASSY工程を含む製品を抽出";
+            this.button_includeASSYproduct.UseVisualStyleBackColor = true;
+            this.button_includeASSYproduct.Click += new System.EventHandler(this.button_includeASSYproduct_Click);
+            // 
             // button_FileterClear_ProductZaikoList
             // 
             this.button_FileterClear_ProductZaikoList.Location = new System.Drawing.Point(182, 100);
@@ -649,7 +660,7 @@ namespace MicosController
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.checkedListBox_cellComponentZaiko_koutei);
-            this.tabPage4.Controls.Add(this.button5);
+            this.tabPage4.Controls.Add(this.button_Filter_ProductZaiko_koutei);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -657,6 +668,24 @@ namespace MicosController
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "使用材料を抽出";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBox_cellComponentZaiko_koutei
+            // 
+            this.checkedListBox_cellComponentZaiko_koutei.FormattingEnabled = true;
+            this.checkedListBox_cellComponentZaiko_koutei.Location = new System.Drawing.Point(6, 15);
+            this.checkedListBox_cellComponentZaiko_koutei.Name = "checkedListBox_cellComponentZaiko_koutei";
+            this.checkedListBox_cellComponentZaiko_koutei.Size = new System.Drawing.Size(106, 130);
+            this.checkedListBox_cellComponentZaiko_koutei.TabIndex = 23;
+            // 
+            // button_Filter_ProductZaiko_koutei
+            // 
+            this.button_Filter_ProductZaiko_koutei.Location = new System.Drawing.Point(6, 149);
+            this.button_Filter_ProductZaiko_koutei.Name = "button_Filter_ProductZaiko_koutei";
+            this.button_Filter_ProductZaiko_koutei.Size = new System.Drawing.Size(106, 23);
+            this.button_Filter_ProductZaiko_koutei.TabIndex = 22;
+            this.button_Filter_ProductZaiko_koutei.Text = "工程で抽出";
+            this.button_Filter_ProductZaiko_koutei.UseVisualStyleBackColor = true;
+            this.button_Filter_ProductZaiko_koutei.Click += new System.EventHandler(this.button_Filter_ProductZaiko_koutei_Click);
             // 
             // tabPage5
             // 
@@ -944,33 +973,6 @@ namespace MicosController
             this.label17.TabIndex = 3;
             this.label17.Text = "製品リストの表示列";
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(6, 149);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(106, 23);
-            this.button5.TabIndex = 22;
-            this.button5.Text = "工程で抽出";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // checkedListBox_cellComponentZaiko_koutei
-            // 
-            this.checkedListBox_cellComponentZaiko_koutei.FormattingEnabled = true;
-            this.checkedListBox_cellComponentZaiko_koutei.Location = new System.Drawing.Point(6, 15);
-            this.checkedListBox_cellComponentZaiko_koutei.Name = "checkedListBox_cellComponentZaiko_koutei";
-            this.checkedListBox_cellComponentZaiko_koutei.Size = new System.Drawing.Size(106, 130);
-            this.checkedListBox_cellComponentZaiko_koutei.TabIndex = 23;
-            // 
-            // button_includeASSYproduct
-            // 
-            this.button_includeASSYproduct.Location = new System.Drawing.Point(115, 169);
-            this.button_includeASSYproduct.Name = "button_includeASSYproduct";
-            this.button_includeASSYproduct.Size = new System.Drawing.Size(168, 23);
-            this.button_includeASSYproduct.TabIndex = 5;
-            this.button_includeASSYproduct.Text = "ASSY工程を含む製品を抽出";
-            this.button_includeASSYproduct.UseVisualStyleBackColor = true;
-            this.button_includeASSYproduct.Click += new System.EventHandler(this.button_includeASSYproduct_Click);
-            // 
             // 部品在庫管理
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -993,7 +995,7 @@ namespace MicosController
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoComponentList)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_simZaiko)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ProductZaikoList)).EndInit();
@@ -1032,12 +1034,12 @@ namespace MicosController
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox_sim_productCD;
+        private System.Windows.Forms.TextBox textBox_sell_num;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_sim;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Panel panel3;
@@ -1072,7 +1074,7 @@ namespace MicosController
         private System.Windows.Forms.Button button_createProductZaikoListTable;
         private System.Windows.Forms.DataGridView dataGridView_cellComponentZaikoTable;
         private System.Windows.Forms.TextBox textBox_console;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_simZaiko;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button btn_CDFilter_ProductZaikoList;
@@ -1105,7 +1107,7 @@ namespace MicosController
         private System.Windows.Forms.Button button_ZaikoOrigin_hokan_allcheck;
         private System.Windows.Forms.Button button_ZaikoOrigin_keihi_allcheck;
         private System.Windows.Forms.CheckedListBox checkedListBox_cellComponentZaiko_koutei;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button_Filter_ProductZaiko_koutei;
         private System.Windows.Forms.Button button_includeASSYproduct;
     }
 }

@@ -14,6 +14,8 @@ namespace MicosController
     {
 
         public DataTable Zaiko_Data_Original_Table { get; set; }
+
+        
        
         public DataTable Component_Data_Original_Table { get; set; }
 
@@ -36,6 +38,16 @@ namespace MicosController
 
         public DataTable cell_component_zaiko_table { get; set; }
 
+        ///<summary>
+        /// シュミレーション用のﾃｰﾌﾞﾙ
+        /// </summary>
+        public DataTable zaiko_sim_table { get; set; }
+        public DataTable Current_Zaiko_Data_SimulationTable { get; set; }
+        public DataTable Previous_Zaiko_Data_SimulationTable { get; set; }
+
+        bool exisit_previoustable_flag = false;
+
+
         public struct zaiko_info
         {
             public string zairyou_name;　//部品構成リスト、在庫リストから抽出 品目CD
@@ -43,6 +55,7 @@ namespace MicosController
             public float gennzai_zaiko; //在庫リストから抽出
             public float siyou_suu;　//部品構成リストから抽出
             public string oyakoutei;      //部品構成リスト、在庫リストから抽出
+            public string level;
             public string hokan_basyo;　//部品構成リスト、在庫リストから抽出
         }
 
@@ -53,6 +66,7 @@ namespace MicosController
             public string zairyou_hokan_basyo;
             public float zairyou_siyousou;
             public string zairyou_oyakoutei;
+            public string zairyou_level;
         }
 
         public struct distinct_zairyo
@@ -775,6 +789,7 @@ namespace MicosController
                         zairyou.zairyou_hinmei = row["子品名"].ToString();
                         zairyou.zairyou_hokan_basyo = row["標準出庫保管場所"].ToString();
                         zairyou.zairyou_siyousou = (float)row["数量"];
+                        zairyou.zairyou_level = row["レベル"].ToString();
 
                         if(row["親工程"].ToString() == "")
                         {
@@ -856,6 +871,7 @@ namespace MicosController
                     z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数は部品構成リストからの情報を使わないといけない。
                     z_info.zairyou_hinmei = each_zairyou.zairyou_hinmei; //品名も部品構成リストから取り出さないといけない。在庫数が0のものは在庫リストに表示されないから。
                     z_info.oyakoutei = each_zairyou.zairyou_oyakoutei;
+                    z_info.level = each_zairyou.zairyou_level;
                     //foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
                     foreach(DataRow row in Zaiko_Data_Original_Table.Rows)
                     {
@@ -975,8 +991,11 @@ namespace MicosController
 
             }
 
+            //使用材料群を表示すると同時に使用材料に含まれる工程をチェックボックスに表示する。
+
             DataTable notDoublicated_table;
             DataView dtView = new DataView(cell_component_zaiko_table);
+            checkedListBox_cellComponentZaiko_koutei.Items.Clear();
 
             notDoublicated_table = dtView.ToTable(true, "親工程"); //"保管場所"列の重複を取り除く
 
@@ -1081,7 +1100,11 @@ namespace MicosController
         {
             Select_Grid_Column(dataGridView_cellComponentZaikoTable, checkedListBox_Display_ZaikoCol);
         }
-
+        /// <summary>
+        /// アッセイ工程のみ抽出するボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_includeASSYproduct_Click(object sender, EventArgs e)
         {
             string[] a = { "750", "751" };
@@ -1122,6 +1145,336 @@ namespace MicosController
             }
 
 
+        }
+
+       /// <summary>
+       /// 材料群ﾃｰﾌﾞﾙを工程の種類で抽出する。
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+        private void button_Filter_ProductZaiko_koutei_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            string querry = "";
+
+            foreach (string selected_koutei in checkedListBox_cellComponentZaiko_koutei.CheckedItems)
+            {
+                if (i == 0)
+                {
+                    querry = querry_maker_fullmatch(0, "親工程", selected_koutei, "");
+                }
+                else
+                {
+                    querry = querry_maker_fullmatch(2, "親工程", selected_koutei, querry);
+                }
+                i++;
+            }
+
+            if (querry == "")
+            {
+                dataGridView_cellComponentZaikoTable.DataSource = null;
+                return;
+            }
+
+            if (cell_component_zaiko_table.Select(querry).Length > 0)
+            {
+                cell_component_zaiko_table = cell_component_zaiko_table.Select(querry).CopyToDataTable();
+                dataGridView_cellComponentZaikoTable.DataSource = cell_component_zaiko_table;
+            }
+            else
+            {
+                dataGridView_cellComponentZaikoTable.DataSource = null;
+                return;
+            }
+        }
+        //////aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        ///simulation関連の関数たち
+        /// aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        /// <summary>
+        ///　製品と個数を入力して在庫データに反映してシミュレーションする。
+        /// </summary>
+        /// <param name="target_product"></param>
+        /// <param name="num_to_use"></param>
+        private void culculate_deficit_zaiko(string target_product, float num_to_use)
+        {
+            zaiko_sim_table = new DataTable();
+            zaiko_sim_table.Columns.Add("品目ＣＤ", typeof(string));
+            zaiko_sim_table.Columns.Add("品名", typeof(string));
+            zaiko_sim_table.Columns.Add("親工程", typeof(string));
+            zaiko_sim_table.Columns.Add("現在在庫数", typeof(float));
+            zaiko_sim_table.Columns.Add("使用数", typeof(float));
+            zaiko_sim_table.Columns.Add("保管場所", typeof(string));
+
+            zaiko_sim_table.Columns.Add("残り数量", typeof(float));
+
+
+            string querry = querry_maker_fullmatch(0, "選択品名",target_product,""); //製品の抽出方法変えたいときはここを変える。
+
+            if (Product_ZaikoList_Table_afterFitler.Select(querry).Length > 0)
+            {
+                DataTable target_table = Product_ZaikoList_Table_afterFitler.Select(querry).CopyToDataTable();
+
+                Dictionary<distinct_zairyo, zaiko_info> target_dic = (Dictionary<distinct_zairyo, zaiko_info>)Product_ZaikoList_Table_afterFitler.Rows[0]["使用材料群"];
+
+                foreach (KeyValuePair<distinct_zairyo, zaiko_info> kvp in target_dic)
+                {
+                    DataRow row = zaiko_sim_table.NewRow();
+                    row["品目ＣＤ"] = kvp.Key.zairyou_code;
+                    row["品名"] = kvp.Value.zairyou_hinmei;
+                    row["親工程"] = kvp.Value.oyakoutei;
+                    row["現在在庫数"] = kvp.Value.gennzai_zaiko;
+                    row["保管場所"] = kvp.Value.hokan_basyo;
+
+                    float genzai_zaiko = kvp.Value.gennzai_zaiko;
+                    float siyousou = kvp.Value.siyou_suu * num_to_use;
+
+                    row["使用数"] = siyousou; //一個製品に使う数×製品数
+
+                    row["残り数量"] = genzai_zaiko - siyousou;
+
+                    zaiko_sim_table.Rows.Add(row);
+
+                }
+            }
+        }
+        /// <summary>
+        /// simulation用ﾃｰﾌﾞﾙに出荷在庫を反映する。シミュレーション用の在庫オリジナルデータを作成する。
+        /// </summary>
+        private void reflect_simulation_to_ZaikoTable()
+        {
+
+            if(exisit_previoustable_flag == false)
+            {
+                Previous_Zaiko_Data_SimulationTable = Zaiko_Data_Original_Table.Copy();
+                exisit_previoustable_flag = true;
+            }
+            Current_Zaiko_Data_SimulationTable = new DataTable();
+            Current_Zaiko_Data_SimulationTable = Previous_Zaiko_Data_SimulationTable.Copy();
+
+            foreach(DataRow row_sellProduct in zaiko_sim_table.Rows)
+            {
+                foreach(DataRow row_simulationZaiko in Current_Zaiko_Data_SimulationTable.Rows)
+                {
+                    if(row_sellProduct["品目ＣＤ"].ToString()==row_simulationZaiko["品目ＣＤ"].ToString() && row_sellProduct["保管場所"].ToString() == row_simulationZaiko["保管場所"].ToString())
+                    {
+                        float sim_zaiko = (float)row_simulationZaiko["現在在庫数"];
+                        sim_zaiko -= (float)row_sellProduct["使用数"];
+                        row_simulationZaiko["現在在庫数"] = (float)sim_zaiko;
+                    }
+                }
+            }
+
+            Previous_Zaiko_Data_SimulationTable = Current_Zaiko_Data_SimulationTable.Copy();
+
+
+        }
+
+        private void create_Product_ZaikoList_from_simulationTable()
+        {
+            Product_ZaikoList_Table = new DataTable();
+
+            Product_ZaikoList_Table.Columns.Add("選択品目ＣＤ", typeof(string));
+            Product_ZaikoList_Table.Columns.Add("選択品名", typeof(string));
+            Product_ZaikoList_Table.Columns.Add("製造可能数", typeof(float));
+            Product_ZaikoList_Table.Columns.Add("現在在庫数", typeof(float));
+            Product_ZaikoList_Table.Columns.Add("現在仕掛数", typeof(float));
+            Product_ZaikoList_Table.Columns.Add("使用材料群", typeof(Dictionary<distinct_zairyo, zaiko_info>)); //dictionaryには材料名と材料情報（構造体で型宣言）を入れる。
+
+            //抽出した在庫を含む製品をコレクションに格納する。
+            List<string> Product_List = new List<string>();
+            List<hinmei_cd_set> Product_List_withHinmei = new List<hinmei_cd_set>();
+            //List<distinct_zairyo> Product_List = new List<distinct_zairyo>();
+
+            foreach (DataRow row_zaiko in Zaiko_Data_Display_Table.Rows)
+            {
+                foreach (DataRow row_comp in Component_Data_Original_Table.Rows)
+                {
+                    if (row_zaiko["品目ＣＤ"].ToString() == row_comp["子品目コード"].ToString() && row_zaiko["保管場所"].ToString() == row_comp["標準出庫保管場所"].ToString())
+                    {
+
+                        if (Product_List.Contains(row_comp["選択品目ＣＤ"]) != true) //もしまだリストに製品ＣＤが存在しなければ追加する。
+                        {
+                            Product_List.Add(row_comp["選択品目ＣＤ"].ToString());
+                            hinmei_cd_set hinmei_cd = new hinmei_cd_set() { cd = row_comp["選択品目ＣＤ"].ToString(), hinmei = row_comp["選択品名"].ToString() };
+                            Product_List_withHinmei.Add(hinmei_cd);
+                        }
+
+                    }
+                }
+
+            }
+
+            foreach (hinmei_cd_set product_name_cd in Product_List_withHinmei)
+            {
+                //それぞれの製品CD毎にDataRowとzaiko_infoを作成していく。
+                DataRow ProductZaiko_row = Product_ZaikoList_Table.NewRow();
+                ProductZaiko_row["選択品目ＣＤ"] = product_name_cd.cd;
+                ProductZaiko_row["選択品名"] = product_name_cd.hinmei;
+
+                string product_name_modified_sixletters = product_name_cd.cd.PadLeft(6, '0'); ;
+                //在庫数が０だと在庫リストに表示されないから条件分岐する。
+                if (Current_Zaiko_Data_SimulationTable.AsEnumerable().Any(x => x["品目ＣＤ"].ToString() == product_name_modified_sixletters) == false) // //product_nameが在庫リストに存在しないパターン
+                {
+                    ProductZaiko_row["現在仕掛数"] = 0;
+                    ProductZaiko_row["現在在庫数"] = 0;
+                }
+                else
+                {
+                    DataTable genzai_zaiko_sikakari = Current_Zaiko_Data_SimulationTable.AsEnumerable().Where(x => x["品目ＣＤ"].ToString() == product_name_modified_sixletters).CopyToDataTable();
+                    ProductZaiko_row["現在仕掛数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在仕掛数"]; //０行目固定。1つの製品品目CDに二つ以上の行があると適切に動かない。
+                    ProductZaiko_row["現在在庫数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在在庫数"];
+                }
+
+                //if (product_name_cd.cd == "071419")
+                //{
+                //    Console.WriteLine("a");
+                //}
+
+                ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                ///使用材料軍列を作成する処理。dic_zairyougun（Dictionay）を作成するための処理
+                ///
+                Dictionary<distinct_zairyo, zaiko_info> dic_zairyougun = new Dictionary<distinct_zairyo, zaiko_info>();
+
+                //それぞれの製品が使用する構成部品リストを製品毎に作成する。
+                List<zairyou_info> Component_List = new List<zairyou_info>();
+
+                foreach (DataRow row in Component_Data_Original_Table.Rows)
+                {
+
+
+                    if (product_name_cd.cd == row["選択品目ＣＤ"].ToString())
+                    {
+                        //if(Component_List.Contains(item.))
+                        zairyou_info zairyou = new zairyou_info();
+                        zairyou.zairyou_code = row["子品目コード"].ToString();
+                        zairyou.zairyou_hinmei = row["子品名"].ToString();
+                        zairyou.zairyou_hokan_basyo = row["標準出庫保管場所"].ToString();
+                        zairyou.zairyou_siyousou = (float)row["数量"];
+                        zairyou.zairyou_level = row["レベル"].ToString();
+
+                        if (row["親工程"].ToString() == "")
+                        {
+                            int list_num = Component_List.Count;
+                            zairyou.zairyou_oyakoutei = Component_List[list_num - 1].zairyou_oyakoutei;
+                        }
+                        else
+                        {
+                            zairyou.zairyou_oyakoutei = row["親工程"].ToString();
+                        }
+
+                        Component_List.Add(zairyou);
+                    }
+                }
+
+                //同じ製品の中で同じ材料、保管場所のものが二回以上使われているパターンがある。⇒重複した材料の数量を足し合わせる。
+                List<zairyou_info> Component_List_notDoublicated = new List<zairyou_info>();
+                bool first_flag = true;
+                bool doublicated_flag = false;
+                float sum = 0;
+                foreach (zairyou_info each_zaryou1 in Component_List)
+                {
+                    foreach (zairyou_info each_zairyou2 in Component_List)
+                    {
+                        if (each_zaryou1.zairyou_code == each_zairyou2.zairyou_code && each_zaryou1.zairyou_hokan_basyo == each_zairyou2.zairyou_hokan_basyo)
+                        {
+                            if (first_flag == false)
+                            {
+                                doublicated_flag = true;
+                            }
+                            if (first_flag)
+                            {
+                                first_flag = false;
+                            }
+
+                            sum += each_zairyou2.zairyou_siyousou;
+
+                        }
+                    }
+
+                    zairyou_info notDoublicated_zairyou = new zairyou_info();
+                    notDoublicated_zairyou = each_zaryou1;
+                    notDoublicated_zairyou.zairyou_siyousou = sum;
+                    sum = 0;
+
+                    if (doublicated_flag == false)
+                    {
+                        Component_List_notDoublicated.Add(notDoublicated_zairyou);
+                    }
+                    else
+                    {
+                        bool already_exist_flag = false;
+                        foreach (zairyou_info exisit_zairyou in Component_List_notDoublicated)
+                        {
+                            if (exisit_zairyou.Equals(notDoublicated_zairyou))
+                            {
+                                already_exist_flag = true;
+                            }
+                        }
+                        if (already_exist_flag != false)
+                        {
+                            Component_List_notDoublicated.Add(notDoublicated_zairyou);
+                        }
+
+                    }
+
+
+                    first_flag = true;
+                    doublicated_flag = false;
+                }
+
+
+
+                //Dictionaryに格納するためのzaiko_infor構造体を作成するための処理。
+
+                foreach (zairyou_info each_zairyou in Component_List_notDoublicated)
+                {
+                    zaiko_info z_info = new zaiko_info();
+                    z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数は部品構成リストからの情報を使わないといけない。
+                    z_info.zairyou_hinmei = each_zairyou.zairyou_hinmei; //品名も部品構成リストから取り出さないといけない。在庫数が0のものは在庫リストに表示されないから。
+                    z_info.oyakoutei = each_zairyou.zairyou_oyakoutei;
+                    z_info.level = each_zairyou.zairyou_level;
+                    //foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
+                    foreach (DataRow row in Current_Zaiko_Data_SimulationTable.Rows)
+                    {
+                        if (each_zairyou.zairyou_code == row["品目ＣＤ"].ToString() && each_zairyou.zairyou_hokan_basyo == row["保管場所"].ToString())
+                        {
+                            z_info.zairyou_name = row["品目ＣＤ"].ToString();
+                            z_info.hokan_basyo = row["保管場所"].ToString();
+                            z_info.gennzai_zaiko = (float)row["現在在庫数"];
+
+                        }
+                    }
+
+                    //Dictionaryに各対象部品を追加する。
+                    distinct_zairyo d_zairyou = new distinct_zairyo() { zairyou_code = each_zairyou.zairyou_code, zairyou_hokan_basyo = each_zairyou.zairyou_hokan_basyo };
+                    dic_zairyougun.Add(d_zairyou, z_info);
+                }
+
+
+
+                ProductZaiko_row["使用材料群"] = dic_zairyougun;
+
+                ProductZaiko_row["製造可能数"] = calculate_production_num(dic_zairyougun);
+
+                Product_ZaikoList_Table.Rows.Add(ProductZaiko_row);
+
+            }
+
+            dataGridView_ProductZaikoList.DataSource = Product_ZaikoList_Table;
+            Product_ZaikoList_Table_afterFitler = Product_ZaikoList_Table.Copy();
+
+            create_checkbox_fromTableColumn(Product_ZaikoList_Table_afterFitler, checkedListBox_Display_ProductCol);
+        }
+
+        private void button_sim_Click(object sender, EventArgs e)
+        {
+            string product = textBox_sim_productCD.Text;
+            string num = textBox_sell_num.Text;
+            float num_float = float.Parse(num);
+
+            culculate_deficit_zaiko(product,num_float);
+
+            dataGridView_simZaiko.DataSource = zaiko_sim_table;
         }
     }
 }
