@@ -700,7 +700,7 @@ namespace MicosController
 
             Product_ZaikoList_Table.Columns.Add("選択品目ＣＤ", typeof(string));
             Product_ZaikoList_Table.Columns.Add("選択品名", typeof(string));
-            Product_ZaikoList_Table.Columns.Add("製造可能数", typeof(int));
+            Product_ZaikoList_Table.Columns.Add("製造可能数", typeof(float));
             Product_ZaikoList_Table.Columns.Add("現在在庫数", typeof(float));
             Product_ZaikoList_Table.Columns.Add("現在仕掛数", typeof(float));
             Product_ZaikoList_Table.Columns.Add("使用材料群", typeof(Dictionary<distinct_zairyo, zaiko_info>)); //dictionaryには材料名と材料情報（構造体で型宣言）を入れる。
@@ -749,7 +749,11 @@ namespace MicosController
                     ProductZaiko_row["現在仕掛数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在仕掛数"]; //０行目固定。1つの製品品目CDに二つ以上の行があると適切に動かない。
                     ProductZaiko_row["現在在庫数"] = (float)genzai_zaiko_sikakari.Rows[0]["現在在庫数"];
                 }
-                
+
+                if (product_name_cd.cd == "071419")
+                {
+                    Console.WriteLine("a");
+                }
 
                 ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                 ///使用材料軍列を作成する処理。dic_zairyougun（Dictionay）を作成するための処理
@@ -856,7 +860,8 @@ namespace MicosController
                     z_info.siyou_suu = each_zairyou.zairyou_siyousou; //使用数は部品構成リストからの情報を使わないといけない。
                     z_info.zairyou_hinmei = each_zairyou.zairyou_hinmei; //品名も部品構成リストから取り出さないといけない。在庫数が0のものは在庫リストに表示されないから。
                     z_info.oyakoutei = each_zairyou.zairyou_oyakoutei;
-                    foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
+                    //foreach (DataRow row in Zaiko_Data_Display_Table.Rows)
+                    foreach(DataRow row in Zaiko_Data_Original_Table.Rows)
                     {
                         if(each_zairyou.zairyou_code == row["品目ＣＤ"].ToString() && each_zairyou.zairyou_hokan_basyo == row["保管場所"].ToString())
                         {
@@ -871,6 +876,8 @@ namespace MicosController
                     distinct_zairyo d_zairyou = new distinct_zairyo() { zairyou_code = each_zairyou.zairyou_code, zairyou_hokan_basyo = each_zairyou.zairyou_hokan_basyo };
                     dic_zairyougun.Add(d_zairyou, z_info);
                 }
+
+
 
                 ProductZaiko_row["使用材料群"] = dic_zairyougun;
 
@@ -901,7 +908,7 @@ namespace MicosController
                 if (first_flag)
                 {
                     
-                    max_product_num = each_zaiko.gennzai_zaiko / each_zaiko.siyou_suu;
+                    max_product_num =each_zaiko.gennzai_zaiko / each_zaiko.siyou_suu;
                     first_flag = false;
                 }
                 if(first_flag  == false)
@@ -938,8 +945,11 @@ namespace MicosController
         private void dataGridView_ProductZaikoList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             init_cell_component_zaiko_table();
-            if (e.ColumnIndex == 5)
+            if (e.ColumnIndex == 5) 
             {
+
+                
+                //DataRow select_row = Product_ZaikoList_Table_afterFitler.Rows[dataGridView_ProductZaikoList.SelectedCells[0].RowIndex];
                 DataRow select_row = Product_ZaikoList_Table_afterFitler.Rows[e.RowIndex];
                 Dictionary<distinct_zairyo, zaiko_info> dic = (Dictionary<distinct_zairyo, zaiko_info>)select_row["使用材料群"];
                 //Dictionary<string, float> dic = Dictionary<string, float>)select_row["使用製品群"];
@@ -961,7 +971,26 @@ namespace MicosController
 
                 create_checkbox_fromTableColumn(cell_component_zaiko_table, checkedListBox_Display_ZaikoCol);
 
+
+
             }
+
+            DataTable notDoublicated_table;
+            DataView dtView = new DataView(cell_component_zaiko_table);
+
+            notDoublicated_table = dtView.ToTable(true, "親工程"); //"保管場所"列の重複を取り除く
+
+            foreach (DataRow row in notDoublicated_table.Rows)
+            {
+                checkedListBox_cellComponentZaiko_koutei.Items.Add(row["親工程"]); //"保管場所"列の重複してないものをチェックボックスに追加する。
+            }
+
+            for (int i = 0; i < checkedListBox_cellComponentZaiko_koutei.Items.Count; i++)
+            {
+                checkedListBox_cellComponentZaiko_koutei.SetItemChecked(i, true);
+            }
+
+
         }
         ///aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         /// <summary>

@@ -90,6 +90,8 @@ namespace MicosController
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel_micos_setting.SuspendLayout();
             this.panel_buhin.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -725,11 +727,32 @@ namespace MicosController
             this.label14.TabIndex = 32;
             this.label14.Text = "出力区分";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1088, 379);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 31;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1190, 332);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(8, 8);
+            this.button2.TabIndex = 32;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1238, 450);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel_zaikoout_setting);
             this.Controls.Add(this.button_buhin_setting);
             this.Controls.Add(this.panel1);
@@ -818,6 +841,8 @@ namespace MicosController
         private System.Windows.Forms.TextBox textBox_MicosWindow;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Button button_buhinzaikokanri;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

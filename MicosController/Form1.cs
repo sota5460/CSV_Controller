@@ -562,7 +562,8 @@ namespace MicosController
             SendKeys.SendWait("{ENTER}");
             page_counter++;
 
-            Task.Delay(100);
+            System.Threading.Thread.Sleep(500);
+            //Task.Delay(100);
 
             SendKeys.SendWait(keihikubun + syubetsu + tenkai + hyouji);
             SendKeys.SendWait("{ENTER}");
@@ -599,7 +600,8 @@ namespace MicosController
             SendKeys.SendWait("{ENTER}");
             page_counter++;
 
-            Task.Delay(1000);
+            // Task.Delay(3000);
+            System.Threading.Thread.Sleep(500);
 
             SendKeys.SendWait(syuturyoku + syukei + keihi_l + keihi_r);
             SendKeys.SendWait("{ENTER}");
@@ -656,6 +658,7 @@ namespace MicosController
             {
                 //見つかった時は、アクティブにする
                 Microsoft.VisualBasic.Interaction.AppActivate(ps[0].Id);
+               
             }
             else
             {
@@ -978,6 +981,11 @@ namespace MicosController
             
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ScreenController a = new ScreenController();
+            a.Micos_process_name = Micos_process_name;
+            a.Check_Zaiko_Screen();
+        }
     }
 }
