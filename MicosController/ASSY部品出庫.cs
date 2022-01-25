@@ -15,6 +15,9 @@ namespace MicosController
         public DataTable ICB_Table { get; set; }
         public DataTable MMB_Table { get; set; }
 
+        public string Templete_Excell_FilePath { get; set; }
+        public string Templete_Word_FilePath { get; set; }
+
         DataTableController datacontroller;
         public ASSY部品出庫()
         {
@@ -92,6 +95,22 @@ namespace MicosController
             
 
            
+        }
+
+        private void button_CreateLabel_Click(object sender, EventArgs e)
+        {
+            //Templete_Excell_FilePath = @"C:\Users\e33230-user3\OneDrive - hqhamamatsu.onmicrosoft.com\デスクトップ\aaaaaa.xlsx";
+
+            ExcellController excell = new ExcellController();
+            excell.excell_file_path = Templete_Excell_FilePath;
+            excell.word_file_path = Templete_Word_FilePath;
+
+            excell.Table_forLabelZaiko = datacontroller.Zaiko_Table_afterFilter_Current;
+
+            excell.Fill_Ecellsheet_template();
+
+            excell.Open_LabelWordFile();
+
         }
     }
 }

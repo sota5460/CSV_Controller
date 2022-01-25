@@ -82,5 +82,31 @@ namespace MicosController.Properties {
                 this["Micos_OutPutPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\den0\\第2製造部\\第6・22\\製造データ\\221製造\\ASSY工程文書原稿\\ASSY図面　井上\\南雲用\\棚卸\\ラベル作成用プログラム\\ラベル紐づけテンプレ" +
+            "触るな.xlsx")]
+        public string ExcelLabelPath {
+            get {
+                return ((string)(this["ExcelLabelPath"]));
+            }
+            set {
+                this["ExcelLabelPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\den0\\第2製造部\\第6・22\\製造データ\\221製造\\ASSY工程文書原稿\\ASSY図面　井上\\南雲用\\棚卸\\ラベル作成用プログラム\\ラベル印刷テンプレ触" +
+            "るな.docx")]
+        public string WordLabelPath {
+            get {
+                return ((string)(this["WordLabelPath"]));
+            }
+            set {
+                this["WordLabelPath"] = value;
+            }
+        }
     }
 }

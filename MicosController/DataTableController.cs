@@ -21,7 +21,7 @@ namespace MicosController
         public DataTable ICB_Sim_Table_current { get; set; }
         public DataTable ICB_Sim_Table_temp { get; set; }
 
-        public string[] ASSY_oyakoutei = { "750", "751" };
+        public string[] ASSY_oyakoutei = {"750"}; //750 外注　751 社内作業
 
         public DataTable Extract_Row { get; set; }
 
@@ -101,16 +101,22 @@ namespace MicosController
         {
 
             Zaiko_Table_afterFilter_Current = new DataTable();
-            Zaiko_Table_afterFilter_Current.Columns.Add("経費",typeof(string));　//from ICB
-            Zaiko_Table_afterFilter_Current.Columns.Add("品目ＣＤ", typeof(string)); //from ICB
-            Zaiko_Table_afterFilter_Current.Columns.Add("品名", typeof(string)); // from ICB
-            Zaiko_Table_afterFilter_Current.Columns.Add("保管場所", typeof(string)); // from ICB
+            Zaiko_Table_afterFilter_Current.Columns.Add("PMT", typeof(string)); //from MMB
+            Zaiko_Table_afterFilter_Current.Columns.Add("経費",typeof(string));　//from ICB　<= MMB在庫がないとICBには表示されないから
+            Zaiko_Table_afterFilter_Current.Columns.Add("品目ＣＤ", typeof(string)); //from ICB  <= MMB在庫がないとICBには表示されないから
+            Zaiko_Table_afterFilter_Current.Columns.Add("品名", typeof(string)); // from ICB　<= MMB在庫がないとICBには表示されないから
+            Zaiko_Table_afterFilter_Current.Columns.Add("保管場所", typeof(string)); // from ICB　
             Zaiko_Table_afterFilter_Current.Columns.Add("現在在庫数", typeof(float)); // from ICB
             Zaiko_Table_afterFilter_Current.Columns.Add("一つの製品に使う数", typeof(float)); // from MMB
             Zaiko_Table_afterFilter_Current.Columns.Add("合計使用数", typeof(float)); // from MMB
-            Zaiko_Table_afterFilter_Current.Columns.Add("残り在庫数", typeof(float)); // from ICB
+            Zaiko_Table_afterFilter_Current.Columns.Add("残り在庫数", typeof(float)); // from ICB　
 
-            if(MMB_Table.AsEnumerable().Where(x => (string)x["選択品名"].ToString() == ProductName).Any() != true)
+            Zaiko_Table_afterFilter_Current.Columns.Add("社内在庫", typeof(float));
+            Zaiko_Table_afterFilter_Current.Columns.Add("社内保管場所", typeof(string));
+
+
+
+            if (MMB_Table.AsEnumerable().Where(x => (string)x["選択品名"].ToString() == ProductName).Any() != true)
             {
                 MessageBox.Show("品名が一致する製品が存在しません。");
                 return;
@@ -120,11 +126,17 @@ namespace MicosController
 
             foreach(DataRow row in temp_Table.Rows)
             {
-                foreach(DataRow row_icb in ICB_Sim_Table_current.Rows) //ここをシミュレーション用在庫ﾃｰﾌﾞﾙにすればシミュレーションができる。
+                int icb_data_cnt = 0;
+                string hokanbasyo_code = row["標準出庫保管場所"].ToString(); //保管場所コードが""のものがあるとエラー
+                char init_code = hokanbasyo_code[0];
+
+                foreach (DataRow row_icb in ICB_Sim_Table_current.Rows) //ここをシミュレーション用在庫ﾃｰﾌﾞﾙにすればシミュレーションができる。
                 {
+                    icb_data_cnt++;
                     if (row["子品目コード"].ToString() == row_icb["品目ＣＤ"].ToString() && row["標準出庫保管場所"].ToString() == row_icb["保管場所"].ToString())
                     {
                         DataRow newrow = Zaiko_Table_afterFilter_Current.NewRow();
+                        newrow["PMT"] = row["選択品名"];
                         newrow["経費"] = row_icb["経費"];
                         newrow["品目ＣＤ"] = row_icb["品目ＣＤ"];
                         newrow["品名"] = row_icb["品名"];
@@ -138,9 +150,63 @@ namespace MicosController
                         newrow["合計使用数"] = total_num_to_use;
                         newrow["残り在庫数"] = Zaiko_Left;
 
+                        if (init_code == 'G')
+                        {
+                            foreach(DataRow row_syanaizaiko in ICB_Sim_Table_current.Rows)
+                            {
+                                string zaiko_hokan = row_syanaizaiko["保管場所"].ToString();
+                                char init_zaiko_hokan = zaiko_hokan[0];
+                                if(row["子品目コード"].ToString() == row_syanaizaiko["品目ＣＤ"].ToString() && init_zaiko_hokan != 'G')
+                                {
+                                    newrow["社内在庫"] = row_syanaizaiko["現在在庫数"];
+                                    newrow["社内保管場所"] = row_syanaizaiko["保管場所"];
+                                }
+                            }
+                        }
+
                         Zaiko_Table_afterFilter_Current.Rows.Add(newrow);
+                        break;
                     }
+                    if(icb_data_cnt == ICB_Sim_Table_current.Rows.Count) //在庫が０で在庫リストに存在しないとき
+                    {
+                        DataRow newrow = Zaiko_Table_afterFilter_Current.NewRow();
+                        newrow["PMT"] = row["選択品名"];
+                        newrow["経費"] = row["親経費"];
+                        newrow["品目ＣＤ"] = row["子品目コード"];
+                        newrow["品名"] = row["子品名"];
+                        newrow["保管場所"] = row["標準出庫保管場所"];
+
+                        newrow["現在在庫数"] = 0;
+                        newrow["一つの製品に使う数"] = (float)row["数量"];
+
+                        float total_num_to_use_deficit = (float)row["数量"] * Product_Num;
+                        float Zaiko_Left_deficit =  - total_num_to_use_deficit;
+
+                        newrow["合計使用数"] = total_num_to_use_deficit;
+                        newrow["残り在庫数"] = Zaiko_Left_deficit;
+
+                        if (init_code == 'G')
+                        {
+                            foreach (DataRow row_syanaizaiko in ICB_Sim_Table_current.Rows)
+                            {
+                                string zaiko_hokan = row_syanaizaiko["保管場所"].ToString();
+                                char init_zaiko_hokan = zaiko_hokan[0];
+                                if (row["子品目コード"].ToString() == row_syanaizaiko["品目ＣＤ"].ToString() && init_zaiko_hokan != 'G')
+                                {
+                                    newrow["社内在庫"] = row_syanaizaiko["現在在庫数"];
+                                    newrow["社内保管場所"] = row_syanaizaiko["保管場所"];
+                                }
+                            }
+                        }
+
+                        Zaiko_Table_afterFilter_Current.Rows.Add(newrow);
+                        break;
+
+                    }
+                    
                 }
+
+
                
             }
 
@@ -154,6 +220,7 @@ namespace MicosController
         {
 
             Zaiko_Table_afterFilter_Current = new DataTable();
+            Zaiko_Table_afterFilter_Current.Columns.Add("PMT", typeof(string)); //from MMB
             Zaiko_Table_afterFilter_Current.Columns.Add("経費", typeof(string));　//from ICB
             Zaiko_Table_afterFilter_Current.Columns.Add("品目ＣＤ", typeof(string)); //from ICB
             Zaiko_Table_afterFilter_Current.Columns.Add("品名", typeof(string)); // from ICB
@@ -162,6 +229,9 @@ namespace MicosController
             Zaiko_Table_afterFilter_Current.Columns.Add("一つの製品に使う数", typeof(float)); // from MMB
             Zaiko_Table_afterFilter_Current.Columns.Add("合計使用数", typeof(float)); // from MMB
             Zaiko_Table_afterFilter_Current.Columns.Add("残り在庫数", typeof(float)); // from ICB
+
+            Zaiko_Table_afterFilter_Current.Columns.Add("社内在庫", typeof(float));
+            Zaiko_Table_afterFilter_Current.Columns.Add("社内保管場所", typeof(string));
 
             if (MMB_Table.AsEnumerable().Where(x => (string)x["選択品目ＣＤ"].ToString() == ProductCD).Any() != true)
             {
@@ -173,11 +243,17 @@ namespace MicosController
 
             foreach (DataRow row in temp_Table.Rows)
             {
+                int icb_data_cnt = 0;
+                string hokanbasyo_code = row["標準出庫保管場所"].ToString();
+                char init_code = hokanbasyo_code[0];
+
                 foreach (DataRow row_icb in ICB_Sim_Table_current.Rows) //ここをシミュレーション用在庫ﾃｰﾌﾞﾙにすればシミュレーションができる。
                 {
+                    icb_data_cnt++;
                     if (row["子品目コード"].ToString() == row_icb["品目ＣＤ"].ToString() && row["標準出庫保管場所"].ToString() == row_icb["保管場所"].ToString())
                     {
                         DataRow newrow = Zaiko_Table_afterFilter_Current.NewRow();
+                        newrow["PMT"] = row["選択品名"];
                         newrow["経費"] = row_icb["経費"];
                         newrow["品目ＣＤ"] = row_icb["品目ＣＤ"];
                         newrow["品名"] = row_icb["品名"];
@@ -191,8 +267,61 @@ namespace MicosController
                         newrow["合計使用数"] = total_num_to_use;
                         newrow["残り在庫数"] = Zaiko_Left;
 
+                        if (init_code == 'G')
+                        {
+                            foreach (DataRow row_syanaizaiko in ICB_Sim_Table_current.Rows)
+                            {
+                                string zaiko_hokan = row_syanaizaiko["保管場所"].ToString();
+                                char init_zaiko_hokan = zaiko_hokan[0];
+                                if (row["子品目コード"].ToString() == row_syanaizaiko["品目ＣＤ"].ToString() && init_zaiko_hokan != 'G')
+                                {
+                                    newrow["社内在庫"] = row_syanaizaiko["現在在庫数"];
+                                    newrow["社内保管場所"] = row_syanaizaiko["保管場所"];
+                                }
+                            }
+                        }
+
                         Zaiko_Table_afterFilter_Current.Rows.Add(newrow);
+                        break;
                     }
+                    if (icb_data_cnt == ICB_Sim_Table_current.Rows.Count)
+                    {
+                        DataRow newrow = Zaiko_Table_afterFilter_Current.NewRow();
+                        newrow["PMT"] = row["選択品名"];
+                        newrow["経費"] = row["親経費"];
+                        newrow["品目ＣＤ"] = row["子品目コード"];
+                        newrow["品名"] = row["子品名"];
+                        newrow["保管場所"] = row["標準出庫保管場所"];
+
+                        newrow["現在在庫数"] = 0;
+                        newrow["一つの製品に使う数"] = (float)row["数量"];
+
+                        float total_num_to_use_deficit = (float)row["数量"] * Product_Num;
+                        float Zaiko_Left_deficit = -total_num_to_use_deficit;
+
+                        newrow["合計使用数"] = total_num_to_use_deficit;
+                        newrow["残り在庫数"] = Zaiko_Left_deficit;
+
+                        if (init_code == 'G')
+                        {
+                            foreach (DataRow row_syanaizaiko in ICB_Sim_Table_current.Rows)
+                            {
+                                string zaiko_hokan = row_syanaizaiko["保管場所"].ToString();
+                                char init_zaiko_hokan = zaiko_hokan[0];
+                                if (row["子品目コード"].ToString() == row_syanaizaiko["品目ＣＤ"].ToString() && init_zaiko_hokan != 'G')
+                                {
+                                    newrow["社内在庫"] = row_syanaizaiko["現在在庫数"];
+                                    newrow["社内保管場所"] = row_syanaizaiko["保管場所"];
+                                }
+                            }
+                        }
+
+                        Zaiko_Table_afterFilter_Current.Rows.Add(newrow);
+                        break;
+
+                    }
+
+
                 }
 
             }

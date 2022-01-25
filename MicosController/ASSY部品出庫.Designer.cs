@@ -45,18 +45,20 @@ namespace MicosController
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView_selectedPMT = new System.Windows.Forms.DataGridView();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.dataGridView_selectedPMT = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button_CreateLabel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ZaikoDisplay)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_selectedPMT)).BeginInit();
+            this.tabControl2.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView_ZaikoDisplay
@@ -67,6 +69,7 @@ namespace MicosController
             this.dataGridView_ZaikoDisplay.RowTemplate.Height = 21;
             this.dataGridView_ZaikoDisplay.Size = new System.Drawing.Size(738, 551);
             this.dataGridView_ZaikoDisplay.TabIndex = 0;
+            this.dataGridView_ZaikoDisplay.Font=new System.Drawing.Font(dataGridView_ZaikoDisplay.Font.Name, 12);
             // 
             // textBox_ProductName
             // 
@@ -151,6 +154,7 @@ namespace MicosController
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.button_Display_ZaikoData);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.textBox_ProductCD);
@@ -216,6 +220,15 @@ namespace MicosController
             this.tabPage2.Text = "選択したPMT";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // dataGridView_selectedPMT
+            // 
+            this.dataGridView_selectedPMT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_selectedPMT.Location = new System.Drawing.Point(6, 10);
+            this.dataGridView_selectedPMT.Name = "dataGridView_selectedPMT";
+            this.dataGridView_selectedPMT.RowTemplate.Height = 21;
+            this.dataGridView_selectedPMT.Size = new System.Drawing.Size(738, 150);
+            this.dataGridView_selectedPMT.TabIndex = 15;
+            // 
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage3);
@@ -246,20 +259,35 @@ namespace MicosController
             this.tabPage4.Text = "並び替え";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // dataGridView_selectedPMT
+            // label1
             // 
-            this.dataGridView_selectedPMT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_selectedPMT.Location = new System.Drawing.Point(6, 10);
-            this.dataGridView_selectedPMT.Name = "dataGridView_selectedPMT";
-            this.dataGridView_selectedPMT.RowTemplate.Height = 21;
-            this.dataGridView_selectedPMT.Size = new System.Drawing.Size(738, 150);
-            this.dataGridView_selectedPMT.TabIndex = 15;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(12, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 20);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "受注製品";
+            // 
+            // button_CreateLabel
+            // 
+            this.button_CreateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button_CreateLabel.Font = new System.Drawing.Font("MS UI Gothic", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_CreateLabel.Location = new System.Drawing.Point(1129, 220);
+            this.button_CreateLabel.Name = "button_CreateLabel";
+            this.button_CreateLabel.Size = new System.Drawing.Size(193, 33);
+            this.button_CreateLabel.TabIndex = 16;
+            this.button_CreateLabel.Text = "ラベルを作成する。";
+            this.button_CreateLabel.UseVisualStyleBackColor = false;
+            this.button_CreateLabel.Click += new System.EventHandler(this.button_CreateLabel_Click);
             // 
             // ASSY部品出庫
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1392, 626);
+            this.Controls.Add(this.button_CreateLabel);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel2);
@@ -273,9 +301,10 @@ namespace MicosController
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_selectedPMT)).EndInit();
+            this.tabControl2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -301,5 +330,7 @@ namespace MicosController
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.DataGridView dataGridView_selectedPMT;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button_CreateLabel;
     }
 }

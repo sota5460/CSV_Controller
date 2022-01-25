@@ -14,6 +14,7 @@ using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
 
 
+
 namespace MicosController
 {
 
@@ -47,10 +48,18 @@ namespace MicosController
         public string tenkai = "1";
         public string hyouji = "1";
         //在庫データ出力のとき
-        public string syuturyoku = "1";
+        public string syuturyoku = "4";
         public string syuukei = "1";
         public string keihi_l = "33231";
         public string keihi_r = "33243";
+
+        //ラベル作成用設定変数
+        public string LabelExcelFilePath = "";
+        public string LabelWordFilePath = "";
+
+        //デフォルト読み込みファイル
+        public List<string> default_filename_mmb;
+        public List<string> default_filaname_icb;
 
         public int page_counter = 0; //製造管理者PCメニュー　＝　０
 
@@ -109,6 +118,9 @@ namespace MicosController
             Micos_Window_Title = Properties.Settings.Default.Micos_WindowName;
             Output_file_path = Properties.Settings.Default.Micos_OutPutPath;
 
+            LabelExcelFilePath = Properties.Settings.Default.ExcelLabelPath;
+            LabelWordFilePath = Properties.Settings.Default.WordLabelPath;
+
         }
         public void Init_forms()
         {
@@ -136,6 +148,10 @@ namespace MicosController
             comboBox_syuukei.SelectedItem = syuukei;
             textBox_keihi_l.Text = keihi_l;
             textBox_keihi_r.Text = keihi_r;
+
+            //ラベル作成用設定　デフォルト入力
+            textBox_Label_ExcelPath.Text = LabelExcelFilePath;
+            textBox_LabelWordPath.Text = LabelWordFilePath;
 
         }
 
@@ -260,6 +276,8 @@ namespace MicosController
             syubetu = comboBox_buhin_syubetu.SelectedItem.ToString();
             tenkai = comboBox_buhin_tenkai.SelectedItem.ToString();
             hyouji = comboBox_buhin_hyouji.SelectedItem.ToString();
+
+            Micos_Setting_flag = true;
         }
         private void button_zaikosetting_on_Click(object sender, EventArgs e)
         {
@@ -267,13 +285,23 @@ namespace MicosController
             syuukei = comboBox_syuukei.SelectedItem.ToString();
             keihi_l = textBox_keihi_l.Text;
             keihi_r = textBox_keihi_r.Text;
+
+            Micos_Setting_flag = true;
         }
 
-       /// <summary>
-       /// プロセス名取得ボタン
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        private void button_LabelFileSetting_Click(object sender, EventArgs e)
+        {
+            LabelExcelFilePath = textBox_Label_ExcelPath.Text;
+            LabelWordFilePath = textBox_LabelWordPath.Text;
+
+            Micos_Setting_flag = true;
+        }
+
+        /// <summary>
+        /// プロセス名取得ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_processname_Click(object sender, EventArgs e)
         {
             GetProcessName();
@@ -404,6 +432,8 @@ namespace MicosController
 
                         if (files.Length > 0)
                         {                     //getfilesが存在するかどうかの判定は配列の長さ>０で判定。array[0]==""では判定できない。
+
+                            Close_MicosWindow();
                             TheLatest_File_ICB += files[0];
                             MessageBox.Show(TheLatest_File_ICB + "を取得しました。");
                             File_Creaging_flag = 0;
@@ -414,6 +444,7 @@ namespace MicosController
 
                         if (files1.Length > 0)
                         {
+                            Close_MicosWindow();
                             TheLatest_File_ICB += files1[0];
                             MessageBox.Show(TheLatest_File_ICB + "を取得しました。");
                             File_Creaging_flag = 0;
@@ -424,6 +455,7 @@ namespace MicosController
 
                         if (files2.Length > 0)
                         {
+                            Close_MicosWindow();
                             TheLatest_File_ICB += files2[0];
                             MessageBox.Show(TheLatest_File_ICB + "を取得しました。");
                             File_Creaging_flag = 0;
@@ -445,7 +477,8 @@ namespace MicosController
                         files = Directory.GetFiles(filepath, filename + "??.CSV");
 
                         if (files.Length > 0)//getfilesが存在するかどうかの判定は配列の長さ>０で判定。array[0]==""では判定できない。
-                        {                     
+                        {
+                            Close_MicosWindow();
                             TheLatest_File_MMB += files[0];
                             MessageBox.Show(TheLatest_File_MMB + "を取得しました。");
                             File_Creaging_flag = 0;
@@ -456,6 +489,7 @@ namespace MicosController
 
                         if (files1.Length > 0)
                         {
+                            Close_MicosWindow();
                             TheLatest_File_MMB += files1[0];
                             MessageBox.Show(TheLatest_File_MMB + "を取得しました。");
                             File_Creaging_flag = 0;
@@ -466,6 +500,7 @@ namespace MicosController
 
                         if (files2.Length > 0)
                         {
+                            Close_MicosWindow();
                             TheLatest_File_MMB += files2[0];
                             MessageBox.Show(TheLatest_File_MMB + "を取得しました。");
                             File_Creaging_flag = 0;
@@ -477,6 +512,9 @@ namespace MicosController
                     }
                     break;
             }
+
+            
+
 
             OpenMicos_btn.Enabled = true;
             btn_ZaikoOut.Enabled = true;
@@ -506,7 +544,8 @@ namespace MicosController
                 }
             }
 
-            Task.Delay(100);
+            //Task.Delay(100);
+            System.Threading.Thread.Sleep(500);
 
             SendKeys.SendWait("61");
             SendKeys.SendWait("{ENTER}");
@@ -544,7 +583,8 @@ namespace MicosController
                 }
             }
 
-            Task.Delay(100);
+            //Task.Delay(100);
+            System.Threading.Thread.Sleep(500);
 
             SendKeys.SendWait("11");
             SendKeys.SendWait("{ENTER}");
@@ -570,16 +610,23 @@ namespace MicosController
         {
             if(Micos_Enter_flag == 0)
             {
-                SendKeys.SendWait("{F3}");
+                //SendKeys.SendWait("{F3}");
+
+                SendKeys.SendWait("{ENTER}");
+                Task.Delay(100);
+                SendKeys.SendWait("{ENTER}");
 
                 Task.Delay(100);
 
                 SendKeys.SendWait(username);
                 SendKeys.SendWait(username);
 
+                
                 Task.Delay(100);
 
                 SendKeys.SendWait("{ENTER}");
+                System.Threading.Thread.Sleep(500);
+
 
                 Micos_Enter_flag = 1;
             }
@@ -681,23 +728,41 @@ namespace MicosController
             form2.Component_Table_ICB = Component_Table_ICB;
             form2.Component_Table_MMB = Component_Table_MMB;
         }
-        public void init_component_table_MMB() //シングルMMB（部品構成票）ファイル読み込み
+        public void default_read_component_table_MMB(List<string> default_filename_mmb) //シングルMMB（部品構成票）ファイル読み込み
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+
+            Component_Table_MMB = new DataTable();
+            foreach (string filename_mmb in openFileDialog1.FileNames)
             {
-                TheLatest_File_MMB = openFileDialog1.FileName;
-                TextFieldParser parser = new TextFieldParser(TheLatest_File_MMB, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
+
+
+                TextFieldParser parser = new TextFieldParser(filename_mmb, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");// ","区切り
+
 
                 string[] column = parser.ReadFields();    //一行ずつcolumnに配列で格納されるっぽい。行のカーソルは呼び出す度にインクリメント。
                 DataRow row;
 
-                for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
+                if (first_file_flag) //一つ目のファイルのときだけ列の名前を取得する。
                 {
-                    Component_Table_MMB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
-                    //Console.WriteLine(column[i]);
+                    for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
+                    {
+                        if (column[i] == "数量")
+                        {
+                            Component_Table_MMB.Columns.Add(column[i], typeof(float));
+                        }
+                        else
+                        {
+                            Component_Table_MMB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+                        }
+
+
+                    }
+
+                    first_file_flag = false;
                 }
+
 
                 while (parser.EndOfData == false)       //2行目以降のデータをﾃｰﾌﾞﾙに格納していく。
                 {
@@ -711,61 +776,69 @@ namespace MicosController
                     Component_Table_MMB.Rows.Add(row);
                 }
 
-                DS.Tables.Add(Component_Table_MMB);
+                textBox_selected_mmb.AppendText(filename_mmb + " , ");
             }
         }
 
-        public void init_component_table_ICB() //シングルICB（在庫リスト）ファイル読み込み。列名["現在在庫数"]のみfloat型
+        public void default_read_component_table_ICB(List<string> default_filename_icb) //シングルICB（在庫リスト）ファイル読み込み。列名["現在在庫数"]のみfloat型
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                TheLatest_File_ICB = openFileDialog1.FileName;
-                TextFieldParser parser = new TextFieldParser(TheLatest_File_ICB, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(",");// ","区切り
+            Component_Table_ICB = new DataTable();
 
-                string[] column = parser.ReadFields();    //一行ずつcolumnに配列で格納されるっぽい。行のカーソルは呼び出す度にインクリメント。
-                DataRow row;
-
-                for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
+            foreach (string filename_icb in default_filaname_icb)
                 {
 
-                    if (column[i] == "現在在庫数") // 10列目：現在在庫数
-                    {
-                        Component_Table_ICB.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
-                    }
-                    else
-                    {
-                        Component_Table_ICB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
-                    }
-                }
+                    TextFieldParser parser = new TextFieldParser(filename_icb, Encoding.GetEncoding("Shift_JIS")); //第一引数：開きたいcsvファイルパス、第二引数：エンコード
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");// ","区切り
 
-                while (parser.EndOfData == false)       //2行目以降のデータをﾃｰﾌﾞﾙに格納していく。
-                {
-                    string[] column_data = parser.ReadFields();
 
-                    row = Component_Table_ICB.NewRow();
-                    for (int i = 0; i < column.Length - 1; i++)
+                    string[] column = parser.ReadFields();    //一行ずつcolumnに配列で格納されるっぽい。行のカーソルは呼び出す度にインクリメント。
+                    DataRow row;
+
+                    if (first_file_flag) //一つ目のファイルのときだけ列の名前を取得する。
                     {
-                        if (i == 10)
+                        for (int i = 0; i < column.Length; i++)  //列の名前を追加する。
                         {
-                            row[i] = float.Parse(column_data[i]);
+
+                            if (column[i] == "現在在庫数") // 10列目：現在在庫数
+                            {
+                                Component_Table_ICB.Columns.Add(column[i], typeof(float)); //現在在庫数だけint型
+                            }
+                            else if (column[i] == "現在仕掛数")
+                            {
+                                Component_Table_ICB.Columns.Add(column[i], typeof(float));
+                            }
+                            else
+                            {
+                                Component_Table_ICB.Columns.Add(column[i], typeof(string)); //すべてstringとして格納する。とりあえずstringで格納して、後で変換すればいい。
+                            }
                         }
-                        else
+
+                        first_file_flag = false;
+                    }
+
+
+                    while (parser.EndOfData == false)       //2行目以降のデータをﾃｰﾌﾞﾙに格納していく。
+                    {
+                        string[] column_data = parser.ReadFields();
+
+                        row = Component_Table_ICB.NewRow();
+                        for (int i = 0; i < column.Length - 1; i++) //MMBファイルの方は一番右の列が列名だけ用意されて要素が存在しないので、-1してある。
                         {
                             row[i] = column_data[i];
                         }
-
+                        Component_Table_ICB.Rows.Add(row);
                     }
-                    Component_Table_ICB.Rows.Add(row);
+                    textBox_selected_ICB.AppendText(filename_icb + " , ");
                 }
-
-                DS.Tables.Add(Component_Table_ICB);
-            }
+                //DS.Tables.Add(Component_Table_ICB);
+                first_file_flag = true;
         }
 
         public void init_conponent_table_multi_MMB()　//複数MMB（部品構成票）ファイル読み込み
         {
+            Component_Table_MMB = new DataTable();
+
             openFileDialog1.Multiselect = true;
             openFileDialog1.InitialDirectory = Output_file_path;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -816,13 +889,15 @@ namespace MicosController
 
                     textBox_selected_mmb.AppendText(filename_mmb+" , ");
                 }
-                DS.Tables.Add(Component_Table_MMB);
+                //DS.Tables.Add(Component_Table_MMB);
                 first_file_flag = true;
             }
         }
 
         public void init_component_table_multi_ICB() //複数ICB（在庫リスト）ファイル読み込み。列名["現在在庫数"] のみfloat型
         {
+            Component_Table_ICB = new DataTable();
+
             openFileDialog1.Multiselect = true;
             openFileDialog1.InitialDirectory = Output_file_path;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -874,7 +949,7 @@ namespace MicosController
                     }
                     textBox_selected_ICB.AppendText(filename_icb + " , ");
                 }
-                DS.Tables.Add(Component_Table_ICB);
+                //DS.Tables.Add(Component_Table_ICB);
                 first_file_flag = true;
             }
         }
@@ -946,8 +1021,12 @@ namespace MicosController
 
             assy_form.MMB_Table = Component_Table_MMB;
             assy_form.ICB_Table = Component_Table_ICB;
+            assy_form.Templete_Excell_FilePath = LabelExcelFilePath;
+            assy_form.Templete_Word_FilePath = LabelWordFilePath;
 
             assy_form.Init_DataTableController();
         }
+
+
     }
 }

@@ -78,17 +78,24 @@ namespace MicosController
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_OpenASSYform = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button_LabelFileSetting = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox_Label_ExcelPath = new System.Windows.Forms.TextBox();
+            this.textBox_LabelWordPath = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenMicos_btn
@@ -368,9 +375,9 @@ namespace MicosController
             this.panel1.Controls.Add(this.button_select_ICB);
             this.panel1.Controls.Add(this.button_select_mmb);
             this.panel1.Controls.Add(this.button_create_db);
-            this.panel1.Location = new System.Drawing.Point(486, 25);
+            this.panel1.Location = new System.Drawing.Point(486, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(320, 236);
+            this.panel1.Size = new System.Drawing.Size(336, 236);
             this.panel1.TabIndex = 28;
             // 
             // button_buhinzaikokanri
@@ -565,15 +572,15 @@ namespace MicosController
             this.label14.TabIndex = 32;
             this.label14.Text = "出力区分";
             // 
-            // button1
+            // button_OpenASSYform
             // 
-            this.button1.Location = new System.Drawing.Point(665, 336);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_OpenASSYform.Location = new System.Drawing.Point(486, 304);
+            this.button_OpenASSYform.Name = "button_OpenASSYform";
+            this.button_OpenASSYform.Size = new System.Drawing.Size(224, 23);
+            this.button_OpenASSYform.TabIndex = 31;
+            this.button_OpenASSYform.Text = "ASSY外注部品を集めるとき";
+            this.button_OpenASSYform.UseVisualStyleBackColor = true;
+            this.button_OpenASSYform.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -589,14 +596,16 @@ namespace MicosController
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(27, 205);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(363, 245);
+            this.tabControl1.Size = new System.Drawing.Size(412, 245);
             this.tabControl1.TabIndex = 33;
             // 
             // tabPage1
             // 
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage1.Controls.Add(this.button_micossetting_on);
             this.tabPage1.Controls.Add(this.textBox_MicosWindow);
             this.tabPage1.Controls.Add(this.label10);
@@ -612,7 +621,7 @@ namespace MicosController
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(355, 219);
+            this.tabPage1.Size = new System.Drawing.Size(404, 219);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Micosの設定";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -634,7 +643,7 @@ namespace MicosController
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(355, 219);
+            this.tabPage2.Size = new System.Drawing.Size(404, 219);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "部品構成表出力設定";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -654,10 +663,68 @@ namespace MicosController
             this.tabPage3.Controls.Add(this.textBox_keihi_l);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(355, 219);
+            this.tabPage3.Size = new System.Drawing.Size(404, 219);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "在庫データ出力設定";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.textBox_LabelWordPath);
+            this.tabPage4.Controls.Add(this.textBox_Label_ExcelPath);
+            this.tabPage4.Controls.Add(this.label13);
+            this.tabPage4.Controls.Add(this.label12);
+            this.tabPage4.Controls.Add(this.button_LabelFileSetting);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(404, 219);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "ラベル出力設定";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button_LabelFileSetting
+            // 
+            this.button_LabelFileSetting.Location = new System.Drawing.Point(22, 176);
+            this.button_LabelFileSetting.Name = "button_LabelFileSetting";
+            this.button_LabelFileSetting.Size = new System.Drawing.Size(75, 25);
+            this.button_LabelFileSetting.TabIndex = 34;
+            this.button_LabelFileSetting.Text = "設定を反映";
+            this.button_LabelFileSetting.UseVisualStyleBackColor = true;
+            this.button_LabelFileSetting.Click += new System.EventHandler(this.button_LabelFileSetting_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label12.Location = new System.Drawing.Point(12, 24);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(185, 15);
+            this.label12.TabIndex = 34;
+            this.label12.Text = "Excel テンプレファイル出力パス";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label13.Location = new System.Drawing.Point(12, 63);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(225, 15);
+            this.label13.TabIndex = 35;
+            this.label13.Text = "ラベル印刷用テンプレwordファイルパス";
+            // 
+            // textBox_Label_ExcelPath
+            // 
+            this.textBox_Label_ExcelPath.Location = new System.Drawing.Point(282, 19);
+            this.textBox_Label_ExcelPath.Name = "textBox_Label_ExcelPath";
+            this.textBox_Label_ExcelPath.Size = new System.Drawing.Size(100, 19);
+            this.textBox_Label_ExcelPath.TabIndex = 36;
+            // 
+            // textBox_LabelWordPath
+            // 
+            this.textBox_LabelWordPath.Location = new System.Drawing.Point(282, 63);
+            this.textBox_LabelWordPath.Name = "textBox_LabelWordPath";
+            this.textBox_LabelWordPath.Size = new System.Drawing.Size(100, 19);
+            this.textBox_LabelWordPath.TabIndex = 37;
             // 
             // Form1
             // 
@@ -666,7 +733,7 @@ namespace MicosController
             this.ClientSize = new System.Drawing.Size(869, 462);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_OpenASSYform);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_ComponentOut);
             this.Controls.Add(this.btn_ZaikoOut);
@@ -683,6 +750,8 @@ namespace MicosController
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -738,12 +807,18 @@ namespace MicosController
         private System.Windows.Forms.TextBox textBox_MicosWindow;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Button button_buhinzaikokanri;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_OpenASSYform;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox textBox_LabelWordPath;
+        private System.Windows.Forms.TextBox textBox_Label_ExcelPath;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button_LabelFileSetting;
     }
 }
 
