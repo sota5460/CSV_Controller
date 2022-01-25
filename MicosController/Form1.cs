@@ -112,14 +112,6 @@ namespace MicosController
         }
         public void Init_forms()
         {
-            panel_micos_setting.Visible = false;
-            panel_micos_setting.Enabled = false;
-
-            panel_buhin.Visible = false;
-            panel_buhin.Enabled = false;
-
-            panel_zaikoout_setting.Visible = false;
-            panel_zaikoout_setting.Enabled = false;
 
             //コンボボックス　デフォルト入力
             comboBox_buhin_hyouji.SelectedIndex = 1;
@@ -247,43 +239,7 @@ namespace MicosController
         }
 
 
-        /// <summary>
-        /// パネルを開くクリック
-        /// </summary>
-        private void button_buhin_setting_Click(object sender, EventArgs e)
-        {
-            panel_buhin.Visible = true;
-            panel_buhin.Enabled = true;
-        }
-        private void button_zaikoout_setting_Click(object sender, EventArgs e)
-        {
-            panel_zaikoout_setting.Visible = true;
-            panel_zaikoout_setting.Enabled = true;
-        }
-        private void button_MicosSetting_Click(object sender, EventArgs e)
-        {
-            panel_micos_setting.Visible = true;
-            panel_micos_setting.Enabled = true;
-        }
 
-        /// <summary>
-        ///パネルを閉じるクリック
-        /// </summary>
-        private void button_close_micossetting_Click(object sender, EventArgs e)
-        {
-            panel_micos_setting.Enabled = false;
-            panel_micos_setting.Visible = false;
-        }
-        private void button_close_buhin_setting_Click(object sender, EventArgs e)
-        {
-            panel_buhin.Enabled = false;
-            panel_buhin.Visible = false;
-        }
-        private void button_close_zaiko_setting_Click(object sender, EventArgs e)
-        {
-            panel_zaikoout_setting.Visible = false;
-            panel_zaikoout_setting.Enabled = false;
-        }
 
         /// <summary>
         /// 設定を反映クリック
@@ -811,6 +767,7 @@ namespace MicosController
         public void init_conponent_table_multi_MMB()　//複数MMB（部品構成票）ファイル読み込み
         {
             openFileDialog1.Multiselect = true;
+            openFileDialog1.InitialDirectory = Output_file_path;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 foreach (string filename_mmb in openFileDialog1.FileNames)
@@ -867,6 +824,7 @@ namespace MicosController
         public void init_component_table_multi_ICB() //複数ICB（在庫リスト）ファイル読み込み。列名["現在在庫数"] のみfloat型
         {
             openFileDialog1.Multiselect = true;
+            openFileDialog1.InitialDirectory = Output_file_path;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 foreach (string filename_icb in openFileDialog1.FileNames)
@@ -983,9 +941,13 @@ namespace MicosController
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ScreenController a = new ScreenController();
-            a.Micos_process_name = Micos_process_name;
-            a.Check_Zaiko_Screen();
+            ASSY部品出庫 assy_form = new ASSY部品出庫();
+            assy_form.Show();
+
+            assy_form.MMB_Table = Component_Table_MMB;
+            assy_form.ICB_Table = Component_Table_ICB;
+
+            assy_form.Init_DataTableController();
         }
     }
 }

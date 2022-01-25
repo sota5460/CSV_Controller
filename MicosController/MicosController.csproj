@@ -66,6 +66,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASSY部品出庫.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ASSY部品出庫.Designer.cs">
+      <DependentUpon>ASSY部品出庫.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataTableController.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +101,9 @@
     <Compile Include="部品在庫管理.Designer.cs">
       <DependentUpon>部品在庫管理.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ASSY部品出庫.resx">
+      <DependentUpon>ASSY部品出庫.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

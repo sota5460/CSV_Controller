@@ -33,24 +33,18 @@ namespace MicosController
             this.btn_ZaikoOut = new System.Windows.Forms.Button();
             this.btn_ComponentOut = new System.Windows.Forms.Button();
             this.textBox_username = new System.Windows.Forms.TextBox();
-            this.panel_micos_setting = new System.Windows.Forms.Panel();
             this.textBox_MicosWindow = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.button_micossetting_on = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
             this.button_processname = new System.Windows.Forms.Button();
             this.textBox_micosprocess = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.textBox_micos_filepath = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.button_close_micossetting = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox_outputfilepath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel_buhin = new System.Windows.Forms.Panel();
             this.button_buhinsetting_on = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button_close_buhin_setting = new System.Windows.Forms.Button();
             this.comboBox_buhin_syubetu = new System.Windows.Forms.ComboBox();
             this.comboBox_buhin_tenkai = new System.Windows.Forms.ComboBox();
             this.comboBox_buhin_hyouji = new System.Windows.Forms.ComboBox();
@@ -62,9 +56,7 @@ namespace MicosController
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox_buhin_keihikubun = new System.Windows.Forms.TextBox();
-            this.button_MicosSetting = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button_zaikoout_setting = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_buhinzaikokanri = new System.Windows.Forms.Button();
             this.button_TANAOROSHI = new System.Windows.Forms.Button();
@@ -75,10 +67,7 @@ namespace MicosController
             this.button_select_ICB = new System.Windows.Forms.Button();
             this.button_select_mmb = new System.Windows.Forms.Button();
             this.button_create_db = new System.Windows.Forms.Button();
-            this.button_buhin_setting = new System.Windows.Forms.Button();
-            this.panel_zaikoout_setting = new System.Windows.Forms.Panel();
             this.button_zaikosetting_on = new System.Windows.Forms.Button();
-            this.button_close_zaiko_setting = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -88,14 +77,18 @@ namespace MicosController
             this.comboBox_syuturyoku = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.panel_micos_setting.SuspendLayout();
-            this.panel_buhin.SuspendLayout();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
-            this.panel_zaikoout_setting.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenMicos_btn
@@ -134,36 +127,14 @@ namespace MicosController
             // 
             // textBox_username
             // 
-            this.textBox_username.Location = new System.Drawing.Point(208, 135);
+            this.textBox_username.Location = new System.Drawing.Point(216, 105);
             this.textBox_username.Name = "textBox_username";
             this.textBox_username.Size = new System.Drawing.Size(100, 19);
             this.textBox_username.TabIndex = 4;
             // 
-            // panel_micos_setting
-            // 
-            this.panel_micos_setting.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_micos_setting.Controls.Add(this.textBox_MicosWindow);
-            this.panel_micos_setting.Controls.Add(this.label22);
-            this.panel_micos_setting.Controls.Add(this.button_micossetting_on);
-            this.panel_micos_setting.Controls.Add(this.label12);
-            this.panel_micos_setting.Controls.Add(this.button_processname);
-            this.panel_micos_setting.Controls.Add(this.textBox_micosprocess);
-            this.panel_micos_setting.Controls.Add(this.label11);
-            this.panel_micos_setting.Controls.Add(this.textBox_micos_filepath);
-            this.panel_micos_setting.Controls.Add(this.label10);
-            this.panel_micos_setting.Controls.Add(this.button_close_micossetting);
-            this.panel_micos_setting.Controls.Add(this.label2);
-            this.panel_micos_setting.Controls.Add(this.textBox_outputfilepath);
-            this.panel_micos_setting.Controls.Add(this.label1);
-            this.panel_micos_setting.Controls.Add(this.textBox_username);
-            this.panel_micos_setting.Location = new System.Drawing.Point(488, 16);
-            this.panel_micos_setting.Name = "panel_micos_setting";
-            this.panel_micos_setting.Size = new System.Drawing.Size(322, 236);
-            this.panel_micos_setting.TabIndex = 5;
-            // 
             // textBox_MicosWindow
             // 
-            this.textBox_MicosWindow.Location = new System.Drawing.Point(208, 104);
+            this.textBox_MicosWindow.Location = new System.Drawing.Point(216, 73);
             this.textBox_MicosWindow.Name = "textBox_MicosWindow";
             this.textBox_MicosWindow.Size = new System.Drawing.Size(100, 19);
             this.textBox_MicosWindow.TabIndex = 33;
@@ -172,7 +143,7 @@ namespace MicosController
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label22.Location = new System.Drawing.Point(6, 108);
+            this.label22.Location = new System.Drawing.Point(17, 77);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(114, 15);
             this.label22.TabIndex = 32;
@@ -180,27 +151,17 @@ namespace MicosController
             // 
             // button_micossetting_on
             // 
-            this.button_micossetting_on.Location = new System.Drawing.Point(155, 188);
+            this.button_micossetting_on.Location = new System.Drawing.Point(22, 176);
             this.button_micossetting_on.Name = "button_micossetting_on";
-            this.button_micossetting_on.Size = new System.Drawing.Size(75, 23);
+            this.button_micossetting_on.Size = new System.Drawing.Size(75, 25);
             this.button_micossetting_on.TabIndex = 31;
             this.button_micossetting_on.Text = "設定を反映";
             this.button_micossetting_on.UseVisualStyleBackColor = true;
             this.button_micossetting_on.Click += new System.EventHandler(this.button_micossetting_on_Click);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label12.Location = new System.Drawing.Point(16, 13);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(133, 16);
-            this.label12.TabIndex = 30;
-            this.label12.Text = "Micosの詳細設定";
-            // 
             // button_processname
             // 
-            this.button_processname.Location = new System.Drawing.Point(118, 79);
+            this.button_processname.Location = new System.Drawing.Point(126, 48);
             this.button_processname.Name = "button_processname";
             this.button_processname.Size = new System.Drawing.Size(84, 23);
             this.button_processname.TabIndex = 7;
@@ -210,7 +171,7 @@ namespace MicosController
             // 
             // textBox_micosprocess
             // 
-            this.textBox_micosprocess.Location = new System.Drawing.Point(208, 79);
+            this.textBox_micosprocess.Location = new System.Drawing.Point(216, 44);
             this.textBox_micosprocess.Name = "textBox_micosprocess";
             this.textBox_micosprocess.Size = new System.Drawing.Size(100, 19);
             this.textBox_micosprocess.TabIndex = 23;
@@ -219,7 +180,7 @@ namespace MicosController
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label11.Location = new System.Drawing.Point(8, 81);
+            this.label11.Location = new System.Drawing.Point(17, 48);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(104, 15);
             this.label11.TabIndex = 22;
@@ -227,7 +188,7 @@ namespace MicosController
             // 
             // textBox_micos_filepath
             // 
-            this.textBox_micos_filepath.Location = new System.Drawing.Point(208, 52);
+            this.textBox_micos_filepath.Location = new System.Drawing.Point(216, 15);
             this.textBox_micos_filepath.Name = "textBox_micos_filepath";
             this.textBox_micos_filepath.Size = new System.Drawing.Size(100, 19);
             this.textBox_micos_filepath.TabIndex = 21;
@@ -236,27 +197,17 @@ namespace MicosController
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label10.Location = new System.Drawing.Point(10, 56);
+            this.label10.Location = new System.Drawing.Point(16, 19);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(139, 15);
             this.label10.TabIndex = 20;
             this.label10.Text = "Micos実行ファイルパス";
             // 
-            // button_close_micossetting
-            // 
-            this.button_close_micossetting.Location = new System.Drawing.Point(236, 188);
-            this.button_close_micossetting.Name = "button_close_micossetting";
-            this.button_close_micossetting.Size = new System.Drawing.Size(75, 23);
-            this.button_close_micossetting.TabIndex = 19;
-            this.button_close_micossetting.Text = "閉じる";
-            this.button_close_micossetting.UseVisualStyleBackColor = true;
-            this.button_close_micossetting.Click += new System.EventHandler(this.button_close_micossetting_Click);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(8, 167);
+            this.label2.Location = new System.Drawing.Point(19, 143);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(102, 15);
             this.label2.TabIndex = 7;
@@ -264,7 +215,7 @@ namespace MicosController
             // 
             // textBox_outputfilepath
             // 
-            this.textBox_outputfilepath.Location = new System.Drawing.Point(208, 163);
+            this.textBox_outputfilepath.Location = new System.Drawing.Point(216, 139);
             this.textBox_outputfilepath.Name = "textBox_outputfilepath";
             this.textBox_outputfilepath.Size = new System.Drawing.Size(100, 19);
             this.textBox_outputfilepath.TabIndex = 6;
@@ -273,63 +224,21 @@ namespace MicosController
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(8, 139);
+            this.label1.Location = new System.Drawing.Point(17, 109);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 15);
             this.label1.TabIndex = 5;
             this.label1.Text = "UserName";
             // 
-            // panel_buhin
-            // 
-            this.panel_buhin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_buhin.Controls.Add(this.button_buhinsetting_on);
-            this.panel_buhin.Controls.Add(this.label13);
-            this.panel_buhin.Controls.Add(this.button_close_buhin_setting);
-            this.panel_buhin.Controls.Add(this.comboBox_buhin_syubetu);
-            this.panel_buhin.Controls.Add(this.comboBox_buhin_tenkai);
-            this.panel_buhin.Controls.Add(this.comboBox_buhin_hyouji);
-            this.panel_buhin.Controls.Add(this.label9);
-            this.panel_buhin.Controls.Add(this.label8);
-            this.panel_buhin.Controls.Add(this.label7);
-            this.panel_buhin.Controls.Add(this.label6);
-            this.panel_buhin.Controls.Add(this.label5);
-            this.panel_buhin.Controls.Add(this.label4);
-            this.panel_buhin.Controls.Add(this.label3);
-            this.panel_buhin.Controls.Add(this.textBox_buhin_keihikubun);
-            this.panel_buhin.Location = new System.Drawing.Point(27, 258);
-            this.panel_buhin.Name = "panel_buhin";
-            this.panel_buhin.Size = new System.Drawing.Size(447, 180);
-            this.panel_buhin.TabIndex = 6;
-            // 
             // button_buhinsetting_on
             // 
-            this.button_buhinsetting_on.Location = new System.Drawing.Point(278, 152);
+            this.button_buhinsetting_on.Location = new System.Drawing.Point(22, 176);
             this.button_buhinsetting_on.Name = "button_buhinsetting_on";
-            this.button_buhinsetting_on.Size = new System.Drawing.Size(75, 23);
+            this.button_buhinsetting_on.Size = new System.Drawing.Size(75, 25);
             this.button_buhinsetting_on.TabIndex = 32;
             this.button_buhinsetting_on.Text = "設定を反映";
             this.button_buhinsetting_on.UseVisualStyleBackColor = true;
             this.button_buhinsetting_on.Click += new System.EventHandler(this.button_buhinsetting_on_Click);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label13.Location = new System.Drawing.Point(3, 8);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(127, 16);
-            this.label13.TabIndex = 31;
-            this.label13.Text = "部品構成表設定";
-            // 
-            // button_close_buhin_setting
-            // 
-            this.button_close_buhin_setting.Location = new System.Drawing.Point(359, 152);
-            this.button_close_buhin_setting.Name = "button_close_buhin_setting";
-            this.button_close_buhin_setting.Size = new System.Drawing.Size(75, 23);
-            this.button_close_buhin_setting.TabIndex = 7;
-            this.button_close_buhin_setting.Text = "閉じる";
-            this.button_close_buhin_setting.UseVisualStyleBackColor = true;
-            this.button_close_buhin_setting.Click += new System.EventHandler(this.button_close_buhin_setting_Click);
             // 
             // comboBox_buhin_syubetu
             // 
@@ -339,7 +248,7 @@ namespace MicosController
             "Z",
             "O",
             "W"});
-            this.comboBox_buhin_syubetu.Location = new System.Drawing.Point(144, 68);
+            this.comboBox_buhin_syubetu.Location = new System.Drawing.Point(90, 46);
             this.comboBox_buhin_syubetu.Name = "comboBox_buhin_syubetu";
             this.comboBox_buhin_syubetu.Size = new System.Drawing.Size(43, 20);
             this.comboBox_buhin_syubetu.TabIndex = 18;
@@ -350,7 +259,7 @@ namespace MicosController
             this.comboBox_buhin_tenkai.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.comboBox_buhin_tenkai.Location = new System.Drawing.Point(144, 94);
+            this.comboBox_buhin_tenkai.Location = new System.Drawing.Point(90, 77);
             this.comboBox_buhin_tenkai.Name = "comboBox_buhin_tenkai";
             this.comboBox_buhin_tenkai.Size = new System.Drawing.Size(43, 20);
             this.comboBox_buhin_tenkai.TabIndex = 17;
@@ -361,7 +270,7 @@ namespace MicosController
             this.comboBox_buhin_hyouji.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.comboBox_buhin_hyouji.Location = new System.Drawing.Point(144, 120);
+            this.comboBox_buhin_hyouji.Location = new System.Drawing.Point(90, 110);
             this.comboBox_buhin_hyouji.Name = "comboBox_buhin_hyouji";
             this.comboBox_buhin_hyouji.Size = new System.Drawing.Size(43, 20);
             this.comboBox_buhin_hyouji.TabIndex = 7;
@@ -370,7 +279,7 @@ namespace MicosController
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label9.Location = new System.Drawing.Point(218, 127);
+            this.label9.Location = new System.Drawing.Point(148, 112);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(144, 14);
             this.label9.TabIndex = 16;
@@ -380,7 +289,7 @@ namespace MicosController
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(218, 100);
+            this.label8.Location = new System.Drawing.Point(148, 84);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(120, 14);
             this.label8.TabIndex = 15;
@@ -390,7 +299,7 @@ namespace MicosController
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label7.Location = new System.Drawing.Point(219, 73);
+            this.label7.Location = new System.Drawing.Point(149, 54);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(199, 12);
             this.label7.TabIndex = 14;
@@ -400,7 +309,7 @@ namespace MicosController
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label6.Location = new System.Drawing.Point(16, 125);
+            this.label6.Location = new System.Drawing.Point(17, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 15);
             this.label6.TabIndex = 13;
@@ -410,7 +319,7 @@ namespace MicosController
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label5.Location = new System.Drawing.Point(16, 99);
+            this.label5.Location = new System.Drawing.Point(17, 82);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 15);
             this.label5.TabIndex = 13;
@@ -420,7 +329,7 @@ namespace MicosController
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(16, 73);
+            this.label4.Location = new System.Drawing.Point(17, 51);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 15);
             this.label4.TabIndex = 12;
@@ -430,7 +339,7 @@ namespace MicosController
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(16, 47);
+            this.label3.Location = new System.Drawing.Point(17, 21);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 15);
             this.label3.TabIndex = 8;
@@ -438,34 +347,14 @@ namespace MicosController
             // 
             // textBox_buhin_keihikubun
             // 
-            this.textBox_buhin_keihikubun.Location = new System.Drawing.Point(110, 43);
+            this.textBox_buhin_keihikubun.Location = new System.Drawing.Point(90, 17);
             this.textBox_buhin_keihikubun.Name = "textBox_buhin_keihikubun";
             this.textBox_buhin_keihikubun.Size = new System.Drawing.Size(77, 19);
             this.textBox_buhin_keihikubun.TabIndex = 8;
             // 
-            // button_MicosSetting
-            // 
-            this.button_MicosSetting.Location = new System.Drawing.Point(316, 32);
-            this.button_MicosSetting.Name = "button_MicosSetting";
-            this.button_MicosSetting.Size = new System.Drawing.Size(130, 23);
-            this.button_MicosSetting.TabIndex = 24;
-            this.button_MicosSetting.Text = "Micosの詳細設定";
-            this.button_MicosSetting.UseVisualStyleBackColor = true;
-            this.button_MicosSetting.Click += new System.EventHandler(this.button_MicosSetting_Click);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // button_zaikoout_setting
-            // 
-            this.button_zaikoout_setting.Location = new System.Drawing.Point(316, 61);
-            this.button_zaikoout_setting.Name = "button_zaikoout_setting";
-            this.button_zaikoout_setting.Size = new System.Drawing.Size(130, 23);
-            this.button_zaikoout_setting.TabIndex = 25;
-            this.button_zaikoout_setting.Text = "在庫データ出力設定";
-            this.button_zaikoout_setting.UseVisualStyleBackColor = true;
-            this.button_zaikoout_setting.Click += new System.EventHandler(this.button_zaikoout_setting_Click);
             // 
             // panel1
             // 
@@ -479,7 +368,7 @@ namespace MicosController
             this.panel1.Controls.Add(this.button_select_ICB);
             this.panel1.Controls.Add(this.button_select_mmb);
             this.panel1.Controls.Add(this.button_create_db);
-            this.panel1.Location = new System.Drawing.Point(855, 16);
+            this.panel1.Location = new System.Drawing.Point(486, 25);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(320, 236);
             this.panel1.TabIndex = 28;
@@ -567,62 +456,21 @@ namespace MicosController
             this.button_create_db.UseVisualStyleBackColor = true;
             this.button_create_db.Click += new System.EventHandler(this.button_create_db_Click);
             // 
-            // button_buhin_setting
-            // 
-            this.button_buhin_setting.Location = new System.Drawing.Point(316, 91);
-            this.button_buhin_setting.Name = "button_buhin_setting";
-            this.button_buhin_setting.Size = new System.Drawing.Size(130, 23);
-            this.button_buhin_setting.TabIndex = 29;
-            this.button_buhin_setting.Text = "部品構成表設定";
-            this.button_buhin_setting.UseVisualStyleBackColor = true;
-            this.button_buhin_setting.Click += new System.EventHandler(this.button_buhin_setting_Click);
-            // 
-            // panel_zaikoout_setting
-            // 
-            this.panel_zaikoout_setting.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_zaikoout_setting.Controls.Add(this.button_zaikosetting_on);
-            this.panel_zaikoout_setting.Controls.Add(this.button_close_zaiko_setting);
-            this.panel_zaikoout_setting.Controls.Add(this.label20);
-            this.panel_zaikoout_setting.Controls.Add(this.label19);
-            this.panel_zaikoout_setting.Controls.Add(this.label18);
-            this.panel_zaikoout_setting.Controls.Add(this.textBox_keihi_r);
-            this.panel_zaikoout_setting.Controls.Add(this.textBox_keihi_l);
-            this.panel_zaikoout_setting.Controls.Add(this.comboBox_syuukei);
-            this.panel_zaikoout_setting.Controls.Add(this.comboBox_syuturyoku);
-            this.panel_zaikoout_setting.Controls.Add(this.label17);
-            this.panel_zaikoout_setting.Controls.Add(this.label16);
-            this.panel_zaikoout_setting.Controls.Add(this.label15);
-            this.panel_zaikoout_setting.Controls.Add(this.label14);
-            this.panel_zaikoout_setting.Location = new System.Drawing.Point(488, 258);
-            this.panel_zaikoout_setting.Name = "panel_zaikoout_setting";
-            this.panel_zaikoout_setting.Size = new System.Drawing.Size(529, 180);
-            this.panel_zaikoout_setting.TabIndex = 30;
-            // 
             // button_zaikosetting_on
             // 
-            this.button_zaikosetting_on.Location = new System.Drawing.Point(357, 152);
+            this.button_zaikosetting_on.Location = new System.Drawing.Point(22, 176);
             this.button_zaikosetting_on.Name = "button_zaikosetting_on";
-            this.button_zaikosetting_on.Size = new System.Drawing.Size(75, 23);
+            this.button_zaikosetting_on.Size = new System.Drawing.Size(75, 25);
             this.button_zaikosetting_on.TabIndex = 33;
             this.button_zaikosetting_on.Text = "設定を反映";
             this.button_zaikosetting_on.UseVisualStyleBackColor = true;
             this.button_zaikosetting_on.Click += new System.EventHandler(this.button_zaikosetting_on_Click);
             // 
-            // button_close_zaiko_setting
-            // 
-            this.button_close_zaiko_setting.Location = new System.Drawing.Point(441, 152);
-            this.button_close_zaiko_setting.Name = "button_close_zaiko_setting";
-            this.button_close_zaiko_setting.Size = new System.Drawing.Size(75, 23);
-            this.button_close_zaiko_setting.TabIndex = 32;
-            this.button_close_zaiko_setting.Text = "閉じる";
-            this.button_close_zaiko_setting.UseVisualStyleBackColor = true;
-            this.button_close_zaiko_setting.Click += new System.EventHandler(this.button_close_zaiko_setting_Click);
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label20.Location = new System.Drawing.Point(231, 101);
+            this.label20.Location = new System.Drawing.Point(173, 85);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(18, 12);
             this.label20.TabIndex = 38;
@@ -632,7 +480,7 @@ namespace MicosController
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label19.Location = new System.Drawing.Point(210, 73);
+            this.label19.Location = new System.Drawing.Point(147, 55);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(73, 12);
             this.label19.TabIndex = 37;
@@ -642,22 +490,22 @@ namespace MicosController
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label18.Location = new System.Drawing.Point(210, 50);
+            this.label18.Location = new System.Drawing.Point(147, 15);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(301, 12);
+            this.label18.Size = new System.Drawing.Size(173, 24);
             this.label18.TabIndex = 32;
-            this.label18.Text = "1:社内在庫 2:社外在庫 3:別仕掛 4:総在庫 5:現品票別仕掛";
+            this.label18.Text = "1:社内在庫 2:社外在庫 3:別仕掛 \r\n4:総在庫 5:現品票別仕掛";
             // 
             // textBox_keihi_r
             // 
-            this.textBox_keihi_r.Location = new System.Drawing.Point(265, 98);
+            this.textBox_keihi_r.Location = new System.Drawing.Point(197, 82);
             this.textBox_keihi_r.Name = "textBox_keihi_r";
             this.textBox_keihi_r.Size = new System.Drawing.Size(77, 19);
             this.textBox_keihi_r.TabIndex = 36;
             // 
             // textBox_keihi_l
             // 
-            this.textBox_keihi_l.Location = new System.Drawing.Point(137, 98);
+            this.textBox_keihi_l.Location = new System.Drawing.Point(90, 82);
             this.textBox_keihi_l.Name = "textBox_keihi_l";
             this.textBox_keihi_l.Size = new System.Drawing.Size(77, 19);
             this.textBox_keihi_l.TabIndex = 32;
@@ -668,7 +516,7 @@ namespace MicosController
             this.comboBox_syuukei.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.comboBox_syuukei.Location = new System.Drawing.Point(137, 68);
+            this.comboBox_syuukei.Location = new System.Drawing.Point(98, 52);
             this.comboBox_syuukei.Name = "comboBox_syuukei";
             this.comboBox_syuukei.Size = new System.Drawing.Size(43, 20);
             this.comboBox_syuukei.TabIndex = 35;
@@ -682,7 +530,7 @@ namespace MicosController
             "3",
             "4",
             "5"});
-            this.comboBox_syuturyoku.Location = new System.Drawing.Point(137, 42);
+            this.comboBox_syuturyoku.Location = new System.Drawing.Point(98, 19);
             this.comboBox_syuturyoku.Name = "comboBox_syuturyoku";
             this.comboBox_syuturyoku.Size = new System.Drawing.Size(43, 20);
             this.comboBox_syuturyoku.TabIndex = 32;
@@ -691,7 +539,7 @@ namespace MicosController
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label17.Location = new System.Drawing.Point(31, 99);
+            this.label17.Location = new System.Drawing.Point(17, 82);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(67, 15);
             this.label17.TabIndex = 34;
@@ -701,27 +549,17 @@ namespace MicosController
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label16.Location = new System.Drawing.Point(33, 73);
+            this.label16.Location = new System.Drawing.Point(17, 52);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(67, 15);
             this.label16.TabIndex = 33;
             this.label16.Text = "集計区分";
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("MS UI Gothic", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(11, 8);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(150, 16);
-            this.label15.TabIndex = 32;
-            this.label15.Text = "在庫データ出力設定";
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label14.Location = new System.Drawing.Point(33, 47);
+            this.label14.Location = new System.Drawing.Point(17, 21);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(67, 15);
             this.label14.TabIndex = 32;
@@ -729,7 +567,7 @@ namespace MicosController
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1088, 379);
+            this.button1.Location = new System.Drawing.Point(665, 336);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 31;
@@ -746,34 +584,105 @@ namespace MicosController
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(27, 205);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(363, 245);
+            this.tabControl1.TabIndex = 33;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.button_micossetting_on);
+            this.tabPage1.Controls.Add(this.textBox_MicosWindow);
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.label22);
+            this.tabPage1.Controls.Add(this.textBox_outputfilepath);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.textBox_micos_filepath);
+            this.tabPage1.Controls.Add(this.label11);
+            this.tabPage1.Controls.Add(this.textBox_username);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.textBox_micosprocess);
+            this.tabPage1.Controls.Add(this.button_processname);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(355, 219);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Micosの設定";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button_buhinsetting_on);
+            this.tabPage2.Controls.Add(this.label3);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.label9);
+            this.tabPage2.Controls.Add(this.comboBox_buhin_hyouji);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.comboBox_buhin_tenkai);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.comboBox_buhin_syubetu);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.textBox_buhin_keihikubun);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(355, 219);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "部品構成表出力設定";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.button_zaikosetting_on);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.label16);
+            this.tabPage3.Controls.Add(this.label19);
+            this.tabPage3.Controls.Add(this.label20);
+            this.tabPage3.Controls.Add(this.label18);
+            this.tabPage3.Controls.Add(this.label17);
+            this.tabPage3.Controls.Add(this.textBox_keihi_r);
+            this.tabPage3.Controls.Add(this.comboBox_syuturyoku);
+            this.tabPage3.Controls.Add(this.comboBox_syuukei);
+            this.tabPage3.Controls.Add(this.textBox_keihi_l);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(355, 219);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "在庫データ出力設定";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1238, 450);
+            this.ClientSize = new System.Drawing.Size(869, 462);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.panel_zaikoout_setting);
-            this.Controls.Add(this.button_buhin_setting);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button_zaikoout_setting);
-            this.Controls.Add(this.button_MicosSetting);
-            this.Controls.Add(this.panel_buhin);
-            this.Controls.Add(this.panel_micos_setting);
             this.Controls.Add(this.btn_ComponentOut);
             this.Controls.Add(this.btn_ZaikoOut);
             this.Controls.Add(this.OpenMicos_btn);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.panel_micos_setting.ResumeLayout(false);
-            this.panel_micos_setting.PerformLayout();
-            this.panel_buhin.ResumeLayout(false);
-            this.panel_buhin.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel_zaikoout_setting.ResumeLayout(false);
-            this.panel_zaikoout_setting.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -784,11 +693,9 @@ namespace MicosController
         private System.Windows.Forms.Button btn_ZaikoOut;
         private System.Windows.Forms.Button btn_ComponentOut;
         private System.Windows.Forms.TextBox textBox_username;
-        private System.Windows.Forms.Panel panel_micos_setting;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox_outputfilepath;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel_buhin;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -800,26 +707,18 @@ namespace MicosController
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboBox_buhin_syubetu;
         private System.Windows.Forms.ComboBox comboBox_buhin_tenkai;
-        private System.Windows.Forms.Button button_close_buhin_setting;
-        private System.Windows.Forms.Button button_close_micossetting;
         private System.Windows.Forms.TextBox textBox_micos_filepath;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox_micosprocess;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button_processname;
-        private System.Windows.Forms.Button button_MicosSetting;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button_zaikoout_setting;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textBox_selected_ICB;
         private System.Windows.Forms.TextBox textBox_selected_mmb;
         private System.Windows.Forms.Button button_select_ICB;
         private System.Windows.Forms.Button button_select_mmb;
         private System.Windows.Forms.Button button_create_db;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button_buhin_setting;
-        private System.Windows.Forms.Panel panel_zaikoout_setting;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox textBox_keihi_r;
         private System.Windows.Forms.TextBox textBox_keihi_l;
@@ -827,11 +726,9 @@ namespace MicosController
         private System.Windows.Forms.ComboBox comboBox_syuturyoku;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button button_close_zaiko_setting;
         private System.Windows.Forms.Button button_micossetting_on;
         private System.Windows.Forms.Button button_buhinsetting_on;
         private System.Windows.Forms.Button button_zaikosetting_on;
@@ -843,6 +740,10 @@ namespace MicosController
         private System.Windows.Forms.Button button_buhinzaikokanri;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
 
