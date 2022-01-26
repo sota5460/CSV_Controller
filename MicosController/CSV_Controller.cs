@@ -338,7 +338,7 @@ namespace MicosController
                         if(row["品目ＣＤ"].ToString() == row_syanai["品目ＣＤ"].ToString() &&
                             row_syanai["保管場所"].ToString()[0] != 'G')
                         {
-                            densan_row["社内保管場所"] = row_syanai["保管場所"]];
+                            densan_row["社内保管場所"] = row_syanai["保管場所"];
                             densan_row["社内在庫"] = (float)row_syanai["現在在庫数"];
 
                             break;
