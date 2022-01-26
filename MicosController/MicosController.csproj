@@ -90,6 +90,7 @@
     <Compile Include="ASSY部品出庫.Designer.cs">
       <DependentUpon>ASSY部品出庫.cs</DependentUpon>
     </Compile>
+    <Compile Include="CSV_Controller.cs" />
     <Compile Include="DataTableController.cs" />
     <Compile Include="ExcellController.cs" />
     <Compile Include="Form1.cs">
