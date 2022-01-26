@@ -92,6 +92,12 @@
     </Compile>
     <Compile Include="CSV_Controller.cs" />
     <Compile Include="DataTableController.cs" />
+    <Compile Include="DENSAN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DENSAN.Designer.cs">
+      <DependentUpon>DENSAN.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExcellController.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -123,6 +129,9 @@
     </Compile>
     <EmbeddedResource Include="ASSY部品出庫.resx">
       <DependentUpon>ASSY部品出庫.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DENSAN.resx">
+      <DependentUpon>DENSAN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

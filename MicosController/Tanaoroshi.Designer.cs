@@ -154,7 +154,6 @@ namespace MicosController
             this.textBox_filepath_micos.Name = "textBox_filepath_micos";
             this.textBox_filepath_micos.Size = new System.Drawing.Size(150, 45);
             this.textBox_filepath_micos.TabIndex = 9;
-          
             // 
             // button_fileselect_micos
             // 
@@ -327,7 +326,7 @@ namespace MicosController
             // 
             // textBox_howtoquerry
             // 
-            this.textBox_howtoquerry.Location = new System.Drawing.Point(439, 488);
+            this.textBox_howtoquerry.Location = new System.Drawing.Point(417, 446);
             this.textBox_howtoquerry.Multiline = true;
             this.textBox_howtoquerry.Name = "textBox_howtoquerry";
             this.textBox_howtoquerry.Size = new System.Drawing.Size(332, 151);
