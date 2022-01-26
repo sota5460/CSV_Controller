@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicosController", "MicosController\MicosController.csproj", "{7344A457-3A53-42AE-B845-F5506E269DA6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC3BA3A0-1426-47FD-8CD6-0A2D0857E8F7}"
+	ProjectSection(SolutionItems) = preProject
+		IdeaFile.txt = IdeaFile.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
