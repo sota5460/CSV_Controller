@@ -1027,6 +1027,46 @@ namespace MicosController
             assy_form.Init_DataTableController();
         }
 
+        private void button_csvcheck_Click(object sender, EventArgs e)
+        {
+            CSV_Controller csv = new CSV_Controller();
 
+            List<string> filelist = new List<string>();
+
+            openFileDialog1.Multiselect = true;
+            openFileDialog1.InitialDirectory = Output_file_path;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach(string file in openFileDialog1.FileNames)
+                {
+                    filelist.Add(file);
+                }
+
+                csv.Create_GaityuBuhinTable(filelist);
+
+
+                //sv.Create_GaityuZaikoTable(filelist);
+            }
+
+           //csv = new CSV_Controller();
+
+           filelist = new List<string>();
+
+            openFileDialog1.Multiselect = true;
+            openFileDialog1.InitialDirectory = Output_file_path;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string file in openFileDialog1.FileNames)
+                {
+                    filelist.Add(file);
+                }
+
+               // csv.Create_GaityuBuhinTable(filelist);
+
+
+                csv.Create_GaityuZaikoTable(filelist);
+            }
+
+        }
     }
 }

@@ -90,6 +90,7 @@ namespace MicosController
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.button_LabelFileSetting = new System.Windows.Forms.Button();
+            this.button_csvcheck = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -726,11 +727,22 @@ namespace MicosController
             this.button_LabelFileSetting.UseVisualStyleBackColor = true;
             this.button_LabelFileSetting.Click += new System.EventHandler(this.button_LabelFileSetting_Click);
             // 
+            // button_csvcheck
+            // 
+            this.button_csvcheck.Location = new System.Drawing.Point(747, 301);
+            this.button_csvcheck.Name = "button_csvcheck";
+            this.button_csvcheck.Size = new System.Drawing.Size(75, 23);
+            this.button_csvcheck.TabIndex = 34;
+            this.button_csvcheck.Text = "csv_check";
+            this.button_csvcheck.UseVisualStyleBackColor = true;
+            this.button_csvcheck.Click += new System.EventHandler(this.button_csvcheck_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 462);
+            this.Controls.Add(this.button_csvcheck);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button_OpenASSYform);
@@ -819,6 +831,7 @@ namespace MicosController
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button button_LabelFileSetting;
+        private System.Windows.Forms.Button button_csvcheck;
     }
 }
 
