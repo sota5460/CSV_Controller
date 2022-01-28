@@ -37,6 +37,7 @@ namespace MicosController
         public DataTable GaityuBuhinTable { get;set;}
         public DataTable GaityuZaiikoTable { get; set; }
         private List<string> GaityuuZaikoTable_col = new List<string>() { "経費","品目ＣＤ","品名","保管場所","現在在庫数(Micos)","現在仕掛数", "在庫余裕分", "社内保管場所", "社内在庫", "使用製品その個数" };
+        private List<string> GaityuuZaikoTable_col_ver2 = new List<string>() { "材料情報", "保管場所情報", "使用製品情報" };
 
         private struct same_zaiko_data
         {
@@ -66,10 +67,38 @@ namespace MicosController
             public float siyousu;
         }
 
+        //Dictionary<zairyou,hokanbasyo_zaikosuu_data>
+       
+
         private struct zairyou
         {
             public string zairyou_code;
             public string zairyou_seihinmei;
+        }
+
+        private struct hokanbasyo_siyouseihin_data
+        {
+            public string zairyou_code;
+            public string hokan_basyo;
+            public string keihi;
+            public float zaiko_su;
+
+            public Dictionary<string,float> seihin_siyousu;// key : 使用する製品CD　float ：使用数
+        }
+
+        private struct hokanbasyo_data
+        {
+            public string zairyou_code;
+            public string keihi;
+            public string hokan_basyo;
+            public float zaikosu;
+        }
+
+        private struct seihin_siyou_data
+        {
+            public string seihin_code;
+            public string zairyou_code;
+            public string siyou_su;
         }
 
         private struct zaiko_key_hokanbasyo
@@ -723,7 +752,7 @@ namespace MicosController
             List<string> GaityuBuhinList_hinmei = new List<string>();
             GaityuBuhinList_hinmei = remove_doublicate_value_fromTable(GaityuBuhinTable, "子品名");
 
-
+            //外注で使用する部品リストを作る。（部品リスト=>品名と品目CD, 在庫０の可能性を考慮して構成部品リストから抽出した外注材料から重複を取り除いたもの）
             List<zairyou> GaityuBuhinList = new List<zairyou>();
             for(int i = 0; i < GaityuBuhinList_code.Count; i++)
             {
@@ -734,25 +763,25 @@ namespace MicosController
                 GaityuBuhinList.Add(zairyou);
             }
 
-
             //bool first_zairyou_flag = true;
 
-            Dictionary<string, same_zaiko_data> GaityuZaikoDic = new Dictionary<string, same_zaiko_data>();
+            //Dictionary<string, same_zaiko_data> GaityuZaikoDic = new Dictionary<string, same_zaiko_data>();
+
+            Dictionary<zairyou, Dictionary<string, hokanbasyo_siyouseihin_data>> Zaiko_Dic = new Dictionary<zairyou, Dictionary<string, hokanbasyo_siyouseihin_data>>();
+
+
 
             foreach (zairyou zairyou in GaityuBuhinList)
             {
                 //DataTable table_for_each_zairyou;
                 same_zaiko_data zaiko_syanai_gaityu = new same_zaiko_data();
-                bool g_flag = false;
-                bool h_flag = false;
+                //bool g_flag = false;
+                //bool h_flag = false;
 
                 zaiko_syanai_gaityu.zairyo_code = zairyou.zairyou_code;
                 zaiko_syanai_gaityu.hinmei = zairyou.zairyou_seihinmei;
 
-
-                //if (first_zairyou_flag)
-                //{
-
+                Dictionary<string, hokanbasyo_siyouseihin_data> hokanbasyo_and_seihin = new Dictionary<string, hokanbasyo_siyouseihin_data>();
 
                     if (ZAIKO_LIST_MicosOrigin_Table.AsEnumerable().Where(x => x["品目ＣＤ"].ToString() == zairyou.zairyou_code).Any())
                     {
@@ -761,31 +790,66 @@ namespace MicosController
 
                         foreach (DataRow row in Only_GaityuMicosZaikoExtracted_Table.Rows)
                         {
-                            if (row["保管場所"].ToString()[0] == 'G')
+                        //if (row["保管場所"].ToString()[0] == 'G')
+                        //{
+                        //    //zaiko_syanai_gaityu.hinmei = row["品名"].ToString();
+                        //    //zaiko_syanai_gaityu.zairyo_code = row["品目ＣＤ"].ToString();
+
+                        //    zaiko_syanai_gaityu.keihi = row["経費"].ToString();
+                        //    zaiko_syanai_gaityu.gaityu_hokanbasyo = row["保管場所"].ToString();
+                        //    zaiko_syanai_gaityu.gaityu_zaikosu = (float)row["現在在庫数"];
+
+                        //    g_flag = true;
+                        //}
+                        //if (row["保管場所"].ToString()[0] == 'H')
+                        //{
+                        //    zaiko_syanai_gaityu.keihi = row["経費"].ToString();
+                        //    zaiko_syanai_gaityu.syanai_hokanbasyo = row["保管場所"].ToString();
+                        //    zaiko_syanai_gaityu.syanai_zaikosu = (float)row["現在在庫数"];
+
+                        //    h_flag = true;
+                        //}
+
+                        //zaiko_key_hokanbasyo zaiko_data = new zaiko_key_hokanbasyo();
+                        //zaiko_data.genzai_zaiko = (float)row["現在在庫数"];
+                        //zaiko_data.keihi = row["経費"].ToString();
+                        //zaiko_syanai_gaityu.hokanbasyo_dic.Add(row["保管場所"].ToString(),zaiko_data);
+
+                        //hokanbasyo_zaikosuu_data each_hokanbasyo_zaikosu = new hokanbasyo_zaikosuu_data();
+                        //each_hokanbasyo_zaikosu.zairyou_code = zairyou.zairyou_code;
+                        //each_hokanbasyo_zaikosu.hokan_basyo = row["保管場所"].ToString();
+                        //each_hokanbasyo_zaikosu.keihi = row["経費"].ToString();
+                        //each_hokanbasyo_zaikosu.zaiko_su = (float)row["現在在庫数"];
+
+                        //Dictionary<string, float> seihin_siyousu = new Dictionary<string, float>();
+                        //foreach (DataRow row_gaityu in GaityuBuhinTable.Rows)
+                        //{
+                        //    if (row["保管場所"].ToString()==row_gaityu["標準出庫保管場所"].ToString() && row["品目ＣＤ"].ToString() == row_gaityu["子品目コード"].ToString())
+                        //    {
+                        //        seihin_siyousu.Add(row["品目ＣＤ"].ToString(),(float)row_gaityu["数量"]);
+                        //    }
+                        //}
+
+                        //each_hokanbasyo_zaikosu.seihin_siyousu = seihin_siyousu;
+
+                        hokanbasyo_siyouseihin_data hokanbasyo_Data = new hokanbasyo_siyouseihin_data();
+                        hokanbasyo_Data.zairyou_code = zairyou.zairyou_code;
+                        hokanbasyo_Data.hokan_basyo = row["保管場所"].ToString();
+                        hokanbasyo_Data.keihi = row["経費"].ToString();
+                        hokanbasyo_Data.zaiko_su = (float)row["現在在庫数"];
+
+                        Dictionary<string, float> seihin_siyousu = new Dictionary<string, float>();
+                        foreach (DataRow row_gaityu in GaityuBuhinTable.Rows)
+                        {
+                            if (row["保管場所"].ToString() == row_gaityu["標準出庫保管場所"].ToString() && hokanbasyo_Data.zairyou_code == row_gaityu["子品目コード"].ToString())
                             {
-                                //zaiko_syanai_gaityu.hinmei = row["品名"].ToString();
-                                //zaiko_syanai_gaityu.zairyo_code = row["品目ＣＤ"].ToString();
-
-                                zaiko_syanai_gaityu.keihi = row["経費"].ToString();
-                                zaiko_syanai_gaityu.gaityu_hokanbasyo = row["保管場所"].ToString();
-                                zaiko_syanai_gaityu.gaityu_zaikosu = (float)row["現在在庫数"];
-
-                                g_flag = true;
+                                seihin_siyousu.Add(row_gaityu["選択品目ＣＤ"].ToString(), (float)row_gaityu["数量"]);
                             }
-                            if (row["保管場所"].ToString()[0] == 'H')
-                            {
-                                zaiko_syanai_gaityu.keihi = row["経費"].ToString();
-                                zaiko_syanai_gaityu.syanai_hokanbasyo = row["保管場所"].ToString();
-                                zaiko_syanai_gaityu.syanai_zaikosu = (float)row["現在在庫数"];
+                        }
 
-                                h_flag = true;
-                            }
+                        hokanbasyo_Data.seihin_siyousu = seihin_siyousu;
 
-                        zaiko_key_hokanbasyo zaiko_data = new zaiko_key_hokanbasyo();
-                        zaiko_data.genzai_zaiko = (float)row["現在在庫数"];
-                        zaiko_data.keihi = row["経費"].ToString();
-                        zaiko_syanai_gaityu.hokanbasyo_dic.Add(row["保管場所"].ToString(),zaiko_data);
-
+                        hokanbasyo_and_seihin.Add(row["保管場所"].ToString(), hokanbasyo_Data);
                         }
 
                         //if (g_flag == true && h_flag == false)
@@ -801,7 +865,7 @@ namespace MicosController
 
                         
 
-                        GaityuZaikoDic.Add(zairyou.zairyou_code, zaiko_syanai_gaityu);
+                        //GaityuZaikoDic.Add(zairyou.zairyou_code, zaiko_syanai_gaityu);
 
                         //first_zairyou_flag = false;
 
@@ -812,7 +876,42 @@ namespace MicosController
                     //zaiko_syanai_gaityu.syanai_zaikosu = 0;
                     //zaiko_syanai_gaityu.gaityu_hokanbasyo = "なし";
                     //zaiko_syanai_gaityu.gaityu_zaikosu = 0;
-                    GaityuZaikoDic.Add(zairyou.zairyou_code, zaiko_syanai_gaityu);
+                    //GaityuZaikoDic.Add(zairyou.zairyou_code, zaiko_syanai_gaityu);
+
+                    //hokanbasyo_siyouseihin_data hokanbasyo_Data = new hokanbasyo_siyouseihin_data();
+                    //hokanbasyo_Data.zairyou_code = zairyou.zairyou_code;
+                    //hokanbasyo_Data.hokan_basyo = "なし";
+                    //hokanbasyo_Data.keihi ="なし";
+                    //hokanbasyo_Data.zaiko_su = 0;
+
+                    string zaikonashi_zairyo = zairyou.zairyou_code;
+
+                    Dictionary<string, float> seihin_siyousu = new Dictionary<string, float>();
+                    foreach (DataRow row_gaityu in GaityuBuhinTable.Rows)
+                    {
+                        if (zaikonashi_zairyo == row_gaityu["子品目コード"].ToString())
+                        {
+                            hokanbasyo_siyouseihin_data hokanbasyo_Data = new hokanbasyo_siyouseihin_data();
+                            hokanbasyo_Data.zairyou_code = zaikonashi_zairyo;
+                            hokanbasyo_Data.hokan_basyo = row_gaityu["標準出庫保管場所"].ToString();
+                            hokanbasyo_Data.keihi = row_gaityu["親経費"].ToString();
+                            hokanbasyo_Data.zaiko_su = 0;
+
+                            Dictionary<string, float> seihin_siyousu2 = new Dictionary<string, float>();
+                            foreach (DataRow row_gaityu2 in GaityuBuhinTable.Rows)
+                            {
+                                if(row_gaityu2["子品目コード"].ToString() == zaikonashi_zairyo && row_gaityu2["標準出庫保管場所"]==hokanbasyo_Data.hokan_basyo)
+                                {
+                                    seihin_siyousu2.Add(row_gaityu2["選択品目ＣＤ"].ToString(), (float)row_gaityu2["数量"]);
+                                }
+                            }
+                            hokanbasyo_Data.seihin_siyousu = seihin_siyousu2;
+
+
+                            hokanbasyo_and_seihin.Add(hokanbasyo_Data.hokan_basyo, hokanbasyo_Data);
+                            break;
+                        }
+                    }
                 }
 
                 //}
@@ -866,11 +965,13 @@ namespace MicosController
                 //    Only_GaityuMicosZaikoExtracted_Table.Merge(table_for_each_zairyou);
                 //}
 
+                Zaiko_Dic.Add(zairyou, hokanbasyo_and_seihin);
+
             }
 
 
 
-            GaityuZaikoTableColAdd(return_Table);
+            GaityuZaikoTableColAdd_ver2(return_Table);
 
             //List<string> Zairyou_List = new List<string>();
             //Zairyou_List = remove_doublicate_value_fromTable(MicosZaikoTable,"品目ＣＤ");
@@ -893,21 +994,21 @@ namespace MicosController
                 }
 
 
-                newrow["経費"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].keihi;
-                newrow["品目ＣＤ"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].zairyo_code;
-                newrow["品名"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].hinmei;
-                newrow["保管場所"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].gaityu_hokanbasyo;
-                newrow["現在在庫数(Micos)"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].gaityu_zaikosu;
-                //row["現在仕掛数"]
-                //row["在庫余裕分"]
-                newrow["社内保管場所"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].syanai_hokanbasyo;
-                newrow["社内在庫"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].syanai_zaikosu;
-                //newrow["使用製品その個数"] = each_zairyo_siyousu;
+               // newrow["経費"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].keihi;
+               // newrow["品目ＣＤ"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].zairyo_code;
+               // newrow["品名"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].hinmei;
+               // newrow["保管場所"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].gaityu_hokanbasyo;
+               // newrow["現在在庫数(Micos)"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].gaityu_zaikosu;
+               // //row["現在仕掛数"]
+               // //row["在庫余裕分"]
+               // newrow["社内保管場所"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].syanai_hokanbasyo;
+               // newrow["社内在庫"] = GaityuZaikoDic[distinct_zairyou.zairyou_code].syanai_zaikosu;
+               // //newrow["使用製品その個数"] = each_zairyo_siyousu;
 
-                Dictionary<string, zairyo_siyousu_data> domy = new Dictionary<string, zairyo_siyousu_data>();
-                domy.Add(each_zairyo_siyousu.siyou_seihin_code,each_zairyo_siyousu);
+               // Dictionary<string, zairyo_siyousu_data> domy = new Dictionary<string, zairyo_siyousu_data>();
+               // domy.Add(each_zairyo_siyousu.siyou_seihin_code,each_zairyo_siyousu);
 
-               newrow["使用製品その個数"] =domy;
+               //newrow["使用製品その個数"] =domy;
                
 
                 return_Table.Rows.Add(newrow);
@@ -945,6 +1046,35 @@ namespace MicosController
                 {
                     GaityuTable.Columns.Add(col, typeof(string));
                 }
+            }
+        }
+
+        public void GaityuZaikoTableColAdd_ver2(DataTable GaityuTable)
+        {
+            //GaityuZaikoTableの列を作成
+           　foreach (string col in GaityuuZaikoTable_col_ver2)
+            {
+                if (
+                    col == "材料情報"                     )
+                {
+                    GaityuTable.Columns.Add(col, typeof(zairyou));
+                    continue;
+                }
+                if (
+                    col == "保管場所情報"
+                    )
+                {
+                    GaityuTable.Columns.Add(col, typeof(hokanbasyo_siyouseihin_data));
+                    continue;
+                }
+                if (
+                   col == "使用製品情報"
+                   )
+                {
+                    GaityuTable.Columns.Add(col, typeof(Dictionary<string ,float>));
+                    continue;
+                }
+
             }
         }
     }
