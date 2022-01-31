@@ -36,8 +36,8 @@ namespace MicosController
         /// </summary>
         public DataTable GaityuBuhinTable { get;set;}
         public DataTable GaityuZaiikoTable { get; set; }
-        private List<string> GaityuuZaikoTable_col = new List<string>() { "経費","品目ＣＤ","品名","保管場所","現在在庫数(Micos)","現在仕掛数", "在庫余裕分", "社内保管場所", "社内在庫", "使用製品その個数" };
-        private List<string> GaityuuZaikoTable_col_ver2 = new List<string>() { "材料情報", "保管場所情報", "使用製品情報" };
+        private List<string> GaityuuZaikoTable_col = new List<string>() { "経費","品目ＣＤ","品名","保管場所","現在在庫数(Micos)","現在仕掛数", "在庫余裕分", "その他保管場所", "使用製品その個数" };
+        private List<string> GaityuuZaikoTable_col_display = new List<string>() { "材料情報", "保管場所情報", "使用製品情報" };
 
         private struct same_zaiko_data
         {
@@ -971,18 +971,39 @@ namespace MicosController
 
 
 
-            GaityuZaikoTableColAdd_ver2(return_Table);
+            GaityuZaikoTableColAdd(return_Table);
 
-            //List<string> Zairyou_List = new List<string>();
-            //Zairyou_List = remove_doublicate_value_fromTable(MicosZaikoTable,"品目ＣＤ");
+
 
             foreach(zairyou distinct_zairyou in GaityuBuhinList)
             {
                 DataRow newrow = return_Table.NewRow();
-                Dictionary<string, zairyo_siyousu_data> zaiko_data_eachzairyo = new Dictionary<string, zairyo_siyousu_data>();
-                zairyo_siyousu_data each_zairyo_siyousu = new zairyo_siyousu_data();
+                zairyou zairyou = new zairyou();
+                hokanbasyo_siyouseihin_data siyousu_data = new hokanbasyo_siyouseihin_data();
+                Dictionary<string, float> siyousu_dic = new Dictionary<string, float>();
 
-                foreach(DataRow row in GaityuBuhinTable.Rows)
+                foreach (KeyValuePair<zairyou,Dictionary<string,hokanbasyo_siyouseihin_data>> kvp in Zaiko_Dic)
+                {
+                    newrow["材料情報"] = kvp.Key;
+                    newrow["保管場所情報"] = kvp.Value;
+
+                    
+
+
+                    foreach(var a in kvp.Value)
+                    {
+                        a[""]
+                    }
+
+
+                    newrow["使用製品情報"] = 
+                }
+
+                {
+
+                }
+
+                foreach (DataRow row in GaityuBuhinTable.Rows)
                 {
                     if (row["子品目コード"].ToString() == distinct_zairyou.zairyou_code)
                     {
@@ -1028,8 +1049,7 @@ namespace MicosController
                 if (
                     col == "現在在庫数(Micos)" ||
                     col == "現在仕掛数" ||
-                    col == "在庫余裕分" ||
-                    col == "社内在庫"
+                    col == "在庫余裕分" 
                     )
                 {
                     GaityuTable.Columns.Add(col, typeof(float));
@@ -1039,7 +1059,15 @@ namespace MicosController
                     col == "使用製品その個数"
                     )
                 {
-                    GaityuTable.Columns.Add(col, typeof(Dictionary<string, zairyo_siyousu_data>));
+                    GaityuTable.Columns.Add(col, typeof(Dictionary<string, float>));
+                    continue;
+                }
+                if (
+                   col == "その他保管場所"
+
+                   )
+                {
+                    GaityuTable.Columns.Add(col,typeof(Dictionary<string,float>));
                     continue;
                 }
                 else
@@ -1049,33 +1077,33 @@ namespace MicosController
             }
         }
 
-        public void GaityuZaikoTableColAdd_ver2(DataTable GaityuTable)
-        {
-            //GaityuZaikoTableの列を作成
-           　foreach (string col in GaityuuZaikoTable_col_ver2)
-            {
-                if (
-                    col == "材料情報"                     )
-                {
-                    GaityuTable.Columns.Add(col, typeof(zairyou));
-                    continue;
-                }
-                if (
-                    col == "保管場所情報"
-                    )
-                {
-                    GaityuTable.Columns.Add(col, typeof(hokanbasyo_siyouseihin_data));
-                    continue;
-                }
-                if (
-                   col == "使用製品情報"
-                   )
-                {
-                    GaityuTable.Columns.Add(col, typeof(Dictionary<string ,float>));
-                    continue;
-                }
+        //public void GaityuZaikoTableColAdd_ver2(DataTable GaityuTable)
+        //{
+        //    //GaityuZaikoTableの列を作成
+        //   　foreach (string col in GaityuuZaikoTable_col_ver2)
+        //    {
+        //        if (
+        //            col == "材料情報"                     )
+        //        {
+        //            GaityuTable.Columns.Add(col, typeof(zairyou));
+        //            continue;
+        //        }
+        //        if (
+        //            col == "保管場所情報"
+        //            )
+        //        {
+        //            GaityuTable.Columns.Add(col, typeof(hokanbasyo_siyouseihin_data));
+        //            continue;
+        //        }
+        //        if (
+        //           col == "使用製品情報"
+        //           )
+        //        {
+        //            GaityuTable.Columns.Add(col, typeof(Dictionary<string ,float>));
+        //            continue;
+        //        }
 
-            }
-        }
+        //    }
+        //}
     }
 }
