@@ -490,6 +490,9 @@ namespace MicosController
             //工程が750かつ出荷場所がGではじまるのものだけを抽出する。
             GaityuBuhinTable = G_750_Filter(Read_CSV_Table);
 
+            //Y自弁を取り除く。
+            GaityuBuhinTable = Y_Filter(GaityuBuhinTable);
+
             int row_cnt = 0;
             int row_max = GaityuBuhinTable.Rows.Count;
             for(int i = 0; i < row_max; i++)
